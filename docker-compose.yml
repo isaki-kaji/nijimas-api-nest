@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - '${DATASOURCE_PORT}:5432'
+    environment:
+      POSTGRES_PASSWORD: ${DATASOURCE_PASSWORD}
