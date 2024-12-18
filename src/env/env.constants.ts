@@ -8,4 +8,6 @@ export const ENV_VALIDATION_SCHEMA = Joi.object({
   DATASOURCE_DATABASE: Joi.required(),
 
   DATASOURCE_URL: Joi.required(),
+
+  GOOGLE_APPLICATION_CREDENTIALS: Joi.required(),
 });
