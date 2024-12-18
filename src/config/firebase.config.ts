@@ -13,5 +13,5 @@ export default registerAs('firebase', () => {
   const app = admin.initializeApp({
     credential: admin.credential.cert(googleCredentialsPath),
   });
-  return app;
+  return app.auth();
 });
