@@ -1,7 +1,7 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryColumn()
   uid: string;
