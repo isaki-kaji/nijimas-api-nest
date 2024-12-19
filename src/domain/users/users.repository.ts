@@ -10,9 +10,9 @@ export class UsersRepository {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  create(dto: CreateUserDto): Promise<User> {
+  create(dto: CreateUserDto) {
     const user = this.userRepository.create(dto);
-    return this.userRepository.save(user);
+    this.userRepository.save(user);
   }
 
   findByUid(uid: string) {
