@@ -15,7 +15,19 @@ export class CreateUserDto {
   username: string;
 
   @IsOptional()
+  @MaxLength(200, {
+    message: 'Self introduction must be at most 200 characters long',
+  })
+  selfIntro: string;
+
+  @IsOptional()
+  @MaxLength(2000, {
+    message: 'Profile image URL must be at most 2000 characters long',
+  })
+  profileImageUrl: string;
+
+  @IsOptional()
   @IsString()
   @Length(2, 2, { message: 'Country code must be exactly 2 characters long' })
-  countryCode?: string;
+  countryCode: string;
 }
