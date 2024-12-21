@@ -21,12 +21,4 @@ export class User {
 
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
-
-  static fromCreateDto(createUserDto: CreateUserDto): User {
-    const user = new User();
-    user.uid = createUserDto.uid;
-    user.username = createUserDto.username;
-    user.countryCode = createUserDto.countryCode;
-    return user;
-  }
 }
