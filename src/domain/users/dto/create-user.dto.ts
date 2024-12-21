@@ -19,18 +19,18 @@ export class CreateUserDto {
   @MaxLength(200, {
     message: 'Self introduction must be at most 200 characters long',
   })
-  selfIntro: string;
+  selfIntro?: string;
 
   @IsOptional()
   @MaxLength(2000, {
     message: 'Profile image URL must be at most 2000 characters long',
   })
-  profileImageUrl: string;
+  profileImageUrl?: string;
 
   @IsOptional()
   @IsString()
   @Length(2, 2, { message: 'Country code must be exactly 2 characters long' })
-  countryCode: string;
+  countryCode?: string;
 
   static toEntity(dto: CreateUserDto): User {
     const user = new User();
