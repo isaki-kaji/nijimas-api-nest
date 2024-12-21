@@ -11,7 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "*": ["domain/*", "*"]
+      "users/*": ["domain/users/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
