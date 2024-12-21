@@ -2,10 +2,12 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { EnvModule } from 'env/env.module';
 import { UsersModule } from './domain/users/users.module';
 import { AppConfigModule } from 'config/app-config.module';
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AuthGuard } from 'common/guard/auth.guard';
 import { UidInterceptor } from 'common/interceptor/uid.interceptor';
 import { PostsModule } from './domain/posts/posts.module';
+import { LoggingInterceptor } from 'common/interceptor/logging.interceptor';
+import { LoggingExceptionFilter } from 'common/exception-filter/logging.exception-filter';
 
 @Module({
   imports: [EnvModule, AppConfigModule, UsersModule, PostsModule],
@@ -20,7 +22,15 @@ import { PostsModule } from './domain/posts/posts.module';
     },
     {
       provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
       useClass: UidInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: LoggingExceptionFilter,
     },
   ],
 })
