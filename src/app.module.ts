@@ -7,7 +7,7 @@ import { AuthGuard } from 'common/guard/auth.guard';
 import { UidInterceptor } from 'common/interceptor/uid.interceptor';
 import { PostsModule } from './domain/posts/posts.module';
 import { LoggingInterceptor } from 'common/interceptor/logging.interceptor';
-import { LoggingExceptionFilter } from 'common/exception-filter/logging.exception-filter';
+import { LoggingFilter } from 'common/filter/logging.filter';
 
 @Module({
   imports: [EnvModule, AppConfigModule, UsersModule, PostsModule],
@@ -30,7 +30,7 @@ import { LoggingExceptionFilter } from 'common/exception-filter/logging.exceptio
     },
     {
       provide: APP_FILTER,
-      useClass: LoggingExceptionFilter,
+      useClass: LoggingFilter,
     },
   ],
 })
