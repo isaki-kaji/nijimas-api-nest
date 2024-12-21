@@ -9,13 +9,11 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common/exceptions';
+import { mock } from 'jest-mock-extended';
 
 describe('UsersService', () => {
   let service: UsersService;
-  const usersRepository = {
-    create: jest.fn(),
-    findByUid: jest.fn(),
-  };
+  const usersRepository = mock<UsersRepository>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
