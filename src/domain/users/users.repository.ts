@@ -9,11 +9,11 @@ export class UsersRepository {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  create(user: User) {
+  create(user: User): void {
     this.userRepository.save(user);
   }
 
-  findByUid(uid: string) {
+  findByUid(uid: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { uid } });
   }
 }

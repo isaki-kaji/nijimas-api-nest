@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   async findByUid(uid: string) {
-    const user = this.repository.findByUid(uid);
+    const user = await this.repository.findByUid(uid);
     if (!user) {
       throw new NotFoundException('User not found');
     }
