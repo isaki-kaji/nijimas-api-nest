@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/request/create-user.dto';
 import { UsersRepository } from './users.repository';
-import { mapCreateDtoToEntity } from './utils/mapper';
+import { mapCreateDtoToEntity, mapEntityToResponseDto } from './utils/mapper';
 
 @Injectable()
 export class UsersService {
@@ -26,6 +26,6 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+    return mapEntityToResponseDto(user);
   }
 }

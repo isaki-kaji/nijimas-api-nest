@@ -1,4 +1,5 @@
-import { CreateUserDto } from 'users/dto/create-user.dto';
+import { CreateUserDto } from 'users/dto/request/create-user.dto';
+import { UserResponseDto } from 'users/dto/response/user.response.dto';
 import { User } from 'users/entities/user.entity';
 
 export function mapCreateDtoToEntity(dto: CreateUserDto) {
@@ -7,4 +8,8 @@ export function mapCreateDtoToEntity(dto: CreateUserDto) {
   user.username = dto.username;
 
   return user;
+}
+
+export function mapEntityToResponseDto(entity: User) {
+  return new UserResponseDto(entity);
 }

@@ -3,9 +3,9 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { mock } from 'jest-mock-extended';
 import { faker } from '@faker-js/faker/.';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/request/create-user.dto';
+import { UpdateUserDto } from './dto/request/update-user.dto';
+import { UserResponseDto } from './dto/response/user.response.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -46,13 +46,14 @@ describe('UsersController', () => {
     describe('when no error occurs', () => {
       it('should find the user', async () => {
         const uid = genUid();
-        const user = genUser(uid);
+        const userResponse = genUserResponse(uid);
 
-        usersService.findByUid.mockResolvedValueOnce(user);
+        usersService.findByUid.mockResolvedValueOnce(userResponse);
 
-        await controller.findByUid(uid);
+        const result = await controller.findByUid(uid);
 
         expect(usersService.findByUid).toHaveBeenCalledWith(uid);
+        expect(result).toEqual(userResponse);
       });
     });
   });
@@ -65,14 +66,16 @@ const genCreateDto = (uid: string): CreateUserDto => ({
   username: faker.person.firstName(),
 });
 
-const genUser = (input: string | CreateUserDto | UpdateUserDto): User => {
+const genUserResponse = (
+  input: string | CreateUserDto | UpdateUserDto,
+): UserResponseDto => {
   if (typeof input === 'string') {
     return {
       ...genCreateDto(input),
-    } as User;
+    } as UserResponseDto;
   } else {
     return {
       ...input,
-    } as User;
+    } as UserResponseDto;
   }
 };

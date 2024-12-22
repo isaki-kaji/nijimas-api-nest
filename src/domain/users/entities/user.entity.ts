@@ -1,6 +1,5 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { CreateUserDto } from 'users/dto/create-user.dto';
 
 @Entity('users')
 export class User {

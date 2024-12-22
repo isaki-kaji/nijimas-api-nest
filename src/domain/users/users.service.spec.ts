@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { UsersRepository } from './users.repository';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/request/create-user.dto';
 import { faker } from '@faker-js/faker';
 import { User } from './entities/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 import {
   ConflictException,
   NotFoundException,
@@ -65,15 +65,15 @@ describe('UsersService', () => {
 
   describe('findByUid', () => {
     describe('when user exists', () => {
-      it('should return the user', async () => {
+      it('should return the user-response-dto', async () => {
         const uid = genUid();
         const expectedUser = genUser(uid);
 
         usersRepository.findByUid.mockResolvedValueOnce(expectedUser);
 
-        const user = await service.findByUid(uid);
+        const result = await service.findByUid(uid);
 
-        expect(user).toBe(expectedUser);
+        expect(result).toEqual(expectedUser);
       });
     });
 
