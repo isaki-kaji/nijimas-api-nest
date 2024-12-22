@@ -8,6 +8,7 @@ import {
 import { User } from 'users/entities/user.entity';
 
 export class CreateUserDto {
+  @IsOptional()
   uid?: string;
 
   @IsString()

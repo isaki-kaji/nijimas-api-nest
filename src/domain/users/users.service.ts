@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UsersRepository } from './users.repository';
-import { mapCreateDtoToEntity, mapEntityToResponseDto } from './utils/mapper';
+import { mapCreateDtoToEntity, mapEntityToResponseDto } from './util/mapper';
 
 @Injectable()
 export class UsersService {
