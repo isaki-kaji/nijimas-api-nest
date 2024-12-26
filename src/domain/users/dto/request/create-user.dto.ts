@@ -32,14 +32,4 @@ export class CreateUserDto {
   @IsString()
   @Length(2, 2, { message: 'Country code must be exactly 2 characters long' })
   countryCode?: string;
-
-  static toEntity(dto: CreateUserDto): User {
-    const user = new User();
-    user.uid = dto.uid;
-    user.username = dto.username;
-    user.selfIntro = dto.selfIntro;
-    user.profileImageUrl = dto.profileImageUrl;
-    user.countryCode = dto.countryCode;
-    return user;
-  }
 }

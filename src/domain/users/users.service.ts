@@ -18,7 +18,7 @@ export class UsersService {
     }
 
     const newUser = mapCreateDtoToEntity(dto);
-    return this.repository.create(newUser);
+    await this.repository.create(newUser);
   }
 
   async findByUid(uid: string) {
