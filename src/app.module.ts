@@ -8,13 +8,14 @@ import { UidInterceptor } from 'common/interceptor/uid.interceptor';
 import { PostsModule } from './domain/posts/posts.module';
 import { LoggingInterceptor } from 'common/interceptor/logging.interceptor';
 import { LoggingFilter } from 'common/filter/logging.filter';
+import { VALIDATION_PIPE_OPTIONS } from 'common/util/common.constants';
 
 @Module({
   imports: [EnvModule, AppConfigModule, UsersModule, PostsModule],
   providers: [
     {
       provide: APP_PIPE,
-      useClass: ValidationPipe,
+      useValue: new ValidationPipe(VALIDATION_PIPE_OPTIONS),
     },
     {
       provide: APP_GUARD,
