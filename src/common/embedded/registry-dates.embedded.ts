@@ -1,9 +1,17 @@
 import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class RegistryDates {
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamptz',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 }

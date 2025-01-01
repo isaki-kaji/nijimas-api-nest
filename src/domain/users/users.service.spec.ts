@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { faker } from '@faker-js/faker';
-import { User } from './entities/user.entity';
+import { User } from '../../entities/user.entity';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import {
   ConflictException,
