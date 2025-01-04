@@ -3,7 +3,7 @@ import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 
 @Entity('users')
 @Index('idx_username', ['username'])
-export class User {
+export class UserEntity {
   @PrimaryColumn({ type: 'char', length: 28 })
   uid: string;
 

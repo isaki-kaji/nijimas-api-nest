@@ -2,7 +2,7 @@ import { RegistryDates } from 'common/embedded/registry-dates.embedded';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('sub_categories')
-export class SubCategory {
+export class SubCategoryEntity {
   @PrimaryGeneratedColumn('uuid')
   categoryId: string;
 
