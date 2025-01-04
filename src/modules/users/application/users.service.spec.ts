@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersRepository } from '../infrastructure/users.repository';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { faker } from '@faker-js/faker';
-import { User } from '../../../entities/user.entity';
+import { UserEntity } from '../../../entities/user.entity';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import {
   ConflictException,
@@ -97,14 +97,14 @@ const genCreateDto = (uid: string): CreateUserDto => ({
   username: faker.person.firstName(),
 });
 
-const genUser = (input: string | CreateUserDto | UpdateUserDto): User => {
+const genUser = (input: string | CreateUserDto | UpdateUserDto): UserEntity => {
   if (typeof input === 'string') {
     return {
       ...genCreateDto(input),
-    } as User;
+    } as UserEntity;
   } else {
     return {
       ...input,
-    } as User;
+    } as UserEntity;
   }
 };
