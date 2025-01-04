@@ -4,16 +4,18 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
-import { UsersRepository } from './users.repository';
-import { mapCreateDtoToEntity, mapEntityToResponseDto } from './util/mapper';
+import { UsersRepository } from '../infrastructure/users.repository';
+import { UsersDomainService } from '../domain/users.domain.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly repository: UsersRepository) {}
+  constructor(
+    private readonly domainService: UsersDomainService,
+    private readonly repository: UsersRepository,
+  ) {}
 
   async create(dto: CreateUserDto) {
-    const user = await this.repository.findByUid(dto.uid);
-    if (user) {
+    if (this.domainService.exists(dto.uid)) {
       throw new ConflictException('User already exists');
     }
 
@@ -22,8 +24,7 @@ export class UsersService {
   }
 
   async findByUid(uid: string) {
-    const user = await this.repository.findByUid(uid);
-    if (!user) {
+    if (!this.domainService.exists(uid)) {
       throw new NotFoundException('User not found');
     }
     return mapEntityToResponseDto(user);
