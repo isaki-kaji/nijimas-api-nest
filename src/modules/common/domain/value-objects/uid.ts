@@ -10,7 +10,7 @@ export class Uid {
       throw new Error('UID must be 28 characters long');
     }
 
-    if (RegexUtils.UID.test(value)) {
+    if (!RegexUtils.UID.test(value)) {
       throw new Error('UID must contain only alphanumeric characters');
     }
   }

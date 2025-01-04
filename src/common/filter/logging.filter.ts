@@ -36,6 +36,9 @@ export class LoggingFilter implements ExceptionFilter {
     this.logger.error(
       `Exception - Trace ID: ${traceId}, message: ${exception.message}`,
     );
+    this.logger.error(
+      `Exception - Trace ID: ${traceId}, stack: ${exception.stack}`,
+    );
     this.logger.log(
       `Response - Trace ID: ${traceId}, Status: ${status}, URL: ${request.url}`,
     );

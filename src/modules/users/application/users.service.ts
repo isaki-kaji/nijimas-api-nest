@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
-import { UsersRepository } from '../infrastructure/users.repository';
 import { UsersDomainService } from '../domain/users.domain.service';
 import { UserFactory } from '../domain/factory/user.factory';
 import { Uid } from 'modules/common/domain/value-objects/uid';
@@ -32,9 +31,9 @@ export class UsersService {
   async findByUid(uidStr: string) {
     const uid = new Uid(uidStr);
     const user = await this.repository.findByUid(uid);
-    if (!this.domainService.exists(user)) {
+    if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+    return this.factory.createResponse(user);
   }
 }
