@@ -3,13 +3,11 @@ import { CountryCode } from './value-objects/country-code';
 import { Url } from 'modules/common/domain/value-objects/url';
 
 export class User {
-  uid: Uid;
-
-  username: string;
-
-  selfIntro?: string;
-
-  profileImageUrl?: Url;
-
-  countryCode?: CountryCode;
+  constructor(
+    public readonly uid: Uid,
+    public readonly username: string,
+    public readonly selfIntro?: string,
+    public readonly profileImageUrl?: Url,
+    public readonly countryCode?: CountryCode,
+  ) {}
 }

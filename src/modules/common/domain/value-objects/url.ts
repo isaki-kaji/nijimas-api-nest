@@ -1,7 +1,5 @@
 export class Url {
-  readonly value: string;
-
-  constructor(value: string) {
+  constructor(public readonly value: string) {
     if (!Url.isValid(value)) {
       throw new Error('Invalid URL format');
     }

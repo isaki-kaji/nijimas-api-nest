@@ -1,9 +1,7 @@
 import { RegexUtils } from 'common/util/regex-utils';
 
 export class Uid {
-  value: string;
-
-  constructor(value: string) {
+  constructor(public readonly value: string) {
     if (!value) {
       throw new Error('UID must not be empty');
     }
@@ -15,8 +13,6 @@ export class Uid {
     if (RegexUtils.UID.test(value)) {
       throw new Error('UID must contain only alphanumeric characters');
     }
-
-    this.value = value;
   }
 
   equals(other: Uid): boolean {

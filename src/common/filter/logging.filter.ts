@@ -30,7 +30,7 @@ export class LoggingFilter implements ExceptionFilter {
       message:
         exception instanceof HttpException
           ? exception.getResponse()
-          : 'Internal server error',
+          : exception?.message || 'Internal server error',
     };
 
     this.logger.error(

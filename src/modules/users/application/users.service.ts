@@ -1,32 +1,40 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UsersRepository } from '../infrastructure/users.repository';
 import { UsersDomainService } from '../domain/users.domain.service';
+import { UserFactory } from '../domain/factory/user.factory';
+import { Uid } from 'modules/common/domain/value-objects/uid';
+import { IUsersRepository } from 'users/domain/i.users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly domainService: UsersDomainService,
-    private readonly repository: UsersRepository,
+    private readonly factory: UserFactory,
+    @Inject('IUsersRepository')
+    private readonly repository: IUsersRepository,
   ) {}
 
   async create(dto: CreateUserDto) {
-    if (this.domainService.exists(dto.uid)) {
+    const user = this.factory.create(dto);
+    if (this.domainService.exists(user)) {
       throw new ConflictException('User already exists');
     }
 
-    const newUser = mapCreateDtoToEntity(dto);
-    await this.repository.create(newUser);
+    await this.repository.create(user);
   }
 
-  async findByUid(uid: string) {
-    if (!this.domainService.exists(uid)) {
+  async findByUid(uidStr: string) {
+    const uid = new Uid(uidStr);
+    const user = await this.repository.findByUid(uid);
+    if (!this.domainService.exists(user)) {
       throw new NotFoundException('User not found');
     }
-    return mapEntityToResponseDto(user);
+    return user;
   }
 }

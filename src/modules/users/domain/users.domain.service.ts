@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { UsersRepository } from '../infrastructure/users.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import { IUsersRepository } from './i.users.repository';
+import { User } from './user';
 
 @Injectable()
 export class UsersDomainService {
-  constructor(private readonly repository: UsersRepository) {}
+  constructor(
+    @Inject('IUsersRepository')
+    private readonly repository: IUsersRepository,
+  ) {}
 
-  async exists(uid: string): Promise<boolean> {
-    const user = await this.repository.findByUid(uid);
-    return !!user;
+  async exists(user: User): Promise<boolean> {
+    const foundUser = await this.repository.findByUid(user.uid);
+    return !!foundUser;
   }
 }
