@@ -1,5 +1,5 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { User } from './user';
+import { User } from './models/user';
 
 export interface IUsersRepository {
   create(user: User): Promise<void>;

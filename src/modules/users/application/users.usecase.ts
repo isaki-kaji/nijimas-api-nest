@@ -5,13 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
-import { UsersDomainService } from '../domain/users.domain.service';
+import { UsersDomainService } from '../domain/users.service';
 import { UserFactory } from '../domain/factory/user.factory';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { IUsersRepository } from 'users/domain/i.users.repository';
 
 @Injectable()
-export class UsersService {
+export class UsersUsecase {
   constructor(
     private readonly domainService: UsersDomainService,
     private readonly factory: UserFactory,

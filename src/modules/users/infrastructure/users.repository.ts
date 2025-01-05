@@ -4,7 +4,7 @@ import { UserEntity } from '../../../entities/user.entity';
 import { IUsersRepository } from '../domain/i.users.repository';
 import { Repository } from 'typeorm';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { User } from '../domain/user';
+import { User } from '../domain/models/user';
 import { Url } from 'modules/common/domain/value-objects/url';
 
 @Injectable()

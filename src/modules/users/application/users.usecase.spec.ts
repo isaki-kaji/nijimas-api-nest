@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
+import { UsersUsecase } from './users.usecase';
 import { UsersRepository } from '../infrastructure/users.repository';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { faker } from '@faker-js/faker';
@@ -12,21 +12,23 @@ import {
 import { mock } from 'jest-mock-extended';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let service: UsersUsecase;
   const usersRepository = mock<UsersRepository>();
+  const 
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UsersService,
+        UsersUsecase,
         {
           provide: UsersRepository,
           useValue: usersRepository,
         },
+
       ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<UsersUsecase>(UsersUsecase);
   });
 
   it('should be defined', () => {
