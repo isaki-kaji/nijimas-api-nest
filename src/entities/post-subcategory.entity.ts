@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('post_subcategories')
-export class PostSubcategory {
+export class PostSubcategoryEntity {
   @PrimaryColumn('uuid')
   postId: string;
 

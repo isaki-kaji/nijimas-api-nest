@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
 
 @Entity('posts')
 @Index(['uid'])
-export class Post {
+export class PostEntity {
   @PrimaryGeneratedColumn('uuid')
   postId: string;
 

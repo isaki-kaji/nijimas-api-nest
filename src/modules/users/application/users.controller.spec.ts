@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { UsersUsecase } from './users.usecase';
 import { mock } from 'jest-mock-extended';
 import { faker } from '@faker-js/faker/.';
 import { CreateUserDto } from './dto/request/create-user.dto';
@@ -9,14 +9,14 @@ import { UserResponseDto } from './dto/response/user.response.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
-  const usersService = mock<UsersService>();
+  const usersService = mock<UsersUsecase>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
         {
-          provide: UsersService,
+          provide: UsersUsecase,
           useValue: usersService,
         },
       ],

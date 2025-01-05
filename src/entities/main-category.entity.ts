@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('main_categories')
-export class MainCategory {
+export class MainCategoryEntity {
   @PrimaryColumn({ type: 'varchar', length: 20 })
   categoryName: string;
 

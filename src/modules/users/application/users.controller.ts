@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersUsecase } from './users.usecase';
 import { CreateUserDto } from './dto/request/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersUsecase) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
