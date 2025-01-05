@@ -100,8 +100,6 @@ describe('UsersUsecase', () => {
 
         usersRepository.findByUid.mockResolvedValueOnce(null);
 
-        usersRepository.findByUid.mockResolvedValueOnce(null);
-
         await expect(usecase.findByUid(uid)).rejects.toThrow(NotFoundException);
         expect(usersRepository.findByUid).toHaveBeenCalledWith(Uid.create(uid));
       });
