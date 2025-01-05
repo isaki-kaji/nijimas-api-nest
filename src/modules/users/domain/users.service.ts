@@ -3,7 +3,7 @@ import { IUsersRepository } from './i.users.repository';
 import { User } from './models/user';
 
 @Injectable()
-export class UsersDomainService {
+export class UsersService {
   constructor(
     @Inject('IUsersRepository')
     private readonly repository: IUsersRepository,

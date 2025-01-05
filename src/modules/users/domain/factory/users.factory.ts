@@ -5,9 +5,9 @@ import { Injectable } from '@nestjs/common';
 import { UserResponseDto } from 'users/application/dto/response/user.response.dto';
 
 @Injectable()
-export class UserFactory {
+export class UsersFactory {
   create(dto: CreateUserDto): User {
-    const uid = new Uid(dto.uid);
+    const uid = Uid.create(dto.uid);
     const username = dto.username;
     return new User(uid, username);
   }

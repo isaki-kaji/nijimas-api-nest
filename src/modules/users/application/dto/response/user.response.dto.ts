@@ -1,4 +1,4 @@
-import { User } from 'users/domain/user';
+import { User } from 'users/domain/models/user';
 
 export class UserResponseDto {
   constructor(user: User) {

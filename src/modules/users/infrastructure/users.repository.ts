@@ -5,7 +5,8 @@ import { IUsersRepository } from '../domain/i.users.repository';
 import { Repository } from 'typeorm';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { User } from '../domain/models/user';
-import { Url } from 'modules/common/domain/value-objects/url';
+import { PhotoUrl } from 'modules/common/domain/value-objects/url';
+import { CountryCode } from 'users/domain/value-objects/country-code';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -37,11 +38,13 @@ export class UsersRepository implements IUsersRepository {
   }
 
   private toDomain(entity: UserEntity): User {
-    const uid = new Uid(entity.uid);
+    const uid = Uid.create(entity.uid);
     const profileImageUrl = entity.profileImageUrl
-      ? new Url(entity.profileImageUrl)
+      ? PhotoUrl.create(entity.profileImageUrl)
       : null;
-    const countryCode = entity.countryCode ? new Uid(entity.countryCode) : null;
+    const countryCode = entity.countryCode
+      ? CountryCode.create(entity.countryCode)
+      : null;
     return new User(
       uid,
       entity.username,

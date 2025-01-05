@@ -1,9 +1,11 @@
-export class Url {
-  constructor(public readonly value: string) {
-    if (!Url.isValid(value)) {
+export class PhotoUrl {
+  private constructor(public readonly value: string) {}
+
+  static create(value: string): PhotoUrl {
+    if (!this.isValid(value)) {
       throw new Error('Invalid URL format');
     }
-    this.value = value;
+    return new PhotoUrl(value);
   }
 
   static isValid(value: string): boolean {
@@ -15,7 +17,7 @@ export class Url {
     }
   }
 
-  equals(other: Url): boolean {
+  equals(other: PhotoUrl): boolean {
     return this.value === other.value;
   }
 
