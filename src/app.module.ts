@@ -5,9 +5,9 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AuthGuard } from 'common/guard/auth.guard';
 import { UidInterceptor } from 'common/interceptor/uid.interceptor';
 import { LoggingInterceptor } from 'common/interceptor/logging.interceptor';
-import { LoggingFilter } from 'common/filter/logging.filter';
 import { VALIDATION_PIPE_OPTIONS } from 'common/util/common.constants';
 import { UsersModule } from 'users/users.module';
+import { LoggingExceptionFilter } from 'common/filter/logging-exception.filter';
 
 @Module({
   imports: [EnvModule, AppConfigModule, UsersModule],
@@ -30,7 +30,7 @@ import { UsersModule } from 'users/users.module';
     },
     {
       provide: APP_FILTER,
-      useClass: LoggingFilter,
+      useClass: LoggingExceptionFilter,
     },
   ],
 })

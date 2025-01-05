@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 
 @Catch()
-export class LoggingFilter implements ExceptionFilter {
-  private readonly logger = new Logger(LoggingFilter.name);
+export class LoggingExceptionFilter implements ExceptionFilter {
+  private readonly logger = new Logger(LoggingExceptionFilter.name);
 
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -24,23 +24,17 @@ export class LoggingFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const errorResponse = {
+      traceId,
       statusCode: status,
-      timestamp: new Date().toISOString(),
       path: request.url,
-      message:
-        exception instanceof HttpException
-          ? exception.getResponse()
-          : exception?.message || 'Internal server error',
+      timestamp: new Date().toISOString(),
     };
 
     this.logger.error(
-      `Exception - Trace ID: ${traceId}, message: ${exception.message}`,
+      `Exception - Trace ID: ${traceId}, Status: ${exception.status}, URL: ${request.url}, Message: ${exception.message}`,
     );
     this.logger.error(
-      `Exception - Trace ID: ${traceId}, stack: ${exception.stack}`,
-    );
-    this.logger.log(
-      `Response - Trace ID: ${traceId}, Status: ${status}, URL: ${request.url}`,
+      `Exception - Trace ID: ${traceId}, Stack: ${exception.stack}`,
     );
 
     response.status(status).json(errorResponse);

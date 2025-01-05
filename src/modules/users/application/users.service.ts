@@ -1,7 +1,7 @@
 import {
-  ConflictException,
   Inject,
   Injectable,
+  ConflictException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
@@ -21,7 +21,8 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     const user = this.factory.create(dto);
-    if (this.domainService.exists(user)) {
+    if (await this.domainService.exists(user)) {
+      // TODO: なぜかFilterにキャッチされない
       throw new ConflictException('User already exists');
     }
 
