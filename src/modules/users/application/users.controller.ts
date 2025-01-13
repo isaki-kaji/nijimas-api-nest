@@ -7,12 +7,12 @@ export class UsersController {
   constructor(private readonly usersUsecase: UsersUsecase) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    this.usersUsecase.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    await this.usersUsecase.create(createUserDto);
   }
 
   @Get(':uid')
-  findByUid(@Param('uid') uid: string) {
-    return this.usersUsecase.findByUid(uid);
+  async findByUid(@Param('uid') uid: string) {
+    return await this.usersUsecase.findByUid(uid);
   }
 }
