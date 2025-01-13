@@ -12,12 +12,14 @@ import { UUID } from 'modules/common/domain/value-objects/uuid';
 @Injectable()
 export class PostsFactory {
   createModel(dto: CreatePostDto): Post {
-    const postId = UUID.create(dto.postId);
+    const postId = UUID.generate();
     const uid = Uid.create(dto.uid);
     const mainCategory = MainCategory.create(dto.mainCategory);
     const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);
-    const expense = Expense.create(parseInt(dto.expense, 10));
-    const photoUrl = PhotoUrlList.create(dto.photoUrl);
+    const expense = dto.expense
+      ? Expense.create(parseInt(dto.expense, 10))
+      : null;
+    const photoUrl = dto.photoUrl ? PhotoUrlList.create(dto.photoUrl) : null;
 
     return new Post(
       postId,

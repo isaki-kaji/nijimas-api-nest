@@ -1,4 +1,4 @@
-enum MainCategoryEnum {
+export enum MainCategoryEnum {
   FOOD = 'food',
   HOBBIES = 'hobbies',
   FASHION = 'fashion',

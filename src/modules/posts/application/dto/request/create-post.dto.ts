@@ -5,14 +5,9 @@ import {
   IsOptional,
   IsIn,
   IsNumberString,
-  IsUUID,
 } from 'class-validator';
 
 export class CreatePostDto {
-  @IsUUID()
-  @IsNotEmpty({ message: 'Post ID is required' })
-  readonly postId: string;
-
   @IsOptional()
   readonly uid?: string;
 

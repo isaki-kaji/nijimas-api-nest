@@ -15,7 +15,7 @@ export class ImageUrl {
 
   private static isValid(value: string): boolean {
     try {
-      new URL(value); // URLの構文をチェック
+      new URL(value);
       return true;
     } catch {
       return false;

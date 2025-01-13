@@ -1,4 +1,7 @@
-import { RegistryDates } from 'common/embedded/registry-dates.embedded';
+import {
+  CreatedDates,
+  RegistryDates,
+} from 'common/embedded/registry-dates.embedded';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('sub_categories')
@@ -14,6 +17,6 @@ export class SubCategoryEntity {
   })
   categoryName: string;
 
-  @Column(() => RegistryDates, { prefix: false })
-  registerDate: RegistryDates;
+  @Column(() => CreatedDates, { prefix: false })
+  createdDate: CreatedDates;
 }

@@ -8,9 +8,10 @@ import { LoggingInterceptor } from 'common/interceptor/logging.interceptor';
 import { VALIDATION_PIPE_OPTIONS } from 'common/util/common.constants';
 import { UsersModule } from 'users/users.module';
 import { LoggingExceptionFilter } from 'common/filter/logging-exception.filter';
+import { PostsModule } from 'modules/posts/posts.module';
 
 @Module({
-  imports: [EnvModule, AppConfigModule, UsersModule],
+  imports: [EnvModule, AppConfigModule, UsersModule, PostsModule],
   providers: [
     {
       provide: APP_PIPE,

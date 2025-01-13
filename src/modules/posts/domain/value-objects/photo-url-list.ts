@@ -5,7 +5,7 @@ export class PhotoUrlList {
 
   public static create(value: string): PhotoUrlList {
     if (!value) {
-      throw new Error('Photo URL must not be empty');
+      throw new Error('Photo URL list must not be empty');
     }
     const photoUrlList = value
       .split(',')

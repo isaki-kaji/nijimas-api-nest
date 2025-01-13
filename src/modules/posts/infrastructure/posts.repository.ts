@@ -12,8 +12,8 @@ export class PostsRepository implements IPostsRepository {
   async create(post: Post, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(post);
     (await manager)
-      ? manager.getRepository(PostEntity).save(entity)
-      : this.postRepository.save(entity);
+      ? await manager.getRepository(PostEntity).save(entity)
+      : await this.postRepository.save(entity);
   }
 
   private toEntity(post: Post): PostEntity {
@@ -22,7 +22,7 @@ export class PostsRepository implements IPostsRepository {
     entity.postId = post.postId.toString();
     entity.mainCategory = post.mainCategory.getValue();
     entity.postText = post.postText ?? null;
-    entity.photoUrl = post.photoUrlList.getValue() ?? null;
+    entity.photoUrl = post.photoUrlList?.getValue() ?? null;
     entity.expense = post.expense.getValue() ?? null;
     entity.location = post.location ?? null;
     entity.publicTypeNo = post.publicTypeNo.getValue();

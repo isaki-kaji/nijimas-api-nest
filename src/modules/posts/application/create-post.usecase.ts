@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { PostsFactory } from '../domain/factory/posts.factory';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
 import { ISubCategoriesRepository } from '../domain/i.sub-categories.repository';
 import { SubCategory } from '../domain/models/sub-category';
 import { UUID } from 'modules/common/domain/value-objects/uuid';
@@ -14,36 +14,46 @@ import { CategoryNoEnum } from '../domain/enums/category-no.enum';
 @Injectable()
 export class CreatePostUsecase {
   constructor(
-    @InjectEntityManager()
-    private readonly manager: EntityManager,
+    private readonly dataSource: DataSource,
     private readonly postsFactory: PostsFactory,
     @Inject('IPostsRepository')
     private readonly postsRepository: IPostsRepository,
     @Inject('ISubCategoriesRepository')
     private readonly subCategoriesRepository: ISubCategoriesRepository,
-    @Inject('IPostSubCategoryRepository')
+    @Inject('IPostSubCategoriesRepository')
     private readonly postSubCategoryRepository: IPostSubCategoriesRepository,
   ) {}
 
   async execute(dto: CreatePostDto): Promise<void> {
-    const post = this.postsFactory.createModel(dto);
-    await this.manager.transaction(async (manager) => {
-      await this.postsRepository.create(post, manager);
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const post = this.postsFactory.createModel(dto);
+
+      await this.postsRepository.create(post, queryRunner.manager);
 
       await this.handleSubCategory(
         dto.subCategory1,
         CategoryNoEnum.ONE,
         post.postId,
-        manager,
+        queryRunner.manager,
       );
 
       await this.handleSubCategory(
         dto.subCategory2,
         CategoryNoEnum.TWO,
         post.postId,
-        manager,
+        queryRunner.manager,
       );
-    });
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   private async handleSubCategory(

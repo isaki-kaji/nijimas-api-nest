@@ -6,15 +6,17 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class LoggingExceptionFilter implements ExceptionFilter {
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
   private readonly logger = new Logger(LoggingExceptionFilter.name);
 
   catch(exception: any, host: ArgumentsHost) {
+    const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
     const request = ctx.getRequest();
-    const response = ctx.getResponse();
 
     const traceId = request.traceId || 'N/A';
 
@@ -23,7 +25,7 @@ export class LoggingExceptionFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorResponse = {
+    const responseBody = {
       traceId,
       statusCode: status,
       path: request.url,
@@ -37,6 +39,6 @@ export class LoggingExceptionFilter implements ExceptionFilter {
       `Exception - Trace ID: ${traceId}, Stack: ${exception.stack}`,
     );
 
-    response.status(status).json(errorResponse);
+    httpAdapter.reply(ctx.getResponse(), responseBody, status);
   }
 }

@@ -1,3 +1,5 @@
+import { MainCategoryEnum } from '../enums/main-category.enum';
+
 export class MainCategory {
   private constructor(public readonly value: MainCategoryEnum) {}
 

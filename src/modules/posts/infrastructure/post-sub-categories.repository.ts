@@ -2,10 +2,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PostSubcategoryEntity } from 'entities/post-subcategory.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { SubCategory } from '../domain/models/sub-category';
-import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { CategoryNo } from '../domain/value-objects/category-no';
+import { IPostSubCategoriesRepository } from '../domain/i.post-sub-category.repository';
+import { UUID } from 'modules/common/domain/value-objects/uuid';
 
-export class PostSubCategoriesRepository {
+export class PostSubCategoriesRepository
+  implements IPostSubCategoriesRepository
+{
   constructor(
     @InjectRepository(PostSubcategoryEntity)
     private readonly postSubCategoryRepository: Repository<PostSubcategoryEntity>,

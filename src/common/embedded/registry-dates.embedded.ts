@@ -15,3 +15,12 @@ export class RegistryDates {
   })
   updatedAt: Date;
 }
+
+export class CreatedDates {
+  @CreateDateColumn({
+    type: 'timestamptz',
+    nullable: false,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+}
