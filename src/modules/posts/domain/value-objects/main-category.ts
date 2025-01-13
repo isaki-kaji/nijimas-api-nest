@@ -21,11 +21,7 @@ export class MainCategory {
     return this.value === other.value;
   }
 
-  public toString(): string {
-    return this.value;
-  }
-
-  public getValue(): MainCategoryEnum {
+  public getValue(): string {
     return this.value;
   }
 }

@@ -12,4 +12,8 @@ export class Expense {
 
     return new Expense(value);
   }
+
+  public getValue(): number {
+    return this.value;
+  }
 }

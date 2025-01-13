@@ -5,8 +5,8 @@ import { IUsersRepository } from '../domain/i.users.repository';
 import { Repository } from 'typeorm';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { User } from '../domain/models/user';
-import { PhotoUrl } from 'modules/common/domain/value-objects/url';
 import { CountryCode } from 'users/domain/value-objects/country-code';
+import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -21,10 +21,10 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findByUid(uid: Uid): Promise<User | null> {
-    const raw = await this.userRepository.findOne({
+    const row = await this.userRepository.findOne({
       where: { uid: uid.value },
     });
-    return raw ? this.toDomain(raw) : null;
+    return row ? this.toModel(row) : null;
   }
 
   private toEntity(user: User): UserEntity {
@@ -37,10 +37,10 @@ export class UsersRepository implements IUsersRepository {
     return entity;
   }
 
-  private toDomain(entity: UserEntity): User {
+  private toModel(entity: UserEntity): User {
     const uid = Uid.create(entity.uid);
     const profileImageUrl = entity.profileImageUrl
-      ? PhotoUrl.create(entity.profileImageUrl)
+      ? ImageUrl.create(entity.profileImageUrl)
       : null;
     const countryCode = entity.countryCode
       ? CountryCode.create(entity.countryCode)

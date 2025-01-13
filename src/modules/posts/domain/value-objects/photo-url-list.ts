@@ -12,4 +12,8 @@ export class PhotoUrlList {
       .map((photoUrl) => ImageUrl.create(photoUrl));
     return new PhotoUrlList(photoUrlList);
   }
+
+  public getValue(): string {
+    return this.value.map((imageUrl) => imageUrl.value).join(',');
+  }
 }
