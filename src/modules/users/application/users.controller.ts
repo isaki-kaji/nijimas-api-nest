@@ -4,15 +4,15 @@ import { CreateUserDto } from './dto/request/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersUsecase) {}
+  constructor(private readonly usersUsecase: UsersUsecase) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    this.usersService.create(createUserDto);
+    this.usersUsecase.create(createUserDto);
   }
 
   @Get(':uid')
   findByUid(@Param('uid') uid: string) {
-    return this.usersService.findByUid(uid);
+    return this.usersUsecase.findByUid(uid);
   }
 }
