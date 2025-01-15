@@ -11,7 +11,7 @@ export class PostsRepository implements IPostsRepository {
   ) {}
   async create(post: Post, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(post);
-    (await manager)
+    manager
       ? await manager.getRepository(PostEntity).save(entity)
       : await this.postRepository.save(entity);
   }

@@ -8,6 +8,7 @@ export default registerAs('database', () => {
     url: process.env.DATASOURCE_URL,
     autoLoadEntities: true,
     namingStrategy: new SnakeNamingStrategy(),
+    logging: true,
   } as const satisfies TypeOrmModuleOptions;
   return config;
 });

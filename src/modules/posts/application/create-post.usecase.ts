@@ -2,7 +2,6 @@ import { IPostsRepository } from '../domain/i.posts.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { PostsFactory } from '../domain/factory/posts.factory';
-import { InjectEntityManager } from '@nestjs/typeorm';
 import { DataSource, EntityManager } from 'typeorm';
 import { ISubCategoriesRepository } from '../domain/i.sub-categories.repository';
 import { SubCategory } from '../domain/models/sub-category';
@@ -48,6 +47,7 @@ export class CreatePostUsecase {
         post.postId,
         queryRunner.manager,
       );
+      await queryRunner.commitTransaction();
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
