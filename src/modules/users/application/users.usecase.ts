@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UsersService } from '../domain/users.service';
-import { UsersFactory } from '../domain/factory/users.factory';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { IUsersRepository } from 'users/domain/i.users.repository';
+import { UsersFactory } from './factory/users.factory';
 
 @Injectable()
 export class UsersUsecase {

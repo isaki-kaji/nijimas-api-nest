@@ -5,7 +5,7 @@ import { UserEntity } from '../../entities/user.entity';
 import { UsersRepository } from './infrastructure/users.repository';
 import { UsersController } from './application/users.controller';
 import { UsersService } from './domain/users.service';
-import { UsersFactory } from './domain/factory/users.factory';
+import { UsersFactory } from './application/factory/users.factory';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],

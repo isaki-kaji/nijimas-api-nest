@@ -14,6 +14,9 @@ export class UidInterceptor implements NestInterceptor {
       if (typeof request.body === 'object' && request.body !== null) {
         request.body.uid = request['ownUid'];
       }
+
+      request.user = request.user || {};
+      request.user.uid = request['ownUid'];
     }
     return next.handle();
   }

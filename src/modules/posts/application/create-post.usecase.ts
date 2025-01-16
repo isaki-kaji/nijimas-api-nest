@@ -1,7 +1,7 @@
 import { IPostsRepository } from '../domain/i.posts.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/request/create-post.dto';
-import { PostsFactory } from '../domain/factory/posts.factory';
+import { PostsFactory } from './factory/posts.factory';
 import { DataSource, EntityManager } from 'typeorm';
 import { ISubCategoriesRepository } from '../domain/i.sub-categories.repository';
 import { SubCategory } from '../domain/models/sub-category';

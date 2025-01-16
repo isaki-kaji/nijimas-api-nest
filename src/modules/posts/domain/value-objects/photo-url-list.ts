@@ -13,7 +13,11 @@ export class PhotoUrlList {
     return new PhotoUrlList(photoUrlList);
   }
 
-  public getValue(): string {
+  public getStrValue(): string {
     return this.value.map((imageUrl) => imageUrl.value).join(',');
+  }
+
+  public getListValue(): string[] {
+    return this.value.map((imageUrl) => imageUrl.value);
   }
 }

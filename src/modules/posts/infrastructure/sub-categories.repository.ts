@@ -4,7 +4,9 @@ import { SubCategoryEntity } from 'entities/sub-category.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { SubCategory } from '../domain/models/sub-category';
 import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class SubCategoriesRepository implements ISubCategoriesRepository {
   constructor(
     @InjectRepository(SubCategoryEntity)

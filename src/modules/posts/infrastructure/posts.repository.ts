@@ -3,7 +3,9 @@ import { IPostsRepository } from '../domain/i.posts.repository';
 import { Post } from '../domain/models/post';
 import { PostEntity } from 'entities/post.entity';
 import { EntityManager, Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PostsRepository implements IPostsRepository {
   constructor(
     @InjectRepository(PostEntity)
@@ -22,7 +24,7 @@ export class PostsRepository implements IPostsRepository {
     entity.postId = post.postId.toString();
     entity.mainCategory = post.mainCategory.getValue();
     entity.postText = post.postText ?? null;
-    entity.photoUrl = post.photoUrlList?.getValue() ?? null;
+    entity.photoUrl = post.photoUrlList?.getStrValue() ?? null;
     entity.expense = post.expense.getValue() ?? null;
     entity.location = post.location ?? null;
     entity.publicTypeNo = post.publicTypeNo.getValue();

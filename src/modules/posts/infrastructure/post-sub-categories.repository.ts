@@ -5,7 +5,9 @@ import { SubCategory } from '../domain/models/sub-category';
 import { CategoryNo } from '../domain/value-objects/category-no';
 import { IPostSubCategoriesRepository } from '../domain/i.post-sub-category.repository';
 import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PostSubCategoriesRepository
   implements IPostSubCategoriesRepository
 {
