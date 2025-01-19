@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Req, Query } from '@nestjs/common';
 import { CreatePostUsecase } from './create-post.usecase';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { FindPostsUsecase } from './find-posts.usecase';
+import { OwnUid } from 'common/decorator/own-uid.decorator';
 
 @Controller()
 export class PostsController {
@@ -16,32 +17,20 @@ export class PostsController {
   }
 
   @Get('me/posts')
-  async findOwnPosts(@Req() request: Request) {
-    const uid = request['ownUid'];
-    if (!uid) {
-      throw new Error('UID is not available in the request');
-    }
+  async findOwnPosts(@OwnUid() uid: string) {
     return await this.findPostsUsecase.findOwnPosts(uid);
   }
 
   @Get('me/timeline')
-  async findTimelinePosts(@Req() request: Request) {
-    const uid = request['ownUid'];
-    if (!uid) {
-      throw new Error('UID is not available in the request');
-    }
+  async findTimelinePosts(@OwnUid() uid: string) {
     return await this.findPostsUsecase.findTimelinePosts(uid);
   }
 
   @Get('posts')
   async findPostsBySubCategory(
-    @Req() request: Request,
+    @OwnUid() uid: string,
     @Query('sub-category') categoryName: string,
   ) {
-    const uid = request['ownUid'];
-    if (!uid) {
-      throw new Error('UID is not available in the request');
-    }
     return await this.findPostsUsecase.findPostsBySubCategory(
       uid,
       categoryName,
