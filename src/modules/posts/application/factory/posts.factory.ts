@@ -13,7 +13,7 @@ import { PostResponseDto } from '../dto/response/post.response.dto';
 @Injectable()
 export class PostsFactory {
   createModel(dto: CreatePostDto): Post {
-    const postId = UUID.generate();
+    const postId = UUID.create(dto.postId);
     const uid = Uid.create(dto.uid);
     const mainCategory = MainCategory.create(dto.mainCategory);
     const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);
@@ -39,6 +39,7 @@ export class PostsFactory {
       dto.location,
     );
   }
+
   createResponse(post: Post): PostResponseDto {
     return {
       postId: post.postId.toString(),

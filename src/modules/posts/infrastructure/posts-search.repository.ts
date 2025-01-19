@@ -56,7 +56,59 @@ export class PostsSearchRepository {
     `;
     const rawPosts = await this.dataSource.query(sql, [uid.value]);
 
-    console.log('rawPosts', rawPosts);
+    return rawPosts.map((raw) => this.mapToPost(raw));
+  }
+
+  async findTimelinePosts(uid: Uid): Promise<Post[]> {
+    const sql = `
+      SELECT
+        "p"."post_id",
+        "u"."uid",
+        "u"."username",
+        "u"."profile_image_url",
+        "p"."main_category",
+        COALESCE(sc.sub_category1, '') AS sub_category1,
+        COALESCE(sc.sub_category2, '') AS sub_category2,
+        "p"."post_text",
+        "p"."photo_url",
+        "p"."expense",
+        "p"."location",
+        CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+        "p"."public_type_no",
+        "p"."created_at"
+      FROM 
+        "posts" "p"
+      JOIN 
+        "users" "u" ON "p"."uid" = "u"."uid"
+      LEFT JOIN (
+        SELECT
+          "ps"."post_id",
+          MAX(CASE WHEN "ps"."category_no" = '1' THEN "s"."category_name" ELSE NULL END) AS sub_category1,
+          MAX(CASE WHEN "ps"."category_no" = '2' THEN "s"."category_name" ELSE NULL END) AS sub_category2
+        FROM 
+          "post_subcategories" "ps"
+        JOIN 
+          "sub_categories" "s" ON "ps"."category_id" = "s"."category_id"
+        GROUP BY 
+          "ps"."post_id"
+      ) "sc" ON "p"."post_id" = sc.post_id
+      LEFT JOIN 
+        "favorites" "f" ON "p"."post_id" = f.post_id AND f.uid = $1
+      WHERE 
+        "p"."uid" = $1
+        OR (
+          "p"."public_type_no" IN ('0', '1') 
+          AND EXISTS (
+            SELECT 1 
+            FROM "follows" "f"
+            WHERE "f"."uid" = $1 AND "f"."following_uid" = "p"."uid"
+          )
+        )
+      ORDER BY 
+        "p"."post_id" DESC
+      LIMIT 50;
+    `;
+    const rawPosts = await this.dataSource.query(sql, [uid.value]);
 
     return rawPosts.map((raw) => this.mapToPost(raw));
   }
@@ -71,10 +123,10 @@ export class PostsSearchRepository {
       raw.is_favorite,
       PublicTypeNo.create(raw.public_type_no),
       new Date(raw.created_at),
-      raw.subCategory1 || null,
-      raw.subCategory2 || null,
-      raw.postText || null,
-      raw.photoUrl ? PhotoUrlList.create(raw.photo_url) : null,
+      raw.sub_category1 || null,
+      raw.sub_category2 || null,
+      raw.post_text || null,
+      raw.photo_url ? PhotoUrlList.create(raw.photo_url) : null,
       raw.expense ? Expense.create(raw.expense) : null,
       raw.location || undefined,
     );

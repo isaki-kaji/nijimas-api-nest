@@ -15,7 +15,12 @@ export class FindPostsUsecase {
   async findOwnPosts(uidStr: string): Promise<PostResponseDto[]> {
     const uid = Uid.create(uidStr);
     const posts = await this.repository.findOwnPosts(uid);
-    console.log('posts', posts);
+    return this.factory.createResponseList(posts);
+  }
+
+  async findTimelinePosts(uidStr: string): Promise<PostResponseDto[]> {
+    const uid = Uid.create(uidStr);
+    const posts = await this.repository.findTimelinePosts(uid);
     return this.factory.createResponseList(posts);
   }
 }

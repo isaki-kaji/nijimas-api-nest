@@ -5,11 +5,16 @@ import {
   IsOptional,
   IsIn,
   IsNumberString,
+  IsUUID,
 } from 'class-validator';
 
 export class CreatePostDto {
   @IsOptional()
   readonly uid?: string;
+
+  @IsUUID()
+  @IsNotEmpty({ message: 'Post ID is required' })
+  readonly postId: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Main category is required' })

@@ -23,4 +23,13 @@ export class PostsController {
     }
     return await this.findPostsUsecase.findOwnPosts(uid);
   }
+
+  @Get('me/timeline')
+  async findTimelinePosts(@Req() request: Request) {
+    const uid = request['ownUid'];
+    if (!uid) {
+      throw new Error('UID is not available in the request');
+    }
+    return await this.findPostsUsecase.findTimelinePosts(uid);
+  }
 }

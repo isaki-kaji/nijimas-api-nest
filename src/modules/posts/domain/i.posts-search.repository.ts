@@ -3,4 +3,5 @@ import { Post } from './models/post';
 
 export interface IPostsSearchRepository {
   findOwnPosts(uid: Uid): Promise<Post[]>;
+  findTimelinePosts(uid: Uid): Promise<Post[]>;
 }
