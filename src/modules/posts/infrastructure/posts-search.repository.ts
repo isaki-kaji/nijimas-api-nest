@@ -56,7 +56,7 @@ export class PostsSearchRepository {
     `;
     const rawPosts = await this.dataSource.query(sql, [uid.value]);
 
-    return rawPosts.map((raw) => this.mapToPost(raw));
+    return rawPosts.map((raw) => this.toModel(raw));
   }
 
   async findTimelinePosts(uid: Uid): Promise<Post[]> {
@@ -110,7 +110,7 @@ export class PostsSearchRepository {
     `;
     const rawPosts = await this.dataSource.query(sql, [uid.value]);
 
-    return rawPosts.map((raw) => this.mapToPost(raw));
+    return rawPosts.map((raw) => this.toModel(raw));
   }
 
   async findPostsBySubCategory(
@@ -171,10 +171,10 @@ export class PostsSearchRepository {
       categoryName,
     ]);
 
-    return rawPosts.map((raw) => this.mapToPost(raw));
+    return rawPosts.map((raw) => this.toModel(raw));
   }
 
-  private mapToPost(raw: any): Post {
+  private toModel(raw: any): Post {
     return new Post(
       UUID.create(raw.post_id),
       Uid.create(raw.uid),

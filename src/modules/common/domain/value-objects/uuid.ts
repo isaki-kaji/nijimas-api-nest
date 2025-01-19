@@ -15,7 +15,7 @@ export class UUID {
     return new UUID(uuid());
   }
 
-  public toString(): string {
+  public getValue(): string {
     return this.value;
   }
 }

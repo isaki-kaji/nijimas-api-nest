@@ -29,7 +29,7 @@ export class UsersRepository implements IUsersRepository {
 
   private toEntity(user: User): UserEntity {
     const entity = new UserEntity();
-    entity.uid = user.uid.value;
+    entity.uid = user.uid.getValue();
     entity.username = user.username;
     entity.selfIntro = user.selfIntro ?? null;
     entity.profileImageUrl = user.profileImageUrl?.value ?? null;
