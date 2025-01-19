@@ -23,4 +23,16 @@ export class FindPostsUsecase {
     const posts = await this.repository.findTimelinePosts(uid);
     return this.factory.createResponseList(posts);
   }
+
+  async findPostsBySubCategory(
+    uidStr: string,
+    categoryName: string,
+  ): Promise<PostResponseDto[]> {
+    const uid = Uid.create(uidStr);
+    const posts = await this.repository.findPostsBySubCategory(
+      uid,
+      categoryName,
+    );
+    return this.factory.createResponseList(posts);
+  }
 }

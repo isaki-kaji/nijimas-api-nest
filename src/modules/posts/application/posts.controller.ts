@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Req, Query } from '@nestjs/common';
 import { CreatePostUsecase } from './create-post.usecase';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { FindPostsUsecase } from './find-posts.usecase';
@@ -31,5 +31,20 @@ export class PostsController {
       throw new Error('UID is not available in the request');
     }
     return await this.findPostsUsecase.findTimelinePosts(uid);
+  }
+
+  @Get('posts')
+  async findPostsBySubCategory(
+    @Req() request: Request,
+    @Query('sub-category') categoryName: string,
+  ) {
+    const uid = request['ownUid'];
+    if (!uid) {
+      throw new Error('UID is not available in the request');
+    }
+    return await this.findPostsUsecase.findPostsBySubCategory(
+      uid,
+      categoryName,
+    );
   }
 }
