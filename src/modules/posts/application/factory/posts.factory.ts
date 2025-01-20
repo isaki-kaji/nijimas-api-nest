@@ -42,8 +42,8 @@ export class PostsFactory {
 
   createResponse(post: Post): PostResponseDto {
     return {
-      postId: post.postId.toString(),
-      uid: post.uid.value,
+      postId: post.postId.getValue(),
+      uid: post.uid.getValue(),
       username: post.username,
       profileImageUrl: post.profileImageUrl?.value ?? null,
       mainCategory: post.mainCategory.getValue(),

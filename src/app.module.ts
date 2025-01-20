@@ -9,9 +9,16 @@ import { VALIDATION_PIPE_OPTIONS } from 'common/util/common.constants';
 import { UsersModule } from 'users/users.module';
 import { LoggingExceptionFilter } from 'common/filter/logging-exception.filter';
 import { PostsModule } from 'modules/posts/posts.module';
+import { FavoritesModule } from 'modules/favorites/favorites.module';
 
 @Module({
-  imports: [EnvModule, AppConfigModule, UsersModule, PostsModule],
+  imports: [
+    EnvModule,
+    AppConfigModule,
+    UsersModule,
+    PostsModule,
+    FavoritesModule,
+  ],
   providers: [
     {
       provide: APP_PIPE,

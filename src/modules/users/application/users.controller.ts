@@ -7,8 +7,8 @@ export class UsersController {
   constructor(private readonly usersUsecase: UsersUsecase) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    await this.usersUsecase.create(createUserDto);
+  async create(@Body() dto: CreateUserDto) {
+    await this.usersUsecase.create(dto);
   }
 
   @Get(':uid')

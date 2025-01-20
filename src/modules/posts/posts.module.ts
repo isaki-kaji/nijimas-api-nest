@@ -44,5 +44,6 @@ import { FindPostsUsecase } from './application/find-posts.usecase';
       useClass: PostsSearchRepository,
     },
   ],
+  exports: [PostsService],
 })
 export class PostsModule {}

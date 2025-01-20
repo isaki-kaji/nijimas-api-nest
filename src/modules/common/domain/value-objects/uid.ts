@@ -23,7 +23,7 @@ export class Uid {
     return this.value === other.value;
   }
 
-  toString(): string {
+  getValue(): string {
     return this.value;
   }
 }

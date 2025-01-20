@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUsersRepository } from './i.users.repository';
 import { User } from './models/user';
+import { Uid } from 'modules/common/domain/value-objects/uid';
 
 @Injectable()
 export class UsersService {
@@ -9,8 +10,8 @@ export class UsersService {
     private readonly repository: IUsersRepository,
   ) {}
 
-  async exists(user: User): Promise<boolean> {
-    const foundUser = await this.repository.findByUid(user.uid);
+  async exists(uid: Uid): Promise<boolean> {
+    const foundUser = await this.repository.findByUid(uid);
     return !!foundUser;
   }
 }
