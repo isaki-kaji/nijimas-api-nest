@@ -21,7 +21,7 @@ export class UsersUsecase {
 
   async create(dto: CreateUserDto) {
     const user = this.factory.create(dto);
-    if (await this.service.exists(user)) {
+    if (await this.service.exists(user.uid)) {
       throw new ConflictException('User already exists');
     }
 

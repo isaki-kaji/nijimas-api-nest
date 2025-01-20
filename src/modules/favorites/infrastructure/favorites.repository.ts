@@ -24,11 +24,18 @@ export class FavoritesRepository implements IFavoritesRepository {
     await this.userRepository.delete(entity);
   }
 
+  async findOne(uid: Uid, postId: UUID): Promise<Favorite | null> {
+    const row = await this.userRepository.findOne({
+      where: { uid: uid.getValue(), postId: postId.getValue() },
+    });
+    return row ? this.toModel(row) : null;
+  }
+
   private toEntity(user: Favorite): FavoriteEntity {
     const entity = new FavoriteEntity();
-    entity.uid = user.uid.value;
+    entity.uid = user.uid.getValue();
     entity.postId = user.postId.getValue();
-    return;
+    return entity;
   }
 
   private toModel(entity: FavoriteEntity): Favorite {

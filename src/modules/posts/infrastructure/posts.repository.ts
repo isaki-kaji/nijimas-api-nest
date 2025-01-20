@@ -21,7 +21,7 @@ export class PostsRepository implements IPostsRepository {
   private toEntity(post: Post): PostEntity {
     const entity = new PostEntity();
     entity.uid = post.uid.value;
-    entity.postId = post.postId.toString();
+    entity.postId = post.postId.getValue();
     entity.mainCategory = post.mainCategory.getValue();
     entity.postText = post.postText ?? null;
     entity.photoUrl = post.photoUrlList?.getStrValue() ?? null;

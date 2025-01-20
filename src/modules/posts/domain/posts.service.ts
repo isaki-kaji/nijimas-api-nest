@@ -1,10 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ISubCategoriesRepository } from './i.sub-categories.repository';
+import { IPostsSearchRepository } from './i.posts-search.repository';
+import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uid } from 'modules/common/domain/value-objects/uid';
 
 @Injectable()
 export class PostsService {
   constructor(
-    @Inject('ISubCategoriesRepository')
-    private readonly repository: ISubCategoriesRepository,
+    @Inject('IPostsSearchRepository')
+    private readonly postSearchRepository: IPostsSearchRepository,
   ) {}
+
+  async exists(uid: Uid, post: UUID): Promise<boolean> {
+    const foundPost = await this.postSearchRepository.findOne(uid, post);
+    return !!foundPost;
+  }
 }
