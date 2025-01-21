@@ -1,7 +1,7 @@
-import { PublicTypeEnum } from '../enums/public-type-no.enum';
+import { PublicTypeNoEnum } from '../enums/public-type-no.enum';
 
 export class PublicTypeNo {
-  private constructor(private readonly value: PublicTypeEnum) {}
+  private constructor(private readonly value: PublicTypeNoEnum) {}
 
   public static create(value: string): PublicTypeNo {
     if (!value) {
@@ -12,11 +12,11 @@ export class PublicTypeNo {
       throw new Error(`Invalid public type: ${value}`);
     }
 
-    return new PublicTypeNo(value as PublicTypeEnum);
+    return new PublicTypeNo(value as PublicTypeNoEnum);
   }
 
   private static isValid(value: string): boolean {
-    return Object.values(PublicTypeEnum).includes(value as PublicTypeEnum);
+    return Object.values(PublicTypeNoEnum).includes(value as PublicTypeNoEnum);
   }
 
   public getValue(): string {

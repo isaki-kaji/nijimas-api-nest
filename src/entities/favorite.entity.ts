@@ -1,9 +1,9 @@
 import { CreatedDates } from 'common/embedded/registry-dates.embedded';
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('favorites')
 export class FavoriteEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   postId: string;
 
   @Column({ type: 'char', length: 28, nullable: false })

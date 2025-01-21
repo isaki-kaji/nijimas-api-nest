@@ -2,11 +2,11 @@ import {
   CreatedDates,
   RegistryDates,
 } from 'common/embedded/registry-dates.embedded';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('sub_categories')
 export class SubCategoryEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   categoryId: string;
 
   @Column({

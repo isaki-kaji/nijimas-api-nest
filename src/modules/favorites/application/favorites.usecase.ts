@@ -21,7 +21,11 @@ export class FavoritesUsecase {
       throw new NotFoundException('Post not found');
     }
 
-    if (await this.service.exists(favorite.uid, favorite.postId)) {
+    const favoriteCreated = await this.service.exists(
+      favorite.uid,
+      favorite.postId,
+    );
+    if (favoriteCreated) {
       await this.repository.delete(favorite);
       return false;
     } else {

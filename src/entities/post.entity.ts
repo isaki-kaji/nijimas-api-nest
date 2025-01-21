@@ -1,10 +1,10 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { Entity, Column, Index, PrimaryColumn } from 'typeorm';
 
 @Entity('posts')
 @Index(['uid'])
 export class PostEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   postId: string;
 
   @Column({ type: 'char', length: 28, nullable: false })
