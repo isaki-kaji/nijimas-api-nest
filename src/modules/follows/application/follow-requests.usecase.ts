@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Inject,
   Injectable,
@@ -14,6 +15,8 @@ import { DataSource } from 'typeorm';
 import { IFollowsRepository } from '../domain/i.follows.repository';
 import { Follow } from '../domain/models/follow';
 import { FollowRequestResponseDto } from './dto/response/follow-request.response.dto';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
+import { FollowRequest } from '../domain/models/follow-request';
 
 @Injectable()
 export class FollowRequestsUsecase {
@@ -52,11 +55,9 @@ export class FollowRequestsUsecase {
     await this.repository.save(request);
   }
 
-  async cancelFollowRequest(dto: FollowRequestDto): Promise<void> {
-    const uid = Uid.create(dto.uid);
-    const requestedUid = Uid.create(dto.requestedUid);
-
-    const request = await this.repository.findOne(uid, requestedUid);
+  async cancelFollowRequest(requestIdStr: string): Promise<void> {
+    const requestId = Uuid.create(requestIdStr);
+    const request = await this.repository.findOne(requestId);
     if (!request) {
       throw new NotFoundException('Request not found');
     }
@@ -64,30 +65,53 @@ export class FollowRequestsUsecase {
     await this.repository.delete(request);
   }
 
-  async acceptFollowRequest(dto: FollowRequestDto): Promise<void> {
+  async handleFollowRequest(
+    uidStr: string,
+    requestIdStr: string,
+    action: string,
+  ): Promise<void> {
+    const requestId = Uuid.create(requestIdStr);
+    const request = await this.repository.findOne(requestId);
+    if (!request) {
+      throw new NotFoundException('Request not found');
+    }
+
+    if (!request.isForUser(Uid.create(uidStr))) {
+      throw new BadRequestException('Invalid request');
+    }
+
+    if (action === 'accept') {
+      await this.acceptFollowRequest(request);
+      return;
+    }
+    if (action === 'reject') {
+      await this.rejectFollowRequest(request);
+      return;
+    }
+
+    throw new BadRequestException('Invalid action');
+  }
+
+  private async acceptFollowRequest(request: FollowRequest): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const uid = Uid.create(dto.uid);
-      const requestedUid = Uid.create(dto.requestedUid);
-
-      const existsFollow = await this.followsService.exists(uid, requestedUid);
+      const existsFollow = await this.followsService.exists(
+        request.uid,
+        request.requestedUid,
+      );
 
       if (existsFollow) {
         throw new ConflictException('You already follow this user');
       }
 
-      const request = await this.repository.findOne(uid, requestedUid);
-      if (!request) {
-        throw new NotFoundException('Request not found');
-      }
       request.accept();
       await this.repository.save(request);
 
-      const follow = new Follow(uid, requestedUid);
+      const follow = new Follow(request.uid, request.requestedUid);
       await this.followsRepository.save(follow);
     } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -97,18 +121,10 @@ export class FollowRequestsUsecase {
     }
   }
 
-  async rejectFollowRequest(dto: FollowRequestDto): Promise<void> {
-    const uid = Uid.create(dto.uid);
-    const requestedUid = Uid.create(dto.requestedUid);
-
-    const request = await this.repository.findOne(uid, requestedUid);
-    if (!request) {
-      throw new NotFoundException('Request not found');
-    }
-
+  private async rejectFollowRequest(request: FollowRequest): Promise<void> {
     request.reject();
 
-    await this.repository.delete(request);
+    await this.repository.save(request);
   }
 
   async getFollowRequests(uidStr: string): Promise<FollowRequestResponseDto[]> {

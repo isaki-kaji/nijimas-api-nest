@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestDto } from '../dto/request/follow-request.dto';
 import { FollowRequest } from 'modules/follows/domain/models/follow-request';
 import { FollowRequestStatus } from 'modules/follows/domain/value-objects/follow-request-status';
@@ -12,7 +12,7 @@ import { FollowRequestRow } from 'modules/follows/infrastructure/follow-request.
 @Injectable()
 export class FollowRequestsFactory {
   createModel(dto: FollowRequestDto): FollowRequest {
-    const requestId = UUID.generate();
+    const requestId = Uuid.generate();
     const uid = Uid.create(dto.uid);
     const requestedUid = Uid.create(dto.requestedUid);
     const status = FollowRequestStatus.create(FollowRequestStatusEnum.PENDING);

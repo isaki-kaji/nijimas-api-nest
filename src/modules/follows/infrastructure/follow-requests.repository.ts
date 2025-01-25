@@ -5,7 +5,7 @@ import { FollowRequestEntity } from 'entities/follow-request.entity';
 import { DataSource, Repository } from 'typeorm';
 import { FollowRequest } from '../domain/models/follow-request';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from '../domain/value-objects/follow-request-status';
 import { FollowRequestRow } from './follow-request.row';
 
@@ -25,10 +25,26 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
     await this.repository.delete({ requestId: request.requestId.getValue() });
   }
 
-  async findOne(uid: Uid, followingUid: Uid): Promise<FollowRequest | null> {
+  async findOne(requestId: Uuid): Promise<FollowRequest | null> {
     const entity = await this.repository.findOne({
-      where: { uid: uid.getValue(), followingUid: followingUid.getValue() },
+      where: { requestId: requestId.getValue() },
     });
+    return entity ? this.toModel(entity) : null;
+  }
+
+  async findPendingRequestByUid(
+    uid: Uid,
+    requestedUid: Uid,
+    status: FollowRequestStatus,
+  ): Promise<FollowRequest | null> {
+    const entity = await this.repository.findOne({
+      where: {
+        uid: uid.getValue(),
+        followingUid: requestedUid.getValue(),
+        status: status.getValue(),
+      },
+    });
+
     return entity ? this.toModel(entity) : null;
   }
 
@@ -64,7 +80,7 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
   }
 
   private toModel(entity: FollowRequestEntity): FollowRequest {
-    const requestId = UUID.create(entity.requestId);
+    const requestId = Uuid.create(entity.requestId);
     const uid = Uid.create(entity.uid);
     const followingUid = Uid.create(entity.followingUid);
     const status = FollowRequestStatus.create(entity.status);
