@@ -1,13 +1,13 @@
 import uuid from 'ui7';
 
-export class UUID {
+export class Uuid {
   private constructor(private readonly value: string) {}
 
-  public static create(value: string): UUID {
+  public static create(value: string): Uuid {
     if (!this.validateUuidV7(value)) {
       throw new Error(`Invalid UUID format: ${value}`);
     }
-    return new UUID(value);
+    return new Uuid(value);
   }
 
   private static validateUuidV7(value: string): boolean {
@@ -35,8 +35,8 @@ export class UUID {
     return true;
   }
 
-  public static generate(): UUID {
-    return new UUID(uuid());
+  public static generate(): Uuid {
+    return new Uuid(uuid());
   }
 
   public getValue(): string {

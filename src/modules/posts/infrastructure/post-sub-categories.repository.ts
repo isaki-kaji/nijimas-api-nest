@@ -4,7 +4,7 @@ import { EntityManager, Repository } from 'typeorm';
 import { SubCategory } from '../domain/models/sub-category';
 import { CategoryNo } from '../domain/value-objects/category-no';
 import { IPostSubCategoriesRepository } from '../domain/i.post-sub-category.repository';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class PostSubCategoriesRepository
 
   async create(
     subCategory: SubCategory,
-    postId: UUID,
+    postId: Uuid,
     categoryNo: CategoryNo,
     manager?: EntityManager,
   ): Promise<void> {
@@ -32,7 +32,7 @@ export class PostSubCategoriesRepository
 
   private toEntity(
     subCategory: SubCategory,
-    postId: UUID,
+    postId: Uuid,
     categoryNo: CategoryNo,
   ): PostSubcategoryEntity {
     const entity = new PostSubcategoryEntity();

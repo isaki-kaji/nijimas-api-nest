@@ -5,7 +5,7 @@ import { PostsFactory } from './factory/posts.factory';
 import { DataSource, EntityManager } from 'typeorm';
 import { ISubCategoriesRepository } from '../domain/i.sub-categories.repository';
 import { SubCategory } from '../domain/models/sub-category';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { IPostSubCategoriesRepository } from '../domain/i.post-sub-category.repository';
 import { CategoryNo } from '../domain/value-objects/category-no';
 import { CategoryNoEnum } from '../domain/enums/category-no.enum';
@@ -59,7 +59,7 @@ export class CreatePostUsecase {
   private async handleSubCategory(
     categoryName: string,
     categoryNoValue: CategoryNoEnum,
-    postId: UUID,
+    postId: Uuid,
     manager: EntityManager,
   ) {
     if (!categoryName) {
@@ -69,7 +69,7 @@ export class CreatePostUsecase {
     let existsSubCategory =
       await this.subCategoriesRepository.findByName(categoryName);
     if (!existsSubCategory) {
-      const categoryId = UUID.generate();
+      const categoryId = Uuid.generate();
       existsSubCategory = new SubCategory(categoryId, categoryName);
       await this.subCategoriesRepository.create(existsSubCategory, manager);
     }

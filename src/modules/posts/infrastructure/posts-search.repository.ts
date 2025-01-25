@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { DataSource } from 'typeorm';
 import { Post } from '../domain/models/post';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 import { MainCategory } from '../domain/value-objects/main-category';
 import { PublicTypeNo } from '../domain/value-objects/public-type-no';
@@ -13,7 +13,7 @@ import { Expense } from '../domain/value-objects/expense';
 export class PostsSearchRepository {
   constructor(private readonly dataSource: DataSource) {}
 
-  async findOne(uid: Uid, postId: UUID): Promise<Post | null> {
+  async findOne(uid: Uid, postId: Uuid): Promise<Post | null> {
     const sql = `
     SELECT
       p.post_id,
@@ -231,7 +231,7 @@ export class PostsSearchRepository {
 
   private toModel(raw: any): Post {
     return new Post(
-      UUID.create(raw.post_id),
+      Uuid.create(raw.post_id),
       Uid.create(raw.uid),
       raw.username,
       raw.profile_image_url ? ImageUrl.create(raw.profile_image_url) : null,

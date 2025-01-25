@@ -3,7 +3,7 @@ import { ISubCategoriesRepository } from '../domain/i.sub-categories.repository'
 import { SubCategoryEntity } from 'entities/sub-category.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { SubCategory } from '../domain/models/sub-category';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -51,7 +51,7 @@ export class SubCategoriesRepository implements ISubCategoriesRepository {
   }
 
   private toModel(entity: SubCategoryEntity): SubCategory {
-    const categoryId = UUID.create(entity.categoryId);
+    const categoryId = Uuid.create(entity.categoryId);
     return new SubCategory(categoryId, entity.categoryName);
   }
 }

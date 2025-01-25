@@ -5,7 +5,7 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 import { IFavoritesRepository } from '../domain/i.favorites.repository';
 import { FavoriteEntity } from 'entities/favorite.entity';
 import { Favorite } from '../domain/models/favorite';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 @Injectable()
 export class FavoritesRepository implements IFavoritesRepository {
@@ -24,7 +24,7 @@ export class FavoritesRepository implements IFavoritesRepository {
     await this.userRepository.delete(entity);
   }
 
-  async findOne(uid: Uid, postId: UUID): Promise<Favorite | null> {
+  async findOne(uid: Uid, postId: Uuid): Promise<Favorite | null> {
     const row = await this.userRepository.findOne({
       where: { uid: uid.getValue(), postId: postId.getValue() },
     });
@@ -40,7 +40,7 @@ export class FavoritesRepository implements IFavoritesRepository {
 
   private toModel(entity: FavoriteEntity): Favorite {
     const uid = Uid.create(entity.uid);
-    const postID = UUID.create(entity.postId);
+    const postID = Uuid.create(entity.postId);
     return new Favorite(uid, postID);
   }
 }

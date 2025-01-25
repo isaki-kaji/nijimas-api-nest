@@ -7,13 +7,13 @@ import { MainCategory } from '../../domain/value-objects/main-category';
 import { PublicTypeNo } from '../../domain/value-objects/public-type-no';
 import { Expense } from '../../domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
-import { UUID } from 'modules/common/domain/value-objects/uuid';
+import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { PostResponseDto } from '../dto/response/post.response.dto';
 
 @Injectable()
 export class PostsFactory {
   createModel(dto: CreatePostDto): Post {
-    const postId = UUID.create(dto.postId);
+    const postId = Uuid.create(dto.postId);
     const uid = Uid.create(dto.uid);
     const mainCategory = MainCategory.create(dto.mainCategory);
     const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);
