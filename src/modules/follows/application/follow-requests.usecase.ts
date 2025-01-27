@@ -55,11 +55,18 @@ export class FollowRequestsUsecase {
     await this.repository.save(request);
   }
 
-  async cancelFollowRequest(requestIdStr: string): Promise<void> {
+  async cancelFollowRequest(
+    uidStr: string,
+    requestIdStr: string,
+  ): Promise<void> {
     const requestId = Uuid.create(requestIdStr);
     const request = await this.repository.findOne(requestId);
     if (!request) {
       throw new NotFoundException('Request not found');
+    }
+
+    if (!request.isForUser(Uid.create(uidStr))) {
+      throw new BadRequestException('Invalid request');
     }
 
     await this.repository.delete(request);
