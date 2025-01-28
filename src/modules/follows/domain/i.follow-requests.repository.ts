@@ -1,6 +1,6 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { FollowRequest } from './models/follow-request';
-import { FollowRequestRow } from '../infrastructure/follow-request.row';
+import { FollowRequestRow } from '../infrastructure/rows/follow-request.row';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from './value-objects/follow-request-status';
 

@@ -7,7 +7,7 @@ import { FollowRequest } from 'modules/follows/domain/models/follow-request';
 import { FollowRequestStatus } from 'modules/follows/domain/value-objects/follow-request-status';
 import { FollowRequestStatusEnum } from 'modules/follows/domain/enums/follow-request-status.enum';
 import { FollowRequestResponseDto } from '../dto/response/follow-request.response.dto';
-import { FollowRequestRow } from 'modules/follows/infrastructure/follow-request.row';
+import { FollowRequestRow } from 'modules/follows/infrastructure/rows/follow-request.row';
 
 @Injectable()
 export class FollowRequestsFactory {

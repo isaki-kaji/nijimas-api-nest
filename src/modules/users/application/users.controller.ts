@@ -10,9 +10,4 @@ export class UsersController {
   async create(@Body() dto: CreateUserDto) {
     await this.usersUsecase.create(dto);
   }
-
-  @Get(':uid')
-  async findByUid(@Param('uid') uid: string) {
-    return await this.usersUsecase.findByUid(uid);
-  }
 }

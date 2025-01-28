@@ -7,7 +7,7 @@ import { FollowRequest } from '../domain/models/follow-request';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from '../domain/value-objects/follow-request-status';
-import { FollowRequestRow } from './follow-request.row';
+import { FollowRequestRow } from './rows/follow-request.row';
 
 @Injectable()
 export class FollowRequestsRepository implements IFollowRequestsRepository {

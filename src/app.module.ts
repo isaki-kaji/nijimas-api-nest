@@ -12,6 +12,7 @@ import { PostsModule } from 'modules/posts/posts.module';
 import { FavoritesModule } from 'modules/favorites/favorites.module';
 import { Follow } from 'modules/follows/domain/models/follow';
 import { FollowsModule } from 'modules/follows/follows.module';
+import { UserDetailsModule } from 'modules/user-details/user-details.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FollowsModule } from 'modules/follows/follows.module';
     PostsModule,
     FavoritesModule,
     FollowsModule,
+    UserDetailsModule,
   ],
   providers: [
     {
