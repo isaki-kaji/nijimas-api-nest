@@ -27,13 +27,19 @@ export class PostsController {
   }
 
   @Get('posts')
-  async findPostsBySubCategory(
+  async findPosts(
     @OwnUid() uid: string,
-    @Query('sub-category') categoryName: string,
+    @Query('uid') targetUid?: string,
+    @Query('sub-category') categoryName?: string,
   ) {
-    return await this.findPostsUsecase.findPostsBySubCategory(
-      uid,
-      categoryName,
-    );
+    if (targetUid) {
+      return await this.findPostsUsecase.findPostsByUid(uid, targetUid);
+    }
+    if (categoryName) {
+      return await this.findPostsUsecase.findPostsBySubCategory(
+        uid,
+        categoryName,
+      );
+    }
   }
 }

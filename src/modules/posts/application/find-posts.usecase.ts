@@ -24,6 +24,16 @@ export class FindPostsUsecase {
     return this.factory.createResponseList(posts);
   }
 
+  async findPostsByUid(
+    uidStr: string,
+    targetUidStr: string,
+  ): Promise<PostResponseDto[]> {
+    const uid = Uid.create(uidStr);
+    const targetUid = Uid.create(targetUidStr);
+    const posts = await this.repository.findPostsByUid(uid, targetUid);
+    return this.factory.createResponseList(posts);
+  }
+
   async findPostsBySubCategory(
     uidStr: string,
     categoryName: string,
