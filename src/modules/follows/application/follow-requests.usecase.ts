@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { FollowsService } from '../domain/follows.service';
 import { IFollowRequestsRepository } from '../domain/i.follow-requests.repository';
-import { FollowRequestDto } from './dto/request/follow-request.dto';
+import { FollowDto } from './dto/request/follow-request.dto';
 import { FollowRequestsService } from '../domain/follow-requests.service';
 import { FollowRequestsFactory } from './factory/follow-requests.factory';
 import { Uid } from 'modules/common/domain/value-objects/uid';
@@ -31,7 +31,7 @@ export class FollowRequestsUsecase {
     private readonly followsRepository: IFollowsRepository,
   ) {}
 
-  async doFollowRequest(dto: FollowRequestDto): Promise<void> {
+  async doFollowRequest(dto: FollowDto): Promise<void> {
     const request = this.factory.createModel(dto);
 
     const existsFollow = await this.followsService.exists(
@@ -55,9 +55,9 @@ export class FollowRequestsUsecase {
     await this.repository.save(request);
   }
 
-  async cancelFollowRequest(dto: FollowRequestDto): Promise<void> {
+  async cancelFollowRequest(dto: FollowDto): Promise<void> {
     const uid = Uid.create(dto.uid);
-    const requestedUid = Uid.create(dto.requestedUid);
+    const requestedUid = Uid.create(dto.targetUid);
 
     const existsFollow = await this.followsService.exists(uid, requestedUid);
     if (existsFollow) {

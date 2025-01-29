@@ -10,19 +10,19 @@ import {
 } from '@nestjs/common';
 import { FollowRequestsUsecase } from './follow-requests.usecase';
 import { OwnUid } from 'common/decorator/own-uid.decorator';
-import { FollowRequestDto } from './dto/request/follow-request.dto';
+import { FollowDto } from './dto/request/follow-request.dto';
 
 @Controller('follow-requests')
 export class FollowRequestsController {
   constructor(private readonly usecase: FollowRequestsUsecase) {}
 
   @Post()
-  async doFollowRequest(@Body() dto: FollowRequestDto) {
+  async doFollowRequest(@Body() dto: FollowDto) {
     await this.usecase.doFollowRequest(dto);
   }
 
   @Delete()
-  async cancelFollowRequest(@Body() dto: FollowRequestDto) {
+  async cancelFollowRequest(@Body() dto: FollowDto) {
     await this.usecase.cancelFollowRequest(dto);
   }
 

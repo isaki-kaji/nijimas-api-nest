@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
 
-export class FollowRequestDto {
+export class FollowDto {
   @IsOptional()
   readonly uid?: string;
 
-  @IsNotEmpty({ message: 'Requested UID is required' })
-  readonly requestedUid: string;
+  @IsNotEmpty({ message: 'Target UID is required' })
+  readonly targetUid: string;
 }

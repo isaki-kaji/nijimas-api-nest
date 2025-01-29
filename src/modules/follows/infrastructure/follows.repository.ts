@@ -17,6 +17,11 @@ export class FollowsRepository implements IFollowsRepository {
     await this.repository.save(entity);
   }
 
+  async delete(follow: Follow): Promise<void> {
+    const entity = this.toEntity(follow);
+    await this.repository.delete(entity);
+  }
+
   async findOne(uid: Uid, followingUid: Uid): Promise<Follow | null> {
     const entity = await this.repository.findOne({
       where: { uid: uid.getValue(), followingUid: followingUid.getValue() },

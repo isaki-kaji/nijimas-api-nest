@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Req, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { CreatePostUsecase } from './create-post.usecase';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { FindPostsUsecase } from './find-posts.usecase';

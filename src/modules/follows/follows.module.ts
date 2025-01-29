@@ -9,15 +9,20 @@ import { FollowsService } from './domain/follows.service';
 import { FollowRequestsUsecase } from './application/follow-requests.usecase';
 import { FollowRequestsController } from './application/follow-requests.controller';
 import { FollowRequestsFactory } from './application/factory/follow-requests.factory';
+import { FollowsController } from './application/follows.controller';
+import { FollowsUsecase } from './application/follows.usecase';
+import { FollowsFactory } from './application/factory/follows.factory';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FollowRequestEntity, FollowEntity])],
-  controllers: [FollowRequestsController],
+  controllers: [FollowRequestsController, FollowsController],
   providers: [
     FollowRequestsUsecase,
+    FollowsUsecase,
     FollowRequestsService,
     FollowsService,
     FollowRequestsFactory,
+    FollowsFactory,
     {
       provide: 'IFollowRequestsRepository',
       useClass: FollowRequestsRepository,
