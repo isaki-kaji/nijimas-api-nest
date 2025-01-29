@@ -8,6 +8,7 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from '../domain/value-objects/follow-request-status';
 import { FollowRequestRow } from './rows/follow-request.row';
+import { FollowRequestStatusEnum } from '../domain/enums/follow-request-status.enum';
 
 @Injectable()
 export class FollowRequestsRepository implements IFollowRequestsRepository {
@@ -35,13 +36,12 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
   async findPendingRequestByUid(
     uid: Uid,
     requestedUid: Uid,
-    status: FollowRequestStatus,
   ): Promise<FollowRequest | null> {
     const entity = await this.repository.findOne({
       where: {
         uid: uid.getValue(),
         followingUid: requestedUid.getValue(),
-        status: status.getValue(),
+        status: FollowRequestStatusEnum.PENDING,
       },
     });
 

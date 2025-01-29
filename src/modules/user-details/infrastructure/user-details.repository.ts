@@ -36,7 +36,9 @@ export class UserDetailsRepository implements IUserDetailsRepository {
 
   private toUserProfileModel(row: any): UserProfile {
     const uid = Uid.create(row.uid);
-    const imageUrl = ImageUrl.create(row.profile_image_url);
+    const imageUrl = row.profile_image_url
+      ? ImageUrl.create(row.profile_image_url)
+      : null;
     const username = row.username;
     const selfIntro = row.self_intro;
 

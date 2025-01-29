@@ -55,18 +55,22 @@ export class FollowRequestsUsecase {
     await this.repository.save(request);
   }
 
-  async cancelFollowRequest(
-    uidStr: string,
-    requestIdStr: string,
-  ): Promise<void> {
-    const requestId = Uuid.create(requestIdStr);
-    const request = await this.repository.findOne(requestId);
-    if (!request) {
-      throw new NotFoundException('Request not found');
+  async cancelFollowRequest(dto: FollowRequestDto): Promise<void> {
+    const uid = Uid.create(dto.uid);
+    const requestedUid = Uid.create(dto.requestedUid);
+
+    const existsFollow = await this.followsService.exists(uid, requestedUid);
+    if (existsFollow) {
+      throw new ConflictException('You already follow this user');
     }
 
-    if (!request.isForUser(Uid.create(uidStr))) {
-      throw new BadRequestException('Invalid request');
+    const request = await this.repository.findPendingRequestByUid(
+      uid,
+      requestedUid,
+    );
+
+    if (!request) {
+      throw new NotFoundException('Request not found');
     }
 
     await this.repository.delete(request);

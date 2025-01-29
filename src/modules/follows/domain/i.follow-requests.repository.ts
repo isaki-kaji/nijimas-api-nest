@@ -1,8 +1,8 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { FollowRequest } from './models/follow-request';
-import { FollowRequestRow } from '../infrastructure/rows/follow-request.row';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from './value-objects/follow-request-status';
+import { FollowRequestRow } from '../infrastructure/rows/follow-request.row';
 
 export interface IFollowRequestsRepository {
   save(request: FollowRequest): Promise<void>;
@@ -11,7 +11,6 @@ export interface IFollowRequestsRepository {
   findPendingRequestByUid(
     uid: Uid,
     requestedUid: Uid,
-    status: FollowRequestStatus,
   ): Promise<FollowRequest | null>;
   findByUidWithUserInfo(uid: Uid): Promise<FollowRequestRow[]>;
 }

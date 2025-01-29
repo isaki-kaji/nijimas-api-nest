@@ -15,7 +15,6 @@ export class FollowRequestsService {
     const foundFollowRequest = await this.repository.findPendingRequestByUid(
       uid,
       requestedUid,
-      FollowRequestStatus.create(FollowRequestStatusEnum.PENDING),
     );
 
     return !!foundFollowRequest;
