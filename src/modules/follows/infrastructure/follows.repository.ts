@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IFollowsRepository } from '../domain/i.follows.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FollowEntity } from 'entities/follow.entity';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { Follow } from '../domain/models/follow';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 
@@ -12,9 +12,11 @@ export class FollowsRepository implements IFollowsRepository {
     @InjectRepository(FollowEntity)
     private readonly repository: Repository<FollowEntity>,
   ) {}
-  async save(follow: Follow): Promise<void> {
+  async save(follow: Follow, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(follow);
-    await this.repository.save(entity);
+    manager
+      ? await manager.getRepository(FollowEntity).save(entity)
+      : await this.repository.save(entity);
   }
 
   async delete(follow: Follow): Promise<void> {

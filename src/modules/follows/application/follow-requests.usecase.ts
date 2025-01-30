@@ -120,10 +120,11 @@ export class FollowRequestsUsecase {
       }
 
       request.accept();
-      await this.repository.save(request);
+      await this.repository.save(request, queryRunner.manager);
 
       const follow = new Follow(request.uid, request.requestedUid);
-      await this.followsRepository.save(follow);
+      await this.followsRepository.save(follow, queryRunner.manager);
+      await queryRunner.commitTransaction();
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
