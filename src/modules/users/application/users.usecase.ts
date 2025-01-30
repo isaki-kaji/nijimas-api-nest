@@ -9,6 +9,7 @@ import { UsersService } from '../domain/users.service';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { IUsersRepository } from 'users/domain/i.users.repository';
 import { UsersFactory } from './factory/users.factory';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 
 @Injectable()
 export class UsersUsecase {
@@ -26,6 +27,16 @@ export class UsersUsecase {
     }
 
     await this.repository.create(user);
+  }
+
+  async update(dto: UpdateUserDto) {
+    console.log('dto', dto);
+    const user = this.factory.create(dto);
+    if (!(await this.service.exists(user.uid))) {
+      throw new NotFoundException('User not found');
+    }
+
+    await this.repository.update(user);
   }
 
   async findByUid(uidStr: string) {

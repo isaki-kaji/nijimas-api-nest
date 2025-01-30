@@ -20,6 +20,11 @@ export class UsersRepository implements IUsersRepository {
     await this.userRepository.save(entity);
   }
 
+  async update(user: User) {
+    const entity = this.toEntity(user);
+    await this.userRepository.update({ uid: user.uid.getValue() }, entity);
+  }
+
   async findByUid(uid: Uid): Promise<User | null> {
     const row = await this.userRepository.findOne({
       where: { uid: uid.value },
