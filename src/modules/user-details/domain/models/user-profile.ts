@@ -3,9 +3,9 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 
 export class UserProfile {
   constructor(
-    readonly uid: Uid,
-    readonly username: string,
-    readonly selfIntro?: string,
-    readonly profileImageUrl?: ImageUrl,
+    private readonly uid: Uid,
+    private readonly username: string,
+    private readonly selfIntro?: string,
+    private readonly profileImageUrl?: ImageUrl,
   ) {}
 }

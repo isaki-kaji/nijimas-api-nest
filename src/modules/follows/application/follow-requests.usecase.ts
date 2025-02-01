@@ -35,8 +35,8 @@ export class FollowRequestsUsecase {
     const request = this.factory.createModel(dto);
 
     const existsFollow = await this.followsService.exists(
-      request.uid,
-      request.requestedUid,
+      request.getUid(),
+      request.getRequestedUid(),
     );
 
     if (existsFollow) {
@@ -44,8 +44,8 @@ export class FollowRequestsUsecase {
     }
 
     const existsPendingRequest = await this.service.hasPendingRequest(
-      request.uid,
-      request.requestedUid,
+      request.getUid(),
+      request.getRequestedUid(),
     );
 
     if (existsPendingRequest) {
@@ -111,8 +111,8 @@ export class FollowRequestsUsecase {
 
     try {
       const existsFollow = await this.followsService.exists(
-        request.uid,
-        request.requestedUid,
+        request.getUid(),
+        request.getRequestedUid(),
       );
 
       if (existsFollow) {
@@ -122,7 +122,7 @@ export class FollowRequestsUsecase {
       request.accept();
       await this.repository.save(request, queryRunner.manager);
 
-      const follow = new Follow(request.uid, request.requestedUid);
+      const follow = new Follow(request.getUid(), request.getRequestedUid());
       await this.followsRepository.save(follow, queryRunner.manager);
       await queryRunner.commitTransaction();
     } catch (error) {

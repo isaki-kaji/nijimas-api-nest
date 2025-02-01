@@ -3,8 +3,8 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class UserFavoriteSubcategory {
   constructor(
-    readonly categoryId: Uuid,
-    readonly categoryNo: FavoriteCategoryNo,
-    readonly categoryName: string,
+    private readonly categoryId: Uuid,
+    private readonly categoryNo: FavoriteCategoryNo,
+    private readonly categoryName: string,
   ) {}
 }

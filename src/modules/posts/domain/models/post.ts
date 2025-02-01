@@ -8,19 +8,21 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class Post {
   constructor(
-    readonly postId: Uuid,
-    readonly uid: Uid,
-    readonly username: string,
-    readonly profileImageUrl: ImageUrl,
-    readonly mainCategory: MainCategory,
-    readonly isFavorite: boolean,
-    readonly publicTypeNo: PublicTypeNo,
-    readonly createdAt: Date,
-    readonly subCategory1?: string,
-    readonly subCategory2?: string,
-    readonly postText?: string,
-    readonly photoUrlList?: PhotoUrlList,
-    readonly expense?: Expense,
-    readonly location?: string,
+    private readonly postId: Uuid,
+    private readonly uid: Uid,
+    private readonly username: string,
+    private readonly profileImageUrl: ImageUrl,
+    private readonly mainCategory: MainCategory,
+    private readonly isFavorite: boolean,
+    private readonly publicTypeNo: PublicTypeNo,
+    private readonly createdAt: Date,
+    private readonly postText?: string,
+    private readonly photoUrlList?: PhotoUrlList,
+    private readonly expense?: Expense,
+    private readonly location?: string,
   ) {}
+
+  getPostId(): Uuid {
+    return this.postId;
+  }
 }

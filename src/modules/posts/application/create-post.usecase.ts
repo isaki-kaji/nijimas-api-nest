@@ -37,14 +37,14 @@ export class CreatePostUsecase {
       await this.handleSubCategory(
         dto.subCategory1,
         CategoryNoEnum.ONE,
-        post.postId,
+        post.getPostId(),
         queryRunner.manager,
       );
 
       await this.handleSubCategory(
         dto.subCategory2,
         CategoryNoEnum.TWO,
-        post.postId,
+        post.getPostId(),
         queryRunner.manager,
       );
       await queryRunner.commitTransaction();

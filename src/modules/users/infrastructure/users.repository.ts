@@ -22,7 +22,7 @@ export class UsersRepository implements IUsersRepository {
 
   async update(user: User) {
     const entity = this.toEntity(user);
-    await this.userRepository.update({ uid: user.uid.getValue() }, entity);
+    await this.userRepository.update({ uid: user.getUid().getValue() }, entity);
   }
 
   async findByUid(uid: Uid): Promise<User | null> {
@@ -34,11 +34,11 @@ export class UsersRepository implements IUsersRepository {
 
   private toEntity(user: User): UserEntity {
     const entity = new UserEntity();
-    entity.uid = user.uid.getValue();
-    entity.username = user.username;
-    entity.selfIntro = user.selfIntro ?? null;
-    entity.profileImageUrl = user.profileImageUrl?.value ?? null;
-    entity.countryCode = user.countryCode?.value ?? null;
+    entity.uid = user.getUid().getValue();
+    entity.username = user.getUsername();
+    entity.selfIntro = user.getSelfIntro() ?? null;
+    entity.profileImageUrl = user.getProfileImageUrl()?.value ?? null;
+    entity.countryCode = user.getCountryCode()?.value ?? null;
     return entity;
   }
 

@@ -25,7 +25,9 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
   }
 
   async delete(request: FollowRequest): Promise<void> {
-    await this.repository.delete({ requestId: request.requestId.getValue() });
+    await this.repository.delete({
+      requestId: request.getRequestId().getValue(),
+    });
   }
 
   async findOne(requestId: Uuid): Promise<FollowRequest | null> {
@@ -74,9 +76,9 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
 
   private toEntity(request: FollowRequest): FollowRequestEntity {
     const entity = new FollowRequestEntity();
-    entity.requestId = request.requestId.getValue();
-    entity.followingUid = request.requestedUid.getValue();
-    entity.uid = request.uid.getValue();
+    entity.requestId = request.getRequestId().getValue();
+    entity.followingUid = request.getRequestedUid().getValue();
+    entity.uid = request.getUid().getValue();
     entity.status = request.status.getValue();
     return entity;
   }

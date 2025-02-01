@@ -6,12 +6,24 @@ import { FollowRequestStatusEnum } from '../enums/follow-request-status.enum';
 export class FollowRequest {
   status: FollowRequestStatus;
   constructor(
-    readonly requestId: Uuid,
-    readonly uid: Uid,
-    readonly requestedUid: Uid,
+    private readonly requestId: Uuid,
+    private readonly uid: Uid,
+    private readonly requestedUid: Uid,
     status: FollowRequestStatus,
   ) {
     this.status = status;
+  }
+
+  getRequestId(): Uuid {
+    return this.requestId;
+  }
+
+  getUid(): Uid {
+    return this.uid;
+  }
+
+  getRequestedUid(): Uid {
+    return this.requestedUid;
   }
 
   accept(): void {
