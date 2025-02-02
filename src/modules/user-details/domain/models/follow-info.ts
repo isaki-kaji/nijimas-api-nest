@@ -1,4 +1,4 @@
-import { Count } from '../value-objects/count';
+import { Count } from '../../../common/domain/value-objects/count';
 import { FollowingStatus } from '../value-objects/following-status';
 
 export class FollowInfo {

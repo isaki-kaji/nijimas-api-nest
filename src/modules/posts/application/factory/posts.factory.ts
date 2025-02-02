@@ -3,9 +3,9 @@ import { CreatePostDto } from 'modules/posts/application/dto/request/create-post
 import { Post } from '../../domain/models/post';
 
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategory } from '../../domain/value-objects/main-category';
+import { MainCategory } from '../../../common/domain/value-objects/main-category';
 import { PublicTypeNo } from '../../domain/value-objects/public-type-no';
-import { Expense } from '../../domain/value-objects/expense';
+import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { PostResponseDto } from '../dto/response/post.response.dto';
