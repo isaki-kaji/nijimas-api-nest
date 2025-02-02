@@ -7,4 +7,16 @@ export class UserFavoriteSubcategory {
     private readonly categoryNo: FavoriteCategoryNo,
     private readonly categoryName: string,
   ) {}
+
+  getCategoryId(): Uuid {
+    return this.categoryId;
+  }
+
+  getCategoryNo(): FavoriteCategoryNo {
+    return this.categoryNo;
+  }
+
+  getCategoryName(): string {
+    return this.categoryName;
+  }
 }

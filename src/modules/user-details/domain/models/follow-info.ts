@@ -7,4 +7,16 @@ export class FollowInfo {
     private readonly followersCount: Count,
     private readonly followingStatus: FollowingStatus,
   ) {}
+
+  getFollowingCount(): Count {
+    return this.followingCount;
+  }
+
+  getFollowersCount(): Count {
+    return this.followersCount;
+  }
+
+  getFollowingStatus(): FollowingStatus {
+    return this.followingStatus;
+  }
 }

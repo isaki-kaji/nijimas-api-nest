@@ -6,4 +6,12 @@ export class Favorite {
     private readonly uid: Uid,
     private readonly postId: Uuid,
   ) {}
+
+  getUid(): Uid {
+    return this.uid;
+  }
+
+  getPostId(): Uuid {
+    return this.postId;
+  }
 }

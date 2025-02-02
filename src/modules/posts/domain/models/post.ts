@@ -11,11 +11,13 @@ export class Post {
     private readonly postId: Uuid,
     private readonly uid: Uid,
     private readonly username: string,
+    private readonly profileImageUrl: ImageUrl,
     private readonly mainCategory: MainCategory,
     private readonly isFavorite: boolean,
     private readonly publicTypeNo: PublicTypeNo,
     private readonly createdAt: Date,
-    private readonly profileImageUrl?: ImageUrl,
+    private readonly subCategory1?: string,
+    private readonly subCategory2?: string,
     private readonly postText?: string,
     private readonly photoUrlList?: PhotoUrlList,
     private readonly expense?: Expense,
@@ -52,6 +54,14 @@ export class Post {
 
   getCreatedAt(): Date {
     return this.createdAt;
+  }
+
+  getSubCategory1(): string | undefined {
+    return this.subCategory1;
+  }
+
+  getSubCategory2(): string | undefined {
+    return this.subCategory2;
   }
 
   getPostText(): string | undefined {

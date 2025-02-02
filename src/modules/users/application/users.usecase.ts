@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UsersService } from '../domain/users.service';
-import { Uid } from 'modules/common/domain/value-objects/uid';
 import { IUsersRepository } from 'users/domain/i.users.repository';
 import { UsersFactory } from './factory/users.factory';
 import { UpdateUserDto } from './dto/request/update-user.dto';
@@ -30,21 +29,11 @@ export class UsersUsecase {
   }
 
   async update(dto: UpdateUserDto) {
-    console.log('dto', dto);
     const user = this.factory.create(dto);
     if (!(await this.service.exists(user.getUid()))) {
       throw new NotFoundException('User not found');
     }
 
     await this.repository.update(user);
-  }
-
-  async findByUid(uidStr: string) {
-    const uid = Uid.create(uidStr);
-    const user = await this.repository.findByUid(uid);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return this.factory.createResponse(user);
   }
 }

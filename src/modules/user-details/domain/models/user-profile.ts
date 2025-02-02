@@ -8,4 +8,20 @@ export class UserProfile {
     private readonly selfIntro?: string,
     private readonly profileImageUrl?: ImageUrl,
   ) {}
+
+  getUid(): Uid {
+    return this.uid;
+  }
+
+  getUsername(): string {
+    return this.username;
+  }
+
+  getSelfIntro(): string | undefined {
+    return this.selfIntro;
+  }
+
+  getProfileImageUrl(): ImageUrl | undefined {
+    return this.profileImageUrl;
+  }
 }
