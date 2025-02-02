@@ -29,7 +29,7 @@ export class Expense {
   }
 
   outputPercentage(total: Expense): number {
-    if (this.isZero) return 0;
+    if (this.isZero()) return 0;
     return Math.round((this.value / total.value) * 100 * 1000) / 1000;
   }
 }

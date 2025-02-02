@@ -5,17 +5,18 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 
 import moment from 'moment-timezone';
 import { ExpenseSummaryList } from '../domain/value-objects/expense-summary-list';
-import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 import { CalculatedSummary } from '../domain/value-objects/calculated-summary';
 import { DailyActivitySummariesByMonth } from '../domain/value-objects/daily-activity-summaries-by-month';
-import { MonthlySummary } from '../domain/models/monthly-summary';
 import { DailyActivitySummaryResult } from '../domain/value-objects/daily-activity-summary-result';
 import { YearMonth } from '../domain/value-objects/year-month';
+import { MonthlySummaryResponseDto } from './dto/response/monthly-summary.response.dto';
+import { SummariesFactory } from './factory/summaries.factory';
 
 @Injectable()
 export class SummariesUseCase {
   constructor(
     private readonly service: SummariesService,
+    private readonly factory: SummariesFactory,
     @Inject('ISummariesRepository')
     private readonly repository: ISummariesRepository,
   ) {}
@@ -25,7 +26,7 @@ export class SummariesUseCase {
     yearStr: string,
     monthStr: string,
     timezone: string,
-  ): Promise<MonthlySummary> {
+  ): Promise<MonthlySummaryResponseDto> {
     const uid = Uid.create(uidStr);
     const yearMonth = YearMonth.create(Number(yearStr), Number(monthStr));
 
@@ -46,7 +47,7 @@ export class SummariesUseCase {
       daysInMonth,
     );
 
-    return new MonthlySummary(
+    return this.factory.createResponseDto(
       uid,
       yearMonth,
       calculatedMainCategorySummary,
@@ -59,7 +60,7 @@ export class SummariesUseCase {
     uid: Uid,
     startDate: moment.Moment,
     endDate: moment.Moment,
-  ): Promise<CalculatedSummary<MainCategory>[]> {
+  ): Promise<CalculatedSummary[]> {
     const mainCategorySummaries =
       await this.repository.getMainCategorySummaryByMonth(
         uid,
@@ -78,7 +79,7 @@ export class SummariesUseCase {
     uid: Uid,
     startDate: moment.Moment,
     endDate: moment.Moment,
-  ): Promise<CalculatedSummary<string>[]> {
+  ): Promise<CalculatedSummary[]> {
     const subCategorySummaries =
       await this.repository.getSubCategorySummaryByMonth(
         uid,

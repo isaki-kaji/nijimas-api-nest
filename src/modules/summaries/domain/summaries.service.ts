@@ -12,16 +12,18 @@ export class SummariesService {
 
   generateCalculatedSummaries<T>(
     summaries: ExpenseSummaryList<any>,
-  ): CalculatedSummary<T>[] {
+  ): CalculatedSummary[] {
     if (summaries.getSummaries().length === 0) return [];
 
     const totalAmount = summaries.getTotalAmount();
+
     if (totalAmount.isZero() || totalAmount.isOverOneBillion()) return [];
 
     const calculatedSummaries = summaries.getSummaries().map((summary) => {
       const count = summary.getCount();
       const amount = summary.getAmount();
       const percentage = amount.outputPercentage(totalAmount);
+
       return CalculatedSummary.create(
         summary.getCategory(),
         count,
@@ -33,9 +35,9 @@ export class SummariesService {
     return this.sortSummariesByAmount(calculatedSummaries);
   }
 
-  private sortSummariesByAmount<T>(
-    summaries: CalculatedSummary<T>[],
-  ): CalculatedSummary<T>[] {
+  private sortSummariesByAmount(
+    summaries: CalculatedSummary[],
+  ): CalculatedSummary[] {
     return [...summaries].sort(
       (a, b) => b.getAmount().getValue() - a.getAmount().getValue(),
     );
@@ -45,17 +47,14 @@ export class SummariesService {
     activities: DailyActivitySummariesByMonth,
   ): DailyActivitySummaryResult {
     const daysInMonth = activities.getDaysInMonth();
-    const dailyCounts = new Array(daysInMonth).fill(0);
-    const dailyAmounts = new Array(daysInMonth).fill(0);
+    const dailyCounts = new Array(daysInMonth).fill(Count.create(0));
+    const dailyAmounts = new Array(daysInMonth).fill(Expense.create(0));
 
     activities.getSummaries().forEach((summary) => {
       dailyCounts[summary.getDate() - 1] = summary.getCount();
       dailyAmounts[summary.getDate() - 1] = summary.getAmount();
     });
 
-    return DailyActivitySummaryResult.create(
-      dailyCounts.map((count) => Count.create(count)),
-      dailyAmounts.map((amount) => Expense.create(amount)),
-    );
+    return DailyActivitySummaryResult.create(dailyCounts, dailyAmounts);
   }
 }

@@ -22,7 +22,8 @@ export class YearMonth {
   }
 
   getStartDate(timezone: string): moment.Moment {
-    return moment.tz(`${this.year}-${this.month}-01`, timezone);
+    const formattedDate = `${this.year}-${String(this.month).padStart(2, '0')}-01`;
+    return moment.tz(formattedDate, timezone);
   }
 
   getEndDate(timezone: string): moment.Moment {
