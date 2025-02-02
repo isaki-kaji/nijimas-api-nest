@@ -11,11 +11,11 @@ export class Post {
     private readonly postId: Uuid,
     private readonly uid: Uid,
     private readonly username: string,
-    private readonly profileImageUrl: ImageUrl,
     private readonly mainCategory: MainCategory,
     private readonly isFavorite: boolean,
     private readonly publicTypeNo: PublicTypeNo,
     private readonly createdAt: Date,
+    private readonly profileImageUrl?: ImageUrl,
     private readonly postText?: string,
     private readonly photoUrlList?: PhotoUrlList,
     private readonly expense?: Expense,
@@ -24,5 +24,49 @@ export class Post {
 
   getPostId(): Uuid {
     return this.postId;
+  }
+
+  getUid(): Uid {
+    return this.uid;
+  }
+
+  getUsername(): string {
+    return this.username;
+  }
+
+  getProfileImageUrl(): ImageUrl {
+    return this.profileImageUrl;
+  }
+
+  getMainCategory(): MainCategory {
+    return this.mainCategory;
+  }
+
+  getIsFavorite(): boolean {
+    return this.isFavorite;
+  }
+
+  getPublicTypeNo(): PublicTypeNo {
+    return this.publicTypeNo;
+  }
+
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  getPostText(): string | undefined {
+    return this.postText;
+  }
+
+  getPhotoUrlList(): PhotoUrlList | undefined {
+    return this.photoUrlList;
+  }
+
+  getExpense(): Expense | undefined {
+    return this.expense;
+  }
+
+  getLocation(): string | undefined {
+    return this.location;
   }
 }

@@ -33,8 +33,8 @@ export class FollowsRepository implements IFollowsRepository {
 
   private toEntity(follow: Follow): FollowEntity {
     const entity = new FollowEntity();
-    entity.followingUid = follow.followingUid.getValue();
-    entity.uid = follow.uid.getValue();
+    entity.followingUid = follow.getFollowingUid().getValue();
+    entity.uid = follow.getUid().getValue();
     return entity;
   }
 

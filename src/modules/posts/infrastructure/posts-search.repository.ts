@@ -290,17 +290,17 @@ export class PostsSearchRepository implements IPostsSearchRepository {
       Uuid.create(raw.post_id),
       Uid.create(raw.uid),
       raw.username,
-      raw.profile_image_url ? ImageUrl.create(raw.profile_image_url) : null,
       MainCategory.create(raw.main_category),
-      raw.is_favorite,
+      !!raw.is_favorite,
       PublicTypeNo.create(raw.public_type_no),
       new Date(raw.created_at),
-      raw.sub_category1 || null,
-      raw.sub_category2 || null,
+      raw.profile_image_url
+        ? ImageUrl.create(raw.profile_image_url)
+        : undefined,
       raw.post_text || null,
       raw.photo_url ? PhotoUrlList.create(raw.photo_url) : null,
       raw.expense ? Expense.create(raw.expense) : null,
-      raw.location || undefined,
+      raw.location || null,
     );
   }
 }

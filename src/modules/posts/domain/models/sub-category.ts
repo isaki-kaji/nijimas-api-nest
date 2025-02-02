@@ -5,4 +5,12 @@ export class SubCategory {
     private readonly id: Uuid,
     private readonly name: string,
   ) {}
+
+  getId(): Uuid {
+    return this.id;
+  }
+
+  getName(): string {
+    return this.name;
+  }
 }
