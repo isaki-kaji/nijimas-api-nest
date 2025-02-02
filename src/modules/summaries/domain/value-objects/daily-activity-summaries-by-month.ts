@@ -12,7 +12,7 @@ export class DailyActivitySummariesByMonth {
     summaries: DailyActivitySummary[],
     daysInMonth: number,
   ): DailyActivitySummariesByMonth {
-    if (!summaries || summaries.length === 0) {
+    if (!summaries) {
       throw new Error('Summaries must not be empty');
     }
 
