@@ -4,10 +4,10 @@ import { DataSource } from 'typeorm';
 import { Post } from '../domain/models/post';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
-import { MainCategory } from '../domain/value-objects/main-category';
+import { MainCategory } from '../../common/domain/value-objects/main-category';
 import { PublicTypeNo } from '../domain/value-objects/public-type-no';
 import { PhotoUrlList } from '../domain/value-objects/photo-url-list';
-import { Expense } from '../domain/value-objects/expense';
+import { Expense } from '../../common/domain/value-objects/expense';
 import { IPostsSearchRepository } from '../domain/i.posts-search.repository';
 
 @Injectable()

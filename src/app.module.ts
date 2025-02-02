@@ -10,9 +10,9 @@ import { UsersModule } from 'users/users.module';
 import { LoggingExceptionFilter } from 'common/filter/logging-exception.filter';
 import { PostsModule } from 'modules/posts/posts.module';
 import { FavoritesModule } from 'modules/favorites/favorites.module';
-import { Follow } from 'modules/follows/domain/models/follow';
 import { FollowsModule } from 'modules/follows/follows.module';
 import { UserDetailsModule } from 'modules/user-details/user-details.module';
+import { SummariesModule } from 'modules/summaries/summaries.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { UserDetailsModule } from 'modules/user-details/user-details.module';
     FavoritesModule,
     FollowsModule,
     UserDetailsModule,
+    SummariesModule,
   ],
   providers: [
     {

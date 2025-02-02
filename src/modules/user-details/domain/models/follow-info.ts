@@ -1,4 +1,4 @@
-import { Count } from '../value-objects/count';
+import { Count } from '../../../common/domain/value-objects/count';
 import { FollowingStatus } from '../value-objects/following-status';
 
 export class FollowInfo {
@@ -7,4 +7,16 @@ export class FollowInfo {
     private readonly followersCount: Count,
     private readonly followingStatus: FollowingStatus,
   ) {}
+
+  getFollowingCount(): Count {
+    return this.followingCount;
+  }
+
+  getFollowersCount(): Count {
+    return this.followersCount;
+  }
+
+  getFollowingStatus(): FollowingStatus {
+    return this.followingStatus;
+  }
 }

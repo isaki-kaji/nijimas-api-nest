@@ -3,7 +3,7 @@ import { IUserDetailsRepository } from '../domain/i.user-details.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { FollowingStatus } from '../domain/value-objects/following-status';
 import { FollowInfo } from '../domain/models/follow-info';
-import { Count } from '../domain/value-objects/count';
+import { Count } from '../../common/domain/value-objects/count';
 import { PostInfo } from '../domain/models/post_info';
 import { UserProfile } from '../domain/models/user-profile';
 import { FavoriteCategoryNo } from '../domain/value-objects/favorite-category-no';

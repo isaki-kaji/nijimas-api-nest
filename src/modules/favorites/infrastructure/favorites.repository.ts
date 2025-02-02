@@ -33,8 +33,8 @@ export class FavoritesRepository implements IFavoritesRepository {
 
   private toEntity(user: Favorite): FavoriteEntity {
     const entity = new FavoriteEntity();
-    entity.uid = user.uid.getValue();
-    entity.postId = user.postId.getValue();
+    entity.uid = user.getUid().getValue();
+    entity.postId = user.getPostId().getValue();
     return entity;
   }
 

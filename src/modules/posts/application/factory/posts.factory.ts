@@ -3,9 +3,9 @@ import { CreatePostDto } from 'modules/posts/application/dto/request/create-post
 import { Post } from '../../domain/models/post';
 
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategory } from '../../domain/value-objects/main-category';
+import { MainCategory } from '../../../common/domain/value-objects/main-category';
 import { PublicTypeNo } from '../../domain/value-objects/public-type-no';
-import { Expense } from '../../domain/value-objects/expense';
+import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { PostResponseDto } from '../dto/response/post.response.dto';
@@ -28,9 +28,9 @@ export class PostsFactory {
       null,
       null,
       mainCategory,
-      false,
-      publicTypeNo,
       null,
+      publicTypeNo,
+      new Date(),
       dto.subCategory1,
       dto.subCategory2,
       dto.postText,
@@ -42,20 +42,22 @@ export class PostsFactory {
 
   createResponse(post: Post): PostResponseDto {
     return {
-      postId: post.postId.getValue(),
-      uid: post.uid.getValue(),
-      username: post.username,
-      profileImageUrl: post.profileImageUrl?.value ?? null,
-      mainCategory: post.mainCategory.getValue(),
-      subCategory1: post.subCategory1 ?? null,
-      subCategory2: post.subCategory2 ?? null,
-      postText: post.postText ?? null,
-      photoUrlList: post.photoUrlList ? post.photoUrlList.getListValue() : [],
-      expense: post.expense ? post.expense.getValue() : null,
-      location: post.location ?? null,
-      createdAt: post.createdAt,
-      isFavorite: post.isFavorite,
-      publicTypeNo: post.publicTypeNo.getValue(),
+      postId: post.getPostId().getValue(),
+      uid: post.getUid().getValue(),
+      username: post.getUsername(),
+      profileImageUrl: post.getProfileImageUrl()?.value ?? null,
+      mainCategory: post.getMainCategory().getValue(),
+      subCategory1: post.getSubCategory1() ?? null,
+      subCategory2: post.getSubCategory2() ?? null,
+      postText: post.getPostText() ?? null,
+      photoUrlList: post.getPhotoUrlList()
+        ? post.getPhotoUrlList().getListValue()
+        : [],
+      expense: post.getExpense ? post.getExpense().getValue() : null,
+      location: post.getLocation() ?? null,
+      createdAt: post.getCreatedAt(),
+      isFavorite: post.getIsFavorite(),
+      publicTypeNo: post.getPublicTypeNo().getValue(),
     };
   }
 

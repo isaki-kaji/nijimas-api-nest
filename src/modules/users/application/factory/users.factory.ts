@@ -1,7 +1,6 @@
 import { CreateUserDto } from 'modules/users/application/dto/request/create-user.dto';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Injectable } from '@nestjs/common';
-import { UserResponseDto } from 'users/application/dto/response/user.response.dto';
 import { User } from 'users/domain/models/user';
 import { UpdateUserDto } from '../dto/request/update-user.dto';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
@@ -15,9 +14,5 @@ export class UsersFactory {
       ? ImageUrl.create(dto.profileImageUrl)
       : null;
     return new User(uid, username, dto.selfIntro, profileImageUrl);
-  }
-
-  createResponse(user: User): UserResponseDto {
-    return new UserResponseDto(user);
   }
 }

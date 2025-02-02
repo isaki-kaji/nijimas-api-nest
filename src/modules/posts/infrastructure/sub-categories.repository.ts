@@ -45,8 +45,8 @@ export class SubCategoriesRepository implements ISubCategoriesRepository {
 
   private toEntity(subCategory: SubCategory): SubCategoryEntity {
     const entity = new SubCategoryEntity();
-    entity.categoryId = subCategory.id.getValue();
-    entity.categoryName = subCategory.name;
+    entity.categoryId = subCategory.getId().getValue();
+    entity.categoryName = subCategory.getName();
     return entity;
   }
 

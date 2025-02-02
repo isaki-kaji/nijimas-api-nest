@@ -5,4 +5,12 @@ export class Follow {
     private readonly uid: Uid,
     private readonly followingUid: Uid,
   ) {}
+
+  getUid(): Uid {
+    return this.uid;
+  }
+
+  getFollowingUid(): Uid {
+    return this.followingUid;
+  }
 }
