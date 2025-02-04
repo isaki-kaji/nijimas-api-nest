@@ -1,20 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Uid } from 'modules/common/domain/value-objects/uid';
 import { DataSource } from 'typeorm';
-import { Post } from '../domain/models/post';
-import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
-import { MainCategory } from '../../common/domain/value-objects/main-category';
-import { PublicTypeNo } from '../domain/value-objects/public-type-no';
-import { PhotoUrlList } from '../domain/value-objects/photo-url-list';
-import { Expense } from '../../common/domain/value-objects/expense';
-import { IPostsSearchRepository } from '../domain/i.posts-search.repository';
+import { IPostsQueryService } from '../application/i.posts.query.service';
+import { PostResponseDto } from '../application/dto/response/post.response.dto';
 
 @Injectable()
-export class PostsSearchRepository implements IPostsSearchRepository {
+export class PostsQueryService implements IPostsQueryService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async findOne(uid: Uid, postId: Uuid): Promise<Post | null> {
+  async findOne(uid: string, postId: string): Promise<PostResponseDto | null> {
     const sql = `
     SELECT
       p.post_id,
@@ -57,19 +50,16 @@ export class PostsSearchRepository implements IPostsSearchRepository {
     LIMIT 1;
   `;
 
-    const rawPosts = await this.dataSource.query(sql, [
-      uid.getValue(),
-      postId.getValue(),
-    ]);
+    const rawPosts = await this.dataSource.query(sql, [uid, postId]);
 
     if (rawPosts.length === 0) {
       return null;
     }
 
-    return this.toModel(rawPosts[0]);
+    return this.toResponseDto(rawPosts[0]);
   }
 
-  async findOwnPosts(uid: Uid): Promise<Post[]> {
+  async findOwnPosts(uid: string): Promise<PostResponseDto[]> {
     const sql = `
       SELECT 
         "p"."post_id",
@@ -110,12 +100,12 @@ export class PostsSearchRepository implements IPostsSearchRepository {
         "p"."post_id" DESC
       LIMIT 50;
     `;
-    const rawPosts = await this.dataSource.query(sql, [uid.getValue()]);
+    const rawPosts = await this.dataSource.query(sql, [uid]);
 
-    return rawPosts.map((raw) => this.toModel(raw));
+    return rawPosts.map((raw) => this.toResponseDto(raw));
   }
 
-  async findTimelinePosts(uid: Uid): Promise<Post[]> {
+  async findTimelinePosts(uid: string): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
         "p"."post_id",
@@ -164,12 +154,15 @@ export class PostsSearchRepository implements IPostsSearchRepository {
         "p"."post_id" DESC
       LIMIT 50;
     `;
-    const rawPosts = await this.dataSource.query(sql, [uid.getValue()]);
+    const rawPosts = await this.dataSource.query(sql, [uid]);
 
-    return rawPosts.map((raw) => this.toModel(raw));
+    return rawPosts.map((raw) => this.toResponseDto(raw));
   }
 
-  async findPostsByUid(uid: Uid, targetUid: Uid): Promise<Post[]> {
+  async findPostsByUid(
+    uid: string,
+    targetUid: string,
+  ): Promise<PostResponseDto[]> {
     const sql = `
      SELECT
       p.post_id,
@@ -216,18 +209,15 @@ export class PostsSearchRepository implements IPostsSearchRepository {
     LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [
-      uid.getValue(),
-      targetUid.getValue(),
-    ]);
+    const rawPosts = await this.dataSource.query(sql, [uid, targetUid]);
 
-    return rawPosts.map((raw) => this.toModel(raw));
+    return rawPosts.map((raw) => this.toResponseDto(raw));
   }
 
   async findPostsBySubCategory(
-    uid: Uid,
+    uid: string,
     categoryName: string,
-  ): Promise<Post[]> {
+  ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
         p.post_id,
@@ -277,30 +267,27 @@ export class PostsSearchRepository implements IPostsSearchRepository {
       LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [
-      uid.getValue(),
-      categoryName,
-    ]);
+    const rawPosts = await this.dataSource.query(sql, [uid, categoryName]);
 
-    return rawPosts.map((raw) => this.toModel(raw));
+    return rawPosts.map((raw) => this.toResponseDto(raw));
   }
 
-  private toModel(raw: any): Post {
-    return new Post(
-      Uuid.create(raw.post_id),
-      Uid.create(raw.uid),
-      raw.username,
-      raw.profile_image_url ? ImageUrl.create(raw.profile_image_url) : null,
-      MainCategory.create(raw.main_category),
-      raw.is_favorite,
-      PublicTypeNo.create(raw.public_type_no),
-      new Date(raw.created_at),
-      raw.sub_category1 || null,
-      raw.sub_category2 || null,
-      raw.post_text || null,
-      raw.photo_url ? PhotoUrlList.create(raw.photo_url) : null,
-      raw.expense ? Expense.create(raw.expense) : null,
-      raw.location || undefined,
-    );
+  private toResponseDto(raw: any): PostResponseDto {
+    return {
+      postId: raw.post_id,
+      uid: raw.uid,
+      username: raw.username,
+      profileImageUrl: raw.profile_image_url,
+      mainCategory: raw.main_category,
+      subCategory1: raw.sub_category1 || null,
+      subCategory2: raw.sub_category2 || null,
+      postText: raw.post_text || null,
+      photoUrlList: raw.photo_url ? raw.photo_url.split(',') : [],
+      expense: raw.expense || null,
+      location: raw.location || null,
+      isFavorite: raw.is_favorite,
+      publicTypeNo: raw.public_type_no,
+      createdAt: new Date(raw.created_at),
+    };
   }
 }

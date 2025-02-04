@@ -8,7 +8,6 @@ import { PublicTypeNo } from '../../domain/value-objects/public-type-no';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { PostResponseDto } from '../dto/response/post.response.dto';
 
 @Injectable()
 export class PostsFactory {
@@ -25,10 +24,7 @@ export class PostsFactory {
     return new Post(
       postId,
       uid,
-      null,
-      null,
       mainCategory,
-      null,
       publicTypeNo,
       new Date(),
       dto.subCategory1,
@@ -38,30 +34,5 @@ export class PostsFactory {
       expense,
       dto.location,
     );
-  }
-
-  createResponse(post: Post): PostResponseDto {
-    return {
-      postId: post.getPostId().getValue(),
-      uid: post.getUid().getValue(),
-      username: post.getUsername(),
-      profileImageUrl: post.getProfileImageUrl()?.value ?? null,
-      mainCategory: post.getMainCategory().getValue(),
-      subCategory1: post.getSubCategory1() ?? null,
-      subCategory2: post.getSubCategory2() ?? null,
-      postText: post.getPostText() ?? null,
-      photoUrlList: post.getPhotoUrlList()
-        ? post.getPhotoUrlList().getListValue()
-        : [],
-      expense: post.getExpense ? post.getExpense().getValue() : null,
-      location: post.getLocation() ?? null,
-      createdAt: post.getCreatedAt(),
-      isFavorite: post.getIsFavorite(),
-      publicTypeNo: post.getPublicTypeNo().getValue(),
-    };
-  }
-
-  createResponseList(posts: Post[]): PostResponseDto[] {
-    return posts.map((post) => this.createResponse(post));
   }
 }

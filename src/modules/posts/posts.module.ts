@@ -10,8 +10,7 @@ import { SubCategoriesRepository } from './infrastructure/sub-categories.reposit
 import { PostSubCategoriesRepository } from './infrastructure/post-sub-categories.repository';
 import { PostSubcategoryEntity } from 'entities/post-subcategory.entity';
 import { SubCategoryEntity } from 'entities/sub-category.entity';
-import { PostsSearchRepository } from './infrastructure/posts-search.repository';
-import { FindPostsUsecase } from './application/find-posts.usecase';
+import { PostsQueryService } from './infrastructure/posts.query.service';
 
 @Module({
   imports: [
@@ -24,7 +23,6 @@ import { FindPostsUsecase } from './application/find-posts.usecase';
   controllers: [PostsController],
   providers: [
     CreatePostUsecase,
-    FindPostsUsecase,
     PostsService,
     PostsFactory,
     {
@@ -40,8 +38,8 @@ import { FindPostsUsecase } from './application/find-posts.usecase';
       useClass: PostSubCategoriesRepository,
     },
     {
-      provide: 'IPostsSearchRepository',
-      useClass: PostsSearchRepository,
+      provide: 'IPostsQueryService',
+      useClass: PostsQueryService,
     },
   ],
   exports: [PostsService],
