@@ -1,14 +1,15 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Inject } from '@nestjs/common';
 import { CreatePostUsecase } from './create-post.usecase';
 import { CreatePostDto } from './dto/request/create-post.dto';
-import { FindPostsUsecase } from './find-posts.usecase';
 import { OwnUid } from 'common/decorator/own-uid.decorator';
+import { IPostsQueryService } from './i.posts.query.service';
 
 @Controller()
 export class PostsController {
   constructor(
     private readonly createPostUsecase: CreatePostUsecase,
-    private readonly findPostsUsecase: FindPostsUsecase,
+    @Inject('IPostsQueryService')
+    private readonly queryService: IPostsQueryService,
   ) {}
 
   @Post('posts')
@@ -18,12 +19,12 @@ export class PostsController {
 
   @Get('me/posts')
   async findOwnPosts(@OwnUid() uid: string) {
-    return await this.findPostsUsecase.findOwnPosts(uid);
+    return await this.queryService.findOwnPosts(uid);
   }
 
   @Get('me/timeline')
   async findTimelinePosts(@OwnUid() uid: string) {
-    return await this.findPostsUsecase.findTimelinePosts(uid);
+    return await this.queryService.findTimelinePosts(uid);
   }
 
   @Get('posts')
@@ -33,13 +34,10 @@ export class PostsController {
     @Query('sub-category') categoryName?: string,
   ) {
     if (targetUid) {
-      return await this.findPostsUsecase.findPostsByUid(uid, targetUid);
+      return await this.queryService.findPostsByUid(uid, targetUid);
     }
     if (categoryName) {
-      return await this.findPostsUsecase.findPostsBySubCategory(
-        uid,
-        categoryName,
-      );
+      return await this.queryService.findPostsBySubCategory(uid, categoryName);
     }
   }
 }

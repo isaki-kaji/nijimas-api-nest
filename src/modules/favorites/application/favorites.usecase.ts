@@ -17,9 +17,7 @@ export class FavoritesUsecase {
 
   async toggleFavorite(dto: ToggleFavoriteDto): Promise<boolean> {
     const favorite = this.factory.createModel(dto);
-    if (
-      !(await this.postService.exists(favorite.getUid(), favorite.getPostId()))
-    ) {
+    if (!(await this.postService.exists(favorite.getPostId()))) {
       throw new NotFoundException('Post not found');
     }
 
