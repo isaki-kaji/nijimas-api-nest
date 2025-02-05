@@ -20,6 +20,10 @@ export class Post {
     private readonly location?: string,
   ) {}
 
+  isOwnedBy(uid: Uid): boolean {
+    return this.uid.equals(uid);
+  }
+
   getPostId(): Uuid {
     return this.postId;
   }

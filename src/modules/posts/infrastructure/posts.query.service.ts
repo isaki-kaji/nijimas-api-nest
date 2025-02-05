@@ -74,8 +74,8 @@ export class PostsQueryService implements IPostsQueryService {
         "p"."expense",
         "p"."location",
         CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite, 
-        "p"."public_type_no" AS public_type_no, 
-        "p"."created_at" AS created_at
+        "p"."public_type_no", 
+        "p"."created_at"
       FROM 
         "posts" "p"
       INNER JOIN 

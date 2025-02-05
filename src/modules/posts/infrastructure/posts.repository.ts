@@ -19,7 +19,7 @@ export class PostsRepository implements IPostsRepository {
     private readonly postRepository: Repository<PostEntity>,
   ) {}
 
-  async create(post: Post, manager?: EntityManager): Promise<void> {
+  async save(post: Post, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(post);
     manager
       ? await manager.getRepository(PostEntity).save(entity)
@@ -48,11 +48,11 @@ export class PostsRepository implements IPostsRepository {
         MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
       FROM post_subcategories ps
       JOIN sub_categories s ON ps.category_id = s.category_id
+      WHERE ps.post_id = $1
       GROUP BY ps.post_id
     ) sc ON p.post_id = sc.post_id
     WHERE 
-      p.post_id = $1
-    LIMIT 1;
+      p.post_id = $1;
   `;
 
     const rawPosts = await this.dataSource.query(sql, [postId.getValue()]);

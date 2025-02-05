@@ -16,7 +16,7 @@ export class PostSubCategoriesRepository
     private readonly postSubCategoryRepository: Repository<PostSubcategoryEntity>,
   ) {}
 
-  async create(
+  async save(
     subCategory: SubCategory,
     postId: Uuid,
     categoryNo: CategoryNo,

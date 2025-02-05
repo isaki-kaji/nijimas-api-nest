@@ -4,7 +4,7 @@ import { SubCategory } from './models/sub-category';
 import { CategoryNo } from './value-objects/category-no';
 
 export interface IPostSubCategoriesRepository {
-  create(
+  save(
     subCategory: SubCategory,
     postId: Uuid,
     categoryNo: CategoryNo,

@@ -8,11 +8,13 @@ import { PublicTypeNo } from '../../domain/value-objects/public-type-no';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
+import { UpdatePostDto } from '../dto/request/update-post.dto';
 
 @Injectable()
 export class PostsFactory {
-  createModel(dto: CreatePostDto): Post {
-    const postId = Uuid.create(dto.postId);
+  createModel(dto: CreatePostDto | UpdatePostDto, postIdStr?: string): Post {
+    const postId =
+      'postId' in dto ? Uuid.create(dto.postId) : Uuid.create(postIdStr);
     const uid = Uid.create(dto.uid);
     const mainCategory = MainCategory.create(dto.mainCategory);
     const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);

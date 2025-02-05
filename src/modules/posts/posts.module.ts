@@ -11,6 +11,8 @@ import { PostSubCategoriesRepository } from './infrastructure/post-sub-categorie
 import { PostSubcategoryEntity } from 'entities/post-subcategory.entity';
 import { SubCategoryEntity } from 'entities/sub-category.entity';
 import { PostsQueryService } from './infrastructure/posts.query.service';
+import { PostSubCategoryHelper } from './application/helper/post-subcategory.helper';
+import { UpdatePostUsecase } from './application/update-post.usecase';
 
 @Module({
   imports: [
@@ -23,8 +25,10 @@ import { PostsQueryService } from './infrastructure/posts.query.service';
   controllers: [PostsController],
   providers: [
     CreatePostUsecase,
+    UpdatePostUsecase,
     PostsService,
     PostsFactory,
+    PostSubCategoryHelper,
     {
       provide: 'IPostsRepository',
       useClass: PostsRepository,

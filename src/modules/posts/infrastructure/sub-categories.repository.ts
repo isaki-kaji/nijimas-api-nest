@@ -13,7 +13,7 @@ export class SubCategoriesRepository implements ISubCategoriesRepository {
     private readonly postRepository: Repository<SubCategoryEntity>,
   ) {}
 
-  async create(
+  async save(
     subCategory: SubCategory,
     manager?: EntityManager,
   ): Promise<SubCategory> {

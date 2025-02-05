@@ -1,13 +1,13 @@
-import { IPostsRepository } from '../domain/i.posts.repository';
-import { Inject, Injectable } from '@nestjs/common';
-import { CreatePostDto } from './dto/request/create-post.dto';
-import { PostsFactory } from './factory/posts.factory';
 import { DataSource } from 'typeorm';
-import { CategoryNoEnum } from '../domain/enums/category-no.enum';
-import { PostSubCategoryHelper } from './helper/post-subcategory.helper';
+import { PostsFactory } from './factory/posts.factory';
+import { IPostsRepository } from '../domain/i.posts.repository';
+import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
 
-@Injectable()
-export class CreatePostUsecase {
+import { UpdatePostDto } from './dto/request/update-post.dto';
+import { PostSubCategoryHelper } from './helper/post-subcategory.helper';
+import { CategoryNoEnum } from '../domain/enums/category-no.enum';
+
+export class UpdatePostUsecase {
   constructor(
     private readonly dataSource: DataSource,
     private readonly postsFactory: PostsFactory,
@@ -16,14 +16,25 @@ export class CreatePostUsecase {
     private readonly postsRepository: IPostsRepository,
   ) {}
 
-  async execute(dto: CreatePostDto): Promise<void> {
+  async execute(dto: UpdatePostDto, postId: string): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const post = this.postsFactory.createModel(dto);
+      const post = this.postsFactory.createModel(dto, postId);
+      const foundPost = await this.postsRepository.findById(post.getPostId());
+      if (!foundPost) {
+        throw new NotFoundException('Post not found');
+      }
+
+      console.log('foundPost', foundPost.getUid());
+      console.log('post', post.getUid());
+
+      if (!post.isOwnedBy(foundPost.getUid())) {
+        throw new BadRequestException('You are not the owner of this post');
+      }
 
       await this.postsRepository.save(post, queryRunner.manager);
 
@@ -40,6 +51,7 @@ export class CreatePostUsecase {
         post.getPostId(),
         queryRunner.manager,
       );
+
       await queryRunner.commitTransaction();
     } catch (error) {
       await queryRunner.rollbackTransaction();
