@@ -15,7 +15,7 @@ import { IPostsQueryService } from './i.posts.query.service';
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { UpdatePostUsecase } from './update-post.usecase';
 
-@Controller()
+@Controller('posts')
 export class PostsController {
   constructor(
     private readonly createPostUsecase: CreatePostUsecase,
@@ -24,12 +24,12 @@ export class PostsController {
     private readonly queryService: IPostsQueryService,
   ) {}
 
-  @Post('posts')
+  @Post()
   async create(@Body() createPostDto: CreatePostDto) {
     await this.createPostUsecase.execute(createPostDto);
   }
 
-  @Put('posts/:postId')
+  @Put(':postId')
   async update(
     @Body() updatePostDto: UpdatePostDto,
     @Param('postId') postId: string,
@@ -37,17 +37,17 @@ export class PostsController {
     await this.updatePostUsecase.execute(updatePostDto, postId);
   }
 
-  @Get('me/posts')
+  @Get('me')
   async findOwnPosts(@OwnUid() uid: string) {
     return await this.queryService.findOwnPosts(uid);
   }
 
-  @Get('me/timeline')
+  @Get('timeline')
   async findTimelinePosts(@OwnUid() uid: string) {
     return await this.queryService.findTimelinePosts(uid);
   }
 
-  @Get('posts')
+  @Get()
   async findPosts(
     @OwnUid() uid: string,
     @Query('uid') targetUid?: string,
