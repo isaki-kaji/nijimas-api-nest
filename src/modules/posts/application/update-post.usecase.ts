@@ -23,14 +23,11 @@ export class UpdatePostUsecase {
     await queryRunner.startTransaction();
 
     try {
-      const post = this.postsFactory.createModel(dto, postId);
+      const post = this.postsFactory.createModelFromUpdateDto(dto, postId);
       const foundPost = await this.postsRepository.findById(post.getPostId());
       if (!foundPost) {
         throw new NotFoundException('Post not found');
       }
-
-      console.log('foundPost', foundPost.getUid());
-      console.log('post', post.getUid());
 
       if (!post.isOwnedBy(foundPost.getUid())) {
         throw new BadRequestException('You are not the owner of this post');

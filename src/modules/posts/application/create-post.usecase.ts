@@ -23,7 +23,7 @@ export class CreatePostUsecase {
     await queryRunner.startTransaction();
 
     try {
-      const post = this.postsFactory.createModel(dto);
+      const post = this.postsFactory.createModelFromCreateDto(dto);
 
       await this.postsRepository.save(post, queryRunner.manager);
 

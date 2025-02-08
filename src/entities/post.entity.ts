@@ -1,5 +1,5 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
-import { Entity, Column, Index, PrimaryColumn } from 'typeorm';
+import { Entity, Column, Index, PrimaryColumn, VersionColumn } from 'typeorm';
 
 @Entity('posts')
 @Index(['uid'])
@@ -40,4 +40,7 @@ export class PostEntity {
 
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
+
+  @VersionColumn()
+  version: number;
 }

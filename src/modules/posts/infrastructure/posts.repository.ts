@@ -39,7 +39,8 @@ export class PostsRepository implements IPostsRepository {
       p.expense,
       p.location,
       p.public_type_no,
-      p.created_at
+      p.created_at,
+      p.version
     FROM posts p
     LEFT JOIN (
       SELECT
@@ -74,6 +75,7 @@ export class PostsRepository implements IPostsRepository {
       raw.sub_category1 || null,
       raw.sub_category2 || null,
       raw.post_text || null,
+      raw.version,
       raw.photo_url ? PhotoUrlList.create(raw.photo_url) : null,
       raw.expense ? Expense.create(raw.expense) : null,
       raw.location || null,
@@ -90,6 +92,7 @@ export class PostsRepository implements IPostsRepository {
     entity.expense = post.getExpense().getValue() ?? null;
     entity.location = post.getLocation() ?? null;
     entity.publicTypeNo = post.getPublicTypeNo().getValue();
+    entity.version = post.getVersion();
     return entity;
   }
 }

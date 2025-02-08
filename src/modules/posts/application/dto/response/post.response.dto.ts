@@ -13,4 +13,5 @@ export interface PostResponseDto {
   photoUrlList: string[];
   expense: number | null;
   location: string | null;
+  version: number | null;
 }
