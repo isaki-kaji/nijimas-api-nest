@@ -7,12 +7,32 @@ import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 
 @Injectable()
 export class UsersFactory {
-  create(dto: CreateUserDto | UpdateUserDto): User {
+  createModelFromCreateDto(dto: CreateUserDto): User {
     const uid = Uid.create(dto.uid);
     const username = dto.username;
     const profileImageUrl = dto.profileImageUrl
       ? ImageUrl.create(dto.profileImageUrl)
       : null;
-    return new User(uid, username, dto.selfIntro, profileImageUrl);
+    return new User(uid, username, 1, dto.selfIntro, profileImageUrl);
+  }
+
+  createModelFromUpdateDto(dto: UpdateUserDto): User {
+    const uid = Uid.create(dto.uid);
+    const username = dto.username;
+    const profileImageUrl = dto.profileImageUrl
+      ? ImageUrl.create(dto.profileImageUrl)
+      : null;
+    return new User(uid, username, dto.version, dto.selfIntro, profileImageUrl);
+  }
+
+  createResponse(user: User) {
+    return {
+      uid: user.getUid().getValue(),
+      username: user.getUsername(),
+      version: user.getVersion(),
+      selfIntro: user.getSelfIntro(),
+      profileImageUrl: user.getProfileImageUrl()?.getValue(),
+      countryCode: user.getCountryCode()?.getValue(),
+    };
   }
 }

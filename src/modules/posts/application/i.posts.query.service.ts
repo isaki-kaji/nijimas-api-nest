@@ -1,6 +1,4 @@
-import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { PostResponseDto } from './dto/response/post.response.dto';
-import { Uid } from 'modules/common/domain/value-objects/uid';
 
 export interface IPostsQueryService {
   findOne(uid: string, postId: string): Promise<PostResponseDto | null>;

@@ -6,6 +6,7 @@ export class User {
   constructor(
     private readonly uid: Uid,
     private readonly username: string,
+    private readonly version: number,
     private readonly selfIntro?: string,
     private readonly profileImageUrl?: ImageUrl,
     private readonly countryCode?: CountryCode,
@@ -17,6 +18,10 @@ export class User {
 
   getUsername(): string {
     return this.username;
+  }
+
+  getVersion(): number {
+    return this.version;
   }
 
   getSelfIntro(): string | null {

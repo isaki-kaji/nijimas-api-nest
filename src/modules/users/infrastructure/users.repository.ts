@@ -15,14 +15,9 @@ export class UsersRepository implements IUsersRepository {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(user: User) {
+  async save(user: User) {
     const entity = this.toEntity(user);
     await this.userRepository.save(entity);
-  }
-
-  async update(user: User) {
-    const entity = this.toEntity(user);
-    await this.userRepository.update({ uid: user.getUid().getValue() }, entity);
   }
 
   async findByUid(uid: Uid): Promise<User | null> {
@@ -53,6 +48,7 @@ export class UsersRepository implements IUsersRepository {
     return new User(
       uid,
       entity.username,
+      entity.version,
       entity.selfIntro,
       profileImageUrl,
       countryCode,
