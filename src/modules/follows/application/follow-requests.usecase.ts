@@ -55,9 +55,12 @@ export class FollowRequestsUsecase {
     await this.repository.save(request);
   }
 
-  async cancelFollowRequest(dto: FollowDto): Promise<void> {
-    const uid = Uid.create(dto.uid);
-    const requestedUid = Uid.create(dto.targetUid);
+  async cancelFollowRequest(
+    uidStr: string,
+    targetUidStr: string,
+  ): Promise<void> {
+    const uid = Uid.create(uidStr);
+    const requestedUid = Uid.create(targetUidStr);
 
     const existsFollow = await this.followsService.exists(uid, requestedUid);
     if (existsFollow) {

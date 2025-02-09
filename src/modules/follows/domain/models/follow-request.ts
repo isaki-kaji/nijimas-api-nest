@@ -4,12 +4,13 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatusEnum } from '../enums/follow-request-status.enum';
 
 export class FollowRequest {
-  status: FollowRequestStatus;
+  private status: FollowRequestStatus;
   constructor(
     private readonly requestId: Uuid,
     private readonly uid: Uid,
     private readonly requestedUid: Uid,
     status: FollowRequestStatus,
+    private readonly version: number,
   ) {
     this.status = status;
   }
@@ -24,6 +25,10 @@ export class FollowRequest {
 
   getRequestedUid(): Uid {
     return this.requestedUid;
+  }
+
+  getStatus(): FollowRequestStatus {
+    return this.status;
   }
 
   accept(): void {

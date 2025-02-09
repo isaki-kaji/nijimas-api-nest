@@ -9,6 +9,7 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from '../domain/value-objects/follow-request-status';
 import { FollowRequestRow } from './rows/follow-request.row';
 import { FollowRequestStatusEnum } from '../domain/enums/follow-request-status.enum';
+import { version } from 'os';
 
 @Injectable()
 export class FollowRequestsRepository implements IFollowRequestsRepository {
@@ -79,7 +80,7 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
     entity.requestId = request.getRequestId().getValue();
     entity.followingUid = request.getRequestedUid().getValue();
     entity.uid = request.getUid().getValue();
-    entity.status = request.status.getValue();
+    entity.status = request.getStatus().getValue();
     return entity;
   }
 
@@ -88,6 +89,12 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
     const uid = Uid.create(entity.uid);
     const followingUid = Uid.create(entity.followingUid);
     const status = FollowRequestStatus.create(entity.status);
-    return new FollowRequest(requestId, uid, followingUid, status);
+    return new FollowRequest(
+      requestId,
+      uid,
+      followingUid,
+      status,
+      entity.version,
+    );
   }
 }

@@ -16,7 +16,7 @@ export class FollowRequestsFactory {
     const uid = Uid.create(dto.uid);
     const requestedUid = Uid.create(dto.targetUid);
     const status = FollowRequestStatus.create(FollowRequestStatusEnum.PENDING);
-    return new FollowRequest(requestId, uid, requestedUid, status);
+    return new FollowRequest(requestId, uid, requestedUid, status, 1);
   }
 
   createResponse(request: FollowRequestRow): FollowRequestResponseDto {
