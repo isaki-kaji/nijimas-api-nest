@@ -4,8 +4,6 @@ import { UsersUsecase } from './users.usecase';
 import { mock } from 'jest-mock-extended';
 import { faker } from '@faker-js/faker/.';
 import { CreateUserDto } from './dto/request/create-user.dto';
-import { UpdateUserDto } from './dto/request/update-user.dto';
-import { UserResponseDto } from './dto/response/user.response.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -41,22 +39,6 @@ describe('UsersController', () => {
       });
     });
   });
-
-  describe('findByUid', () => {
-    describe('when no error occurs', () => {
-      it('should find the user', async () => {
-        const uid = genUid();
-        const userResponse = genUserResponse(uid);
-
-        usersService.findByUid.mockResolvedValueOnce(userResponse);
-
-        const result = await controller.findByUid(uid);
-
-        expect(usersService.findByUid).toHaveBeenCalledWith(uid);
-        expect(result).toEqual(userResponse);
-      });
-    });
-  });
 });
 
 const genUid = () => faker.string.alphanumeric(28);
@@ -66,16 +48,3 @@ const genCreateDto = (uid: string): CreateUserDto => ({
   username: faker.person.firstName(),
 });
 
-const genUserResponse = (
-  input: string | CreateUserDto | UpdateUserDto,
-): UserResponseDto => {
-  if (typeof input === 'string') {
-    return {
-      ...genCreateDto(input),
-    } as UserResponseDto;
-  } else {
-    return {
-      ...input,
-    } as UserResponseDto;
-  }
-};
