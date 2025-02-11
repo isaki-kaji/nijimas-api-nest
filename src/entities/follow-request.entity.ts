@@ -1,5 +1,5 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
-import { Entity, Column, Index, PrimaryColumn } from 'typeorm';
+import { Entity, Column, Index, PrimaryColumn, VersionColumn } from 'typeorm';
 
 @Entity('follow_requests')
 @Index(['uid', 'followingUid'])
@@ -18,4 +18,7 @@ export class FollowRequestEntity {
 
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
+
+  @VersionColumn()
+  version: number;
 }

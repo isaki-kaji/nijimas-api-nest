@@ -12,9 +12,8 @@ import { UpdatePostDto } from '../dto/request/update-post.dto';
 
 @Injectable()
 export class PostsFactory {
-  createModel(dto: CreatePostDto | UpdatePostDto, postIdStr?: string): Post {
-    const postId =
-      'postId' in dto ? Uuid.create(dto.postId) : Uuid.create(postIdStr);
+  createModelFromCreateDto(dto: CreatePostDto): Post {
+    const postId = Uuid.create(dto.postId);
     const uid = Uid.create(dto.uid);
     const mainCategory = MainCategory.create(dto.mainCategory);
     const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);
@@ -29,6 +28,33 @@ export class PostsFactory {
       mainCategory,
       publicTypeNo,
       new Date(),
+      1,
+      dto.subCategory1,
+      dto.subCategory2,
+      dto.postText,
+      photoUrl,
+      expense,
+      dto.location,
+    );
+  }
+
+  createModelFromUpdateDto(dto: UpdatePostDto, postIdStr: string): Post {
+    const postId = Uuid.create(postIdStr);
+    const uid = Uid.create(dto.uid);
+    const mainCategory = MainCategory.create(dto.mainCategory);
+    const publicTypeNo = PublicTypeNo.create(dto.publicTypeNo);
+    const expense = dto.expense
+      ? Expense.create(parseInt(dto.expense, 10))
+      : null;
+    const photoUrl = dto.photoUrl ? PhotoUrlList.create(dto.photoUrl) : null;
+
+    return new Post(
+      postId,
+      uid,
+      mainCategory,
+      publicTypeNo,
+      new Date(),
+      dto.version,
       dto.subCategory1,
       dto.subCategory2,
       dto.postText,

@@ -21,9 +21,12 @@ export class FollowRequestsController {
     await this.usecase.doFollowRequest(dto);
   }
 
-  @Delete()
-  async cancelFollowRequest(@Body() dto: FollowDto) {
-    await this.usecase.cancelFollowRequest(dto);
+  @Delete('/:targetUid')
+  async cancelFollowRequest(
+    @OwnUid() uid: string,
+    @Param('targetUid') targetUid: string,
+  ) {
+    await this.usecase.cancelFollowRequest(uid, targetUid);
   }
 
   @Put('/:requestId')

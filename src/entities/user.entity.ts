@@ -1,5 +1,5 @@
 import { RegistryDates } from 'common/embedded/registry-dates.embedded';
-import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryColumn, VersionColumn } from 'typeorm';
 
 @Entity('users')
 @Index('idx_username', ['username'])
@@ -21,4 +21,7 @@ export class UserEntity {
 
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
+
+  @VersionColumn()
+  version: number;
 }

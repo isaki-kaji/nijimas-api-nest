@@ -75,7 +75,8 @@ export class PostsQueryService implements IPostsQueryService {
         "p"."location",
         CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite, 
         "p"."public_type_no", 
-        "p"."created_at"
+        "p"."created_at",
+        "p"."version"
       FROM 
         "posts" "p"
       INNER JOIN 
@@ -288,6 +289,7 @@ export class PostsQueryService implements IPostsQueryService {
       isFavorite: raw.is_favorite,
       publicTypeNo: raw.public_type_no,
       createdAt: new Date(raw.created_at),
+      version: raw.version || null,
     };
   }
 }

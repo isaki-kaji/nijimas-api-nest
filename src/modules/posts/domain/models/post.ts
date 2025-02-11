@@ -12,6 +12,7 @@ export class Post {
     private readonly mainCategory: MainCategory,
     private readonly publicTypeNo: PublicTypeNo,
     private readonly createdAt: Date,
+    private readonly version: number,
     private readonly subCategory1?: string,
     private readonly subCategory2?: string,
     private readonly postText?: string,
@@ -42,6 +43,10 @@ export class Post {
 
   getCreatedAt(): Date {
     return this.createdAt;
+  }
+
+  getVersion(): number {
+    return this.version;
   }
 
   getSubCategory1(): string | undefined {

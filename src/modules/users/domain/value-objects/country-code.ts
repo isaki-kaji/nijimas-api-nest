@@ -21,7 +21,7 @@ export class CountryCode {
     return this.value === other.value;
   }
 
-  toString(): string {
+  getValue(): string {
     return this.value;
   }
 }
