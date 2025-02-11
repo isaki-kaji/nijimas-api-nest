@@ -51,14 +51,14 @@ describe('UsersUsecase', () => {
         const dto = genCreateDto(uid);
         const user = mock<User>();
 
-        usersFactory.create.mockReturnValueOnce(user);
+        usersFactory.createModelFromCreateDto.mockReturnValueOnce(user);
         usersService.exists.mockResolvedValueOnce(false);
 
         await usecase.create(dto);
 
-        expect(usersFactory.create).toHaveBeenCalledWith(dto);
+        expect(usersFactory.createModelFromCreateDto).toHaveBeenCalledWith(dto);
         expect(usersService.exists).toHaveBeenCalledWith(user.getUid());
-        expect(usersRepository.create).toHaveBeenCalledWith(user);
+        expect(usersRepository.save).toHaveBeenCalledWith(user);
 
       });
     });
@@ -69,11 +69,11 @@ describe('UsersUsecase', () => {
         const dto = genCreateDto(uid);
         const user = mock<User>();
 
-        usersFactory.create.mockReturnValueOnce(user);
+        usersFactory.createModelFromCreateDto.mockReturnValueOnce(user);
         usersService.exists.mockResolvedValueOnce(true);
 
         await expect(usecase.create(dto)).rejects.toThrow(ConflictException);
-        expect(usersFactory.create).toHaveBeenCalledWith(dto);
+        expect(usersFactory.createModelFromCreateDto).toHaveBeenCalledWith(dto);
       });
     });
   });
