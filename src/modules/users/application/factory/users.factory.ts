@@ -31,8 +31,8 @@ export class UsersFactory {
       username: user.getUsername(),
       version: user.getVersion(),
       selfIntro: user.getSelfIntro(),
-      profileImageUrl: user.getProfileImageUrl()?.getValue(),
-      countryCode: user.getCountryCode()?.getValue(),
+      profileImageUrl: user.getProfileImageUrl()?.getValue() ?? null,
+      countryCode: user.getCountryCode()?.getValue() ?? null,
     };
   }
 }
