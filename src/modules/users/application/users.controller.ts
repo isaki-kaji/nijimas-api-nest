@@ -15,7 +15,6 @@ export class UsersController {
 
   @Put()
   async update(@Body() dto: UpdateUserDto) {
-    console.log('dto', dto);
     await this.usersUsecase.update(dto);
   }
 
