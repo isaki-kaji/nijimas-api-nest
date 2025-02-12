@@ -162,22 +162,23 @@ describe('UsersUsecase', () =>
       });
     });
   });
+});
 
-  const genUid = (): string => faker.string.alphanumeric(28);
+const genUid = (): string => faker.string.alphanumeric(28);
 
-  const genCreateDto = (uid: string = genUid()): CreateUserDto => ({
+const genCreateDto = (uid: string = genUid()): CreateUserDto => ({
     uid,
     username: faker.person.firstName(),
-  });
+});
 
-  const genUpdateDto = (uid: string = genUid()): UpdateUserDto => ({
+const genUpdateDto = (uid: string = genUid()): UpdateUserDto => ({
     uid,
     username: faker.person.firstName(),
     selfIntro: faker.lorem.sentence(),
     version: faker.number.int(),
-  });
+});
 
-  const genUser = (dto: UpdateUserDto): User =>
+const genUser = (dto: UpdateUserDto): User =>
   {
     return new User(
       Uid.create(dto.uid),
@@ -185,5 +186,4 @@ describe('UsersUsecase', () =>
       dto.version,
       dto.selfIntro,
     )
-  }
-});
+}
