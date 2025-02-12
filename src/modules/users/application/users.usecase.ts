@@ -40,7 +40,6 @@ export class UsersUsecase {
 
   async getOwnUser(uid: string) {
     const user = await this.repository.findByUid(Uid.create(uid));
-    console.log('user', user);
     if (!user) {
       throw new NotFoundException('User not found');
     }
