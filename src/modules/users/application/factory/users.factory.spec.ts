@@ -1,11 +1,7 @@
 import { UsersFactory } from './users.factory';
-import { CreateUserDto } from '../dto/request/create-user.dto';
-import { UpdateUserDto } from '../dto/request/update-user.dto';
 import { User } from 'users/domain/models/user';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
-import { mock } from 'jest-mock-extended';
-import { faker } from '@faker-js/faker/.';
+import { genCreateDto, genExistsUser, genUpdateDto } from 'testing/utils/users-test-utils';
 
 describe('UsersFactory', () => {
   let factory: UsersFactory;
@@ -58,7 +54,7 @@ describe('UsersFactory', () => {
 
   describe('createResponse', () => {
     it('should create a response object from a User model', () => {
-      const user = genUser(true);
+      const user = genExistsUser(true);
 
       const response = factory.createResponse(user);
 
@@ -73,7 +69,7 @@ describe('UsersFactory', () => {
     });
 
     it('should create a response object with null values if properties are null', () => {
-      const user = genUser(false);
+      const user = genExistsUser(false);
 
       const response = factory.createResponse(user);
 
@@ -89,25 +85,3 @@ describe('UsersFactory', () => {
   });
 });
 
-const genCreateDto = (): CreateUserDto => ({
-    uid: faker.string.alphanumeric(28),
-    username: faker.person.firstName(),
-});
-
-const genUpdateDto = (): UpdateUserDto => ({
-    uid: faker.string.alphanumeric(28),
-    username: faker.person.firstName(),
-    selfIntro: faker.lorem.sentence(),
-    version: 3,
-});
-
-const genUser = (hasProfileImage: boolean): User =>{
-    return new User(
-      Uid.create(faker.string.alphanumeric(28)),
-      faker.person.firstName(),
-      3,
-      faker.lorem.sentence(),
-      hasProfileImage ? ImageUrl.create(faker.internet.url()) : null,
-      null,
-    )
-}

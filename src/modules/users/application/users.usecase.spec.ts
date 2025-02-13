@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersUsecase } from './users.usecase';
 import { UsersRepository } from '../infrastructure/users.repository';
-import { CreateUserDto } from './dto/request/create-user.dto';
-import { faker } from '@faker-js/faker';
+
 import {
   ConflictException,
   NotFoundException,
@@ -11,9 +10,9 @@ import { UsersService } from 'users/domain/users.service';
 import { User } from 'users/domain/models/user';
 import { UsersFactory } from './factory/users.factory';
 import { mock } from 'jest-mock-extended';
-import { UpdateUserDto } from './dto/request/update-user.dto';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { UserResponseDto } from './dto/response/user.response.dto';
+import { genCreateDto, genUid, genUpdateDto, genCreatedUser } from 'testing/utils/users-test-utils';
 
 
 describe('UsersUsecase', () =>
@@ -98,7 +97,7 @@ describe('UsersUsecase', () =>
       {
         const uid = genUid();
         const dto = genUpdateDto(uid);
-        const user = genUser(dto);
+        const user = genCreatedUser(dto);
 
         usersFactory.createModelFromUpdateDto.mockReturnValueOnce(user);
         usersService.exists.mockResolvedValueOnce(true);
@@ -117,7 +116,7 @@ describe('UsersUsecase', () =>
       {
         const uid = genUid();
         const dto = genUpdateDto(uid);
-        const user = genUser(dto);
+        const user = genCreatedUser(dto);
 
         usersFactory.createModelFromUpdateDto.mockReturnValueOnce(user);
         usersService.exists.mockResolvedValueOnce(false);
@@ -163,27 +162,3 @@ describe('UsersUsecase', () =>
     });
   });
 });
-
-const genUid = (): string => faker.string.alphanumeric(28);
-
-const genCreateDto = (uid: string = genUid()): CreateUserDto => ({
-    uid,
-    username: faker.person.firstName(),
-});
-
-const genUpdateDto = (uid: string = genUid()): UpdateUserDto => ({
-    uid,
-    username: faker.person.firstName(),
-    selfIntro: faker.lorem.sentence(),
-    version: faker.number.int(),
-});
-
-const genUser = (dto: UpdateUserDto): User =>
-  {
-    return new User(
-      Uid.create(dto.uid),
-      dto.username,
-      dto.version,
-      dto.selfIntro,
-    )
-}
