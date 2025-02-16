@@ -1,13 +1,15 @@
-import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
-// .envファイルの内容をprocess.envに展開する
-// dotenvExpand.expand(dotenv.config());
+const myEnv = dotenv.config();
+dotenvExpand.expand(myEnv);
+import { DataSource, DataSourceOptions } from 'typeorm';
 
-// export default new DataSource({
-//   type: 'postgres',
-//   url: process.env.DATASOURCE_URL,
-//   entities: ['dist/entities/*.entity.js'],
-//   migrations: ['dist/database/migrations/*.js'],
-// });
+const config: DataSourceOptions = {
+  type: 'postgres',
+  url: process.env.DATASOURCE_URL,
+  migrations: ['src/migrations/*.ts'],
+  entities: ['src/entities/*.entity.ts'],
+};
+
+export default new DataSource(config);
