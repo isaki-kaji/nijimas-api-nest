@@ -2,8 +2,8 @@ name: Feature-Test
 
 on:
   push:
-    branches: "feature/**"
-    paths: ['src/**/*.ts', 'test/**/*.ts']
+    branches: 'feature/**'
+    paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version-file: .node-version
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-    - run: npm run test:cov
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: npm run test:cov
