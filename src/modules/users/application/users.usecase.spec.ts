@@ -12,18 +12,20 @@ import { UsersFactory } from './factory/users.factory';
 import { mock } from 'jest-mock-extended';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { UserResponseDto } from './dto/response/user.response.dto';
-import { genCreateDto, genUid, genUpdateDto, genCreatedUser } from 'testing/utils/users-test-utils';
+import {
+  genCreateDto,
+  genUpdateDto,
+  genCreatedUser,
+} from 'testing/utils/users-test-utils';
+import { genUid } from 'testing/utils/common-test-util';
 
-
-describe('UsersUsecase', () =>
-{
+describe('UsersUsecase', () => {
   let usecase: UsersUsecase;
   const usersRepository = mock<UsersRepository>();
   const usersService = mock<UsersService>();
   const usersFactory = mock<UsersFactory>();
 
-  beforeEach(async () =>
-  {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersUsecase,
@@ -45,17 +47,13 @@ describe('UsersUsecase', () =>
     usecase = module.get<UsersUsecase>(UsersUsecase);
   });
 
-  it('should be defined', () =>
-  {
+  it('should be defined', () => {
     expect(usecase).toBeDefined();
   });
 
-  describe('create', () =>
-  {
-    describe('when no error occurs', () =>
-    {
-      it('should create the user', async () =>
-      {
+  describe('create', () => {
+    describe('when no error occurs', () => {
+      it('should create the user', async () => {
         const uid = genUid();
         const dto = genCreateDto(uid);
         const user = mock<User>();
@@ -68,14 +66,11 @@ describe('UsersUsecase', () =>
         expect(usersFactory.createModelFromCreateDto).toHaveBeenCalledWith(dto);
         expect(usersService.exists).toHaveBeenCalledWith(user.getUid());
         expect(usersRepository.save).toHaveBeenCalledWith(user);
-
       });
     });
 
-    describe('when user already exists', () =>
-    {
-      it('should throw the exception', async () =>
-      {
+    describe('when user already exists', () => {
+      it('should throw the exception', async () => {
         const uid = genUid();
         const dto = genCreateDto(uid);
         const user = mock<User>();
@@ -89,12 +84,9 @@ describe('UsersUsecase', () =>
     });
   });
 
-  describe('update', () =>
-  {
-    describe('when no error occurs', () =>
-    {
-      it('should update the user', async () =>
-      {
+  describe('update', () => {
+    describe('when no error occurs', () => {
+      it('should update the user', async () => {
         const uid = genUid();
         const dto = genUpdateDto(uid);
         const user = genCreatedUser(dto);
@@ -110,10 +102,8 @@ describe('UsersUsecase', () =>
       });
     });
 
-    describe('when user not found', () =>
-    {
-      it('should throw the exception', async () =>
-      {
+    describe('when user not found', () => {
+      it('should throw the exception', async () => {
         const uid = genUid();
         const dto = genUpdateDto(uid);
         const user = genCreatedUser(dto);
@@ -127,12 +117,9 @@ describe('UsersUsecase', () =>
     });
   });
 
-  describe('getOwnUser', () =>
-  {
-    describe('when no error occurs', () =>
-    {
-      it('should return the user', async () =>
-      {
+  describe('getOwnUser', () => {
+    describe('when no error occurs', () => {
+      it('should return the user', async () => {
         const uid = genUid();
         const user = mock<User>();
         const userResponse = mock<UserResponseDto>();
@@ -147,16 +134,18 @@ describe('UsersUsecase', () =>
         expect(result).toEqual(userResponse);
       });
 
-      describe('when user not found', () =>
-      {
-        it('should throw the exception', async () =>
-        {
+      describe('when user not found', () => {
+        it('should throw the exception', async () => {
           const uid = genUid();
 
           usersRepository.findByUid.mockResolvedValueOnce(null);
 
-          await expect(usecase.getOwnUser(uid)).rejects.toThrow(NotFoundException);
-          expect(usersRepository.findByUid).toHaveBeenCalledWith(Uid.create(uid));
+          await expect(usecase.getOwnUser(uid)).rejects.toThrow(
+            NotFoundException,
+          );
+          expect(usersRepository.findByUid).toHaveBeenCalledWith(
+            Uid.create(uid),
+          );
         });
       });
     });

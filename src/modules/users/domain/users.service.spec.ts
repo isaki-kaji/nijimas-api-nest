@@ -3,14 +3,13 @@ import { UsersService } from './users.service';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { mock } from 'jest-mock-extended';
 import { IUsersRepository } from './i.users.repository';
-import { genUid } from 'testing/utils/users-test-utils';
+import { genUid } from 'testing/utils/common-test-util';
 
 describe('UsersService', () => {
   let service: UsersService;
   const usersRepository = mock<IUsersRepository>();
 
   beforeEach(async () => {
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
