@@ -14,6 +14,8 @@
       "common/*": ["common/*"],
       "users/*": ["modules/users/*"],
       "posts/*": ["modules/posts/*"],
+      "favorites/*": ["modules/favorites/*"],
+      "follows/*": ["modules/follows/*"],
       "db/*": ["db/*"]
     },
     "incremental": true,
