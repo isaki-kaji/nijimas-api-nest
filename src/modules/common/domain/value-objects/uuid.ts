@@ -25,7 +25,7 @@ export class Uuid {
       const timestamp = parseInt(timestampHex, 16);
 
       // タイムスタンプが妥当なUNIXタイムであるか確認
-      if (timestamp <= 0 || timestamp > Date.now()) {
+      if (timestamp <= 0) {
         return false;
       }
     } catch (e) {
