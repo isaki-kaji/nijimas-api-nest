@@ -10,7 +10,7 @@ describe('Uuid', () => {
     });
 
     it('should throw an error for invalid UUID format', () => {
-      expect(() => Uuid.create('invalid-uuid')).toThrowError(
+      expect(() => Uuid.create('invalid-uuid')).toThrow(
         'Invalid UUID format: invalid-uuid',
       );
     });
@@ -22,7 +22,7 @@ describe('Uuid', () => {
     });
 
     it('should throw an error for empty value', () => {
-      expect(() => Uuid.create('')).toThrowError('Invalid UUID format: ');
+      expect(() => Uuid.create('')).toThrow('Invalid UUID format: ');
     });
   });
 
