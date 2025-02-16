@@ -3,16 +3,17 @@ import { MainCategoryEnum } from '../enums/main-category.enum';
 export class MainCategory {
   private constructor(public readonly value: MainCategoryEnum) {}
 
-  public static create(value: MainCategoryEnum): MainCategory {
+  public static create(value: string): MainCategory {
     if (!value) {
       throw new Error('Main category must not be empty');
     }
 
-    if (!this.isValid(value)) {
-      throw new Error(`Invalid main category: ${value}`);
+    const enumValue = value as MainCategoryEnum;
+    if (!this.isValid(enumValue)) {
+      throw new Error('Invalid main category');
     }
 
-    return new MainCategory(value);
+    return new MainCategory(enumValue);
   }
 
   private static isValid(value: MainCategoryEnum): boolean {
