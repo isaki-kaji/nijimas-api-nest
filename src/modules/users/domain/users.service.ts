@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUsersRepository } from './i.users.repository';
-import { User } from './models/user';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 
 @Injectable()
