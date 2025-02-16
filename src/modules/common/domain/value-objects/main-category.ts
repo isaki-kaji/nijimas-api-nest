@@ -8,22 +8,23 @@ export class MainCategory {
       throw new Error('Main category must not be empty');
     }
 
-    if (!this.isValid(value)) {
-      throw new Error(`Invalid main category: ${value}`);
+    const enumValue = value as MainCategoryEnum;
+    if (!this.isValid(enumValue)) {
+      throw new Error('Invalid main category');
     }
 
-    return new MainCategory(value as MainCategoryEnum);
+    return new MainCategory(enumValue);
   }
 
-  private static isValid(value: string): boolean {
-    return Object.values(MainCategoryEnum).includes(value as MainCategoryEnum);
+  private static isValid(value: MainCategoryEnum): boolean {
+    return Object.values(MainCategoryEnum).includes(value);
   }
 
   public equals(other: MainCategory): boolean {
     return this.value === other.value;
   }
 
-  public getValue(): string {
+  public getValue(): MainCategoryEnum {
     return this.value;
   }
 }

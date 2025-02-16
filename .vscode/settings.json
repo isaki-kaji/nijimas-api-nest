@@ -2,5 +2,8 @@
   "files.eol": "\n",
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "cSpell.words": ["akashrajpurohit"]
+  "cSpell.words": [
+    "akashrajpurohit"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
