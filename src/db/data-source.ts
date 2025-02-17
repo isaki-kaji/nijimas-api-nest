@@ -1,15 +1,21 @@
+import { DataSource, DataSourceOptions } from 'typeorm';
+
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 
-const myEnv = dotenv.config();
+const envFile =
+  process.env.ENV_FILE ||
+  (process.env.NODE_ENV === 'test' ? '.env.test' : '.env');
+const myEnv = dotenv.config({ path: envFile });
 dotenvExpand.expand(myEnv);
-import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config: DataSourceOptions = {
   type: 'postgres',
   url: process.env.DATASOURCE_URL,
-  migrations: ['src/migrations/*.ts'],
+  migrations: ['src/db/migrations/*.ts'],
   entities: ['src/entities/*.entity.ts'],
 };
+
+console.log('🔍 TypeORM DataSource URL:', process.env.DATASOURCE_URL);
 
 export default new DataSource(config);

@@ -4,6 +4,7 @@ services:
   db:
     image: postgres
     restart: always
+    container_name: test-db
     ports:
       - '${DATASOURCE_PORT}:5432'
     environment:
