@@ -16,6 +16,4 @@ const config: DataSourceOptions = {
   entities: ['src/entities/*.entity.ts'],
 };
 
-console.log('🔍 TypeORM DataSource URL:', process.env.DATASOURCE_URL);
-
 export default new DataSource(config);

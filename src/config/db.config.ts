@@ -7,6 +7,7 @@ export default registerAs('database', () => {
     type: 'postgres',
     url: process.env.DATASOURCE_URL,
     autoLoadEntities: true,
+    synchronize: false,
     namingStrategy: new SnakeNamingStrategy(),
     // logging: true,
   } as const satisfies TypeOrmModuleOptions;
