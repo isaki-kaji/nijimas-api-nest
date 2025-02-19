@@ -41,6 +41,7 @@ jobs:
       DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
       DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
       DATASOURCE_HOST: ${{ vars.DATASOURCE_HOST }}
+      DATASOURCE_URL: ${{ vars.DATASOURCE_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -57,6 +58,7 @@ jobs:
             echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}"
             echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}"
             echo "DATASOURCE_HOST=${DATASOURCE_HOST}"
+            echo "DATASOURCE_URL=${DATASOURCE_URL}"
           } >> .env.test
 
       - run: npm ci
