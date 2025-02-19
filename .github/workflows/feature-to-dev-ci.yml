@@ -9,6 +9,7 @@ on:
     branches:
       - dev
     paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
