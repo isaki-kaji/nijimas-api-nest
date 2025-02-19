@@ -49,11 +49,13 @@ jobs:
           cache: 'npm'
 
       - run: |
-          echo "DATASOURCE_PORT=${DATASOURCE_PORT}" >> .env.test
-          echo "DATASOURCE_DATABASE=${DATASOURCE_DATABASE}" >> .env.test
-          echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}" >> .env.test
-          echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}" >> .env.test
-          echo "DATASOURCE_HOST=${DATASOURCE_HOST}" >> .env.test
+          {
+            echo "DATASOURCE_PORT=${DATASOURCE_PORT}"
+            echo "DATASOURCE_DATABASE=${DATASOURCE_DATABASE}"
+            echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}"
+            echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}"
+            echo "DATASOURCE_HOST=${DATASOURCE_HOST}"
+          } >> .env.test
 
       - run: npm ci
       - run: npm run build --if-present
@@ -62,7 +64,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      - run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d
-      - run: npm run pretest:e2e && npm run test:e2e
+      - run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d && ENV_FILE=.env.test npm run migration:run
+      - run: npm run test:e2e
       - if: always()
         run: npm run posttest:e2e
