@@ -35,6 +35,7 @@ jobs:
     timeout-minutes: 10
 
     env:
+      ENV_FILE: .env.test
       DATASOURCE_PORT: ${{ vars.DATASOURCE_PORT }}
       DATASOURCE_DATABASE: ${{ vars.DATASOURCE_DATABASE }}
       DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
@@ -50,6 +51,7 @@ jobs:
 
       - run: |
           {
+            echo "ENV_FILE=${ENV_FILE}"
             echo "DATASOURCE_PORT=${DATASOURCE_PORT}"
             echo "DATASOURCE_DATABASE=${DATASOURCE_DATABASE}"
             echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}"
@@ -64,7 +66,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
 
-      - run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d && ENV_FILE=.env.test npm run migration:run
-      - run: npm run test:e2e
+      - run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d
+      - run: npm run pretest:e2e && npm run test:e2e
       - if: always()
         run: npm run posttest:e2e
