@@ -46,7 +46,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-         cache: 'npm'
+          cache: 'npm'
 
       - run: |
         echo "DATASOURCE_PORT=${DATASOURCE_PORT}" >> .env.test
