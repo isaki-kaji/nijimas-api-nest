@@ -32,12 +32,27 @@ jobs:
   e2e-test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    env:
+      DATASOURCE_PORT: ${{ vars.DATASOURCE_PORT }}
+      DATASOURCE_DATABASE: ${{ vars.DATASOURCE_DATABASE }}
+      DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
+      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
+      DATASOURCE_HOST: ${{ vars.DATASOURCE_HOST }}
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: 'npm'
+
+      - run: echo "DATASOURCE_PORT=${DATASOURCE_PORT}" >> .env.test
+      - run: echo "DATASOURCE_DATABASE=${DATASOURCE_DATABASE}" >> .env.test
+      - run: echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}" >> .env.test
+      - run: echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}" >> .env.test
+      - run: echo "DATASOURCE_HOST=${DATASOURCE_HOST}" >> .env.test
+
       - run: npm ci
       - run: npm run build --if-present
       - name: Install Docker Compose
