@@ -20,9 +20,4 @@ const config: DataSourceOptions = {
   entities: ['src/entities/*.entity.ts'],
 };
 
-console.log('Using Database Config:');
-console.log('Host:', process.env.DATASOURCE_HOST);
-console.log('Port:', process.env.DATASOURCE_PORT);
-console.log('url', process.env.DATASOURCE_URL);
-
 export default new DataSource(config);
