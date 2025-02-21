@@ -11,8 +11,12 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
+      "common/*": ["common/*"],
       "users/*": ["modules/users/*"],
-      "posts/*": ["modules/posts/*"]
+      "posts/*": ["modules/posts/*"],
+      "favorites/*": ["modules/favorites/*"],
+      "follows/*": ["modules/follows/*"],
+      "db/*": ["db/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
