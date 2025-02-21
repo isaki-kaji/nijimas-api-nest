@@ -17,9 +17,14 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "pretest:e2e": "docker-compose up -d test-database",
+    "pretest:e2e": "docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d && ENV_FILE=.env.test npm run migration:run",
     "test:e2e": "jest --config ./test/jest-e2e.js",
-    "posttest:e2e": "docker-compose stop test-database && docker-compose rm -f test-database"
+    "posttest:e2e": "docker-compose -f ./deploy/docker-compose/docker-compose.test.yml down -v",
+    "migration:create": "typeorm migration:create src/db/migrations/InitSchema",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate src/db/migrations/ -d typeorm-cli.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d typeorm-cli.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d typeorm-cli.ts",
+    "migration:show": "typeorm-ts-node-commonjs migration:show -d typeorm-cli.ts"
   },
   "dependencies": {
     "@akashrajpurohit/snowflake-id": "^2.0.0",
