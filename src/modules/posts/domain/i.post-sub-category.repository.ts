@@ -10,4 +10,6 @@ export interface IPostSubCategoriesRepository {
     categoryNo: CategoryNo,
     manager?: EntityManager,
   ): Promise<void>;
+
+  deleteByPostId(postId: Uuid, manager?: EntityManager): Promise<void>;
 }

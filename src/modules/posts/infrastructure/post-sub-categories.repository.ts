@@ -30,6 +30,18 @@ export class PostSubCategoriesRepository
     }
   }
 
+  async deleteByPostId(postId: Uuid, manager?: EntityManager): Promise<void> {
+    if (manager) {
+      await manager
+        .getRepository(PostSubcategoryEntity)
+        .delete({ postId: postId.getValue() });
+    } else {
+      await this.postSubCategoryRepository.delete({
+        postId: postId.getValue(),
+      });
+    }
+  }
+
   private toEntity(
     subCategory: SubCategory,
     postId: Uuid,
