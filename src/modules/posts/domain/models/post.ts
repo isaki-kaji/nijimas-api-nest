@@ -13,8 +13,7 @@ export class Post {
     private readonly publicTypeNo: PublicTypeNo,
     private readonly createdAt: Date,
     private readonly version: number,
-    private readonly subCategory1?: string,
-    private readonly subCategory2?: string,
+    private readonly subCategories: string[],
     private readonly postText?: string,
     private readonly photoUrlList?: PhotoUrlList,
     private readonly expense?: Expense,
@@ -49,12 +48,8 @@ export class Post {
     return this.version;
   }
 
-  getSubCategory1(): string | undefined {
-    return this.subCategory1;
-  }
-
-  getSubCategory2(): string | undefined {
-    return this.subCategory2;
+  getSubCategories(): string[] {
+    return this.subCategories;
   }
 
   getPostText(): string | undefined {

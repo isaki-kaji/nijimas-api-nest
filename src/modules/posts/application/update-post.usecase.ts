@@ -1,11 +1,11 @@
-import { DataSource } from 'typeorm';
+import { DataSource, In } from 'typeorm';
 import { PostsFactory } from './factory/posts.factory';
 import { IPostsRepository } from '../domain/i.posts.repository';
 import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
 
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { PostSubCategoryHelper } from './helper/post-subcategory.helper';
-import { CategoryNoEnum } from '../domain/enums/category-no.enum';
+import { IPostSubCategoriesRepository } from 'posts/domain/i.post-sub-category.repository';
 
 export class UpdatePostUsecase {
   constructor(
@@ -14,6 +14,8 @@ export class UpdatePostUsecase {
     private readonly helper: PostSubCategoryHelper,
     @Inject('IPostsRepository')
     private readonly postsRepository: IPostsRepository,
+    @Inject('IPostSubCategoriesRepository')
+    private readonly postSubCategoriesRepository: IPostSubCategoriesRepository,
   ) {}
 
   async execute(dto: UpdatePostDto, postId: string): Promise<void> {
@@ -35,16 +37,12 @@ export class UpdatePostUsecase {
 
       await this.postsRepository.save(post, queryRunner.manager);
 
-      await this.helper.handleSubCategory(
-        dto.subCategory1,
-        CategoryNoEnum.ONE,
+      await this.postSubCategoriesRepository.deleteByPostId(
         post.getPostId(),
         queryRunner.manager,
       );
-
-      await this.helper.handleSubCategory(
-        dto.subCategory2,
-        CategoryNoEnum.TWO,
+      await this.helper.handleSubCategories(
+        dto.subCategories,
         post.getPostId(),
         queryRunner.manager,
       );

@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { CategoryNoEnum } from 'modules/posts/domain/enums/category-no.enum';
 import { IPostSubCategoriesRepository } from 'modules/posts/domain/i.post-sub-category.repository';
 import { ISubCategoriesRepository } from 'modules/posts/domain/i.sub-categories.repository';
 import { SubCategory } from 'modules/posts/domain/models/sub-category';
@@ -16,28 +15,32 @@ export class PostSubCategoryHelper {
     private readonly postSubCategoryRepository: IPostSubCategoriesRepository,
   ) {}
 
-  async handleSubCategory(
-    categoryName: string,
-    categoryNoValue: CategoryNoEnum,
+  async handleSubCategories(
+    subCategories: string[],
     postId: Uuid,
     manager: EntityManager,
   ): Promise<void> {
-    if (!categoryName) return;
-
-    let subCategory =
-      await this.subCategoriesRepository.findByName(categoryName);
-    if (!subCategory) {
-      const categoryId = Uuid.generate();
-      subCategory = new SubCategory(categoryId, categoryName);
-      await this.subCategoriesRepository.save(subCategory, manager);
+    if (!subCategories) {
+      return;
     }
 
-    const categoryNo = CategoryNo.create(categoryNoValue);
-    await this.postSubCategoryRepository.save(
-      subCategory,
-      postId,
-      categoryNo,
-      manager,
-    );
+    for (let i = 0; i < subCategories.length; i++) {
+      let subCategory = await this.subCategoriesRepository.findByName(
+        subCategories[i],
+      );
+      if (!subCategory) {
+        const categoryId = Uuid.generate();
+        subCategory = new SubCategory(categoryId, subCategories[i]);
+        await this.subCategoriesRepository.save(subCategory, manager);
+      }
+
+      const categoryNo = CategoryNo.create((i + 1).toString());
+      await this.postSubCategoryRepository.save(
+        subCategory,
+        postId,
+        categoryNo,
+        manager,
+      );
+    }
   }
 }
