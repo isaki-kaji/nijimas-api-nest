@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { PostsFactory } from './factory/posts.factory';
 import { DataSource } from 'typeorm';
-import { CategoryNoEnum } from '../domain/enums/category-no.enum';
 import { PostSubCategoryHelper } from './helper/post-subcategory.helper';
 
 @Injectable()
@@ -27,19 +26,12 @@ export class CreatePostUsecase {
 
       await this.postsRepository.save(post, queryRunner.manager);
 
-      await this.helper.handleSubCategory(
-        dto.subCategory1,
-        CategoryNoEnum.ONE,
+      await this.helper.handleSubCategories(
+        dto.subCategories,
         post.getPostId(),
         queryRunner.manager,
       );
 
-      await this.helper.handleSubCategory(
-        dto.subCategory2,
-        CategoryNoEnum.TWO,
-        post.getPostId(),
-        queryRunner.manager,
-      );
       await queryRunner.commitTransaction();
     } catch (error) {
       await queryRunner.rollbackTransaction();

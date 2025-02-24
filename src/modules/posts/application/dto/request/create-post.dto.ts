@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsIn,
   IsNumberString,
+  IsArray,
 } from 'class-validator';
 
 export class CreatePostDto {
@@ -19,15 +20,10 @@ export class CreatePostDto {
   @MaxLength(255, { message: 'Main category must not exceed 255 characters' })
   readonly mainCategory: string;
 
+  @IsArray()
   @IsOptional()
-  @IsString()
-  @MaxLength(255, { message: 'Sub category 1 must not exceed 255 characters' })
-  readonly subCategory1?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(255, { message: 'Sub category 2 must not exceed 255 characters' })
-  readonly subCategory2?: string;
+  @IsString({ each: true })
+  readonly subCategories: string[] = [];
 
   @IsOptional()
   @IsString()
