@@ -13,6 +13,7 @@ import { SubCategoryEntity } from 'entities/sub-category.entity';
 import { PostsQueryService } from './infrastructure/posts.query.service';
 import { PostSubCategoryHelper } from './application/helper/post-subcategory.helper';
 import { UpdatePostUsecase } from './application/update-post.usecase';
+import { DeletePostUsecase } from './application/delete-post.usecase';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UpdatePostUsecase } from './application/update-post.usecase';
   providers: [
     CreatePostUsecase,
     UpdatePostUsecase,
+    DeletePostUsecase,
     PostsService,
     PostsFactory,
     PostSubCategoryHelper,

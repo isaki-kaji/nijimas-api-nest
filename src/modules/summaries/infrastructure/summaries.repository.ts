@@ -24,6 +24,7 @@ export class SummariesRepository implements ISummariesRepository {
         SUM(expense) AS amount
       FROM posts
       WHERE uid = $1
+        AND deleted_at IS NULL
         AND timezone('Asia/Tokyo', created_at) >= $2
         AND timezone('Asia/Tokyo', created_at) < $3
       GROUP BY main_category;
@@ -58,6 +59,7 @@ export class SummariesRepository implements ISummariesRepository {
       JOIN post_subcategories ps ON p.post_id = ps.post_id
       JOIN sub_categories s ON ps.category_id = s.category_id
       WHERE p.uid = $1
+        AND deleted_at IS NULL
         AND timezone('Asia/Tokyo', p.created_at) >= $2
         AND timezone('Asia/Tokyo', p.created_at) < $3
       GROUP BY s.category_name;
@@ -90,6 +92,7 @@ export class SummariesRepository implements ISummariesRepository {
         SUM(expense) AS amount
       FROM posts
       WHERE uid = $1
+        AND deleted_at IS NULL
         AND timezone('Asia/Tokyo', created_at) >= $2
         AND timezone('Asia/Tokyo', created_at) < $3
       GROUP BY DATE_PART('day', timezone('Asia/Tokyo', created_at))

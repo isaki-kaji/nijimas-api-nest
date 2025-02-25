@@ -65,6 +65,17 @@ export class PostsRepository implements IPostsRepository {
     return this.toModel(rawPosts[0]);
   }
 
+  async delete(postId: Uuid, manager?: EntityManager): Promise<void> {
+    const sql = `
+    UPDATE posts
+    SET deleted_at = NOW()
+    WHERE post_id = $1;
+  `;
+    manager
+      ? await manager.query(sql, [postId.getValue()])
+      : await this.dataSource.query(sql, [postId.getValue()]);
+  }
+
   private toModel(raw: any): Post {
     return new Post(
       Uuid.create(raw.post_id),
