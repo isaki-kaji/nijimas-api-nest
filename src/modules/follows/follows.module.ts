@@ -13,7 +13,7 @@ import { FollowsUsecase } from './application/follows.usecase';
 import { FollowsFactory } from './application/factory/follows.factory';
 import { DoFollowRequestUsecase } from './application/do-follow-request.usecase';
 import { CancelFollowRequestUsecase } from './application/cancel-follow-request.usecase';
-import { GetFollowRequestsUsecase } from './application/follow-requests.usecase';
+import { GetFollowRequestsUsecase } from './application/get-follow-requests.usecase';
 import { HandleFollowRequestUsecase } from './application/handle-follow-request.usecase';
 
 @Module({

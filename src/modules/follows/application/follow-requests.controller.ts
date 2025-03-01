@@ -13,7 +13,7 @@ import { FollowDto } from './dto/request/follow-request.dto';
 import { DoFollowRequestUsecase } from './do-follow-request.usecase';
 import { CancelFollowRequestUsecase } from './cancel-follow-request.usecase';
 import { HandleFollowRequestUsecase } from './handle-follow-request.usecase';
-import { GetFollowRequestsUsecase } from './follow-requests.usecase';
+import { GetFollowRequestsUsecase } from './get-follow-requests.usecase';
 
 @Controller('follow-requests')
 export class FollowRequestsController {
