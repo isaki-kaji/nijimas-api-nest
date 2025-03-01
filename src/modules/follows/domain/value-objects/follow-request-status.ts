@@ -1,27 +1,16 @@
-import { FollowRequestStatusEnum } from '../enums/follow-request-status.enum';
+export const FollowRequestStatus = {
+  Pending: '0',
+  Accepted: '1',
+  Rejected: '2',
+} as const;
 
-export class FollowRequestStatus {
-  private constructor(private readonly value: FollowRequestStatusEnum) {}
+export type FollowRequestStatus =
+  (typeof FollowRequestStatus)[keyof typeof FollowRequestStatus];
 
-  public static create(value: string): FollowRequestStatus {
-    if (!value) {
-      throw new Error('Follow request status is required');
-    }
-
-    if (!this.isValid(value)) {
-      throw new Error('Invalid follow request status');
-    }
-
-    return new FollowRequestStatus(value as FollowRequestStatusEnum);
+export function createFollowRequestStatus(status: string): FollowRequestStatus {
+  const statuses = Object.values(FollowRequestStatus);
+  if (statuses.includes(status as FollowRequestStatus)) {
+    return status as FollowRequestStatus;
   }
-
-  private static isValid(value: string): boolean {
-    return Object.values(FollowRequestStatusEnum).includes(
-      value as FollowRequestStatusEnum,
-    );
-  }
-
-  public getValue(): string {
-    return this.value;
-  }
+  throw new Error('Invalid status');
 }
