@@ -1,7 +1,6 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { FollowRequestStatus } from '../value-objects/follow-request-status';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { FollowRequestStatusEnum } from '../enums/follow-request-status.enum';
+import { FollowRequestStatus } from '../value-objects/follow-request-status';
 
 export class FollowRequest {
   private status: FollowRequestStatus;
@@ -32,11 +31,11 @@ export class FollowRequest {
   }
 
   accept(): void {
-    this.status = FollowRequestStatus.create(FollowRequestStatusEnum.ACCEPTED);
+    this.status = FollowRequestStatus.Accepted;
   }
 
   reject(): void {
-    this.status = FollowRequestStatus.create(FollowRequestStatusEnum.REJECTED);
+    this.status = FollowRequestStatus.Rejected;
   }
 
   isForUser(uid: Uid): boolean {
@@ -44,6 +43,6 @@ export class FollowRequest {
   }
 
   isPending(): boolean {
-    return this.status.getValue() === FollowRequestStatusEnum.PENDING;
+    return this.status == FollowRequestStatus.Pending;
   }
 }
