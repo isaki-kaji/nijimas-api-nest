@@ -1,6 +1,6 @@
-export interface FollowRequestResponseDto {
-  requestId: string;
-  uid: string;
-  username: string;
-  profileImageUrl: string;
-}
+export type FollowRequestResponseDto = {
+  readonly requestId: string;
+  readonly uid: string;
+  readonly username: string;
+  readonly profileImageUrl?: string;
+};

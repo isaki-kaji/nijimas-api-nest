@@ -1,6 +1,6 @@
-export interface FollowRequestRow {
-  requestId: string;
-  uid: string;
-  username: string;
-  profileImageUrl: string | null;
-}
+export type FollowRequestRow = {
+  readonly requestId: string;
+  readonly uid: string;
+  readonly username: string;
+  readonly profileImageUrl: string | undefined;
+};

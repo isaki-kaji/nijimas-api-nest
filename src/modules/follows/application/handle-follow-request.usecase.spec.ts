@@ -15,7 +15,6 @@ import { genUid, genUUID } from 'testing/utils/common-test-util';
 import { FollowRequest } from 'follows/domain/models/follow-request';
 import { Follow } from 'follows/domain/models/follow';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import exp from 'constants';
 
 describe('HandleFollowRequestUsecase', () => {
   let usecase: HandleFollowRequestUsecase;
