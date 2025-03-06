@@ -10,7 +10,7 @@ import { DailyActivitySummaryResult } from './value-objects/daily-activity-summa
 export class SummariesService {
   constructor() {}
 
-  generateCalculatedSummaries<T>(
+  generateCalculatedSummaries(
     summaries: ExpenseSummaryList<any>,
   ): CalculatedSummary[] {
     if (summaries.getSummaries().length === 0) return [];
