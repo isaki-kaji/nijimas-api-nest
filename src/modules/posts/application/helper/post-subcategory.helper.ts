@@ -3,7 +3,7 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { IPostSubCategoriesRepository } from 'modules/posts/domain/i.post-sub-category.repository';
 import { ISubCategoriesRepository } from 'modules/posts/domain/i.sub-categories.repository';
 import { SubCategory } from 'modules/posts/domain/models/sub-category';
-import { CategoryNo } from 'modules/posts/domain/value-objects/category-no';
+import { createCategoryNo } from 'modules/posts/domain/value-objects/category-no';
 import { EntityManager } from 'typeorm';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class PostSubCategoryHelper {
         await this.subCategoriesRepository.save(subCategory, manager);
       }
 
-      const categoryNo = CategoryNo.create((i + 1).toString());
+      const categoryNo = createCategoryNo(i + 1);
       await this.postSubCategoryRepository.save(
         subCategory,
         postId,
