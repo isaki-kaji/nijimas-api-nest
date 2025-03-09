@@ -1,25 +1,15 @@
-import { PublicTypeNoEnum } from '../enums/public-type-no.enum';
+export const PublicTypeNo = {
+  Public: '0',
+  FollowersOnly: '1',
+  Private: '2',
+} as const;
 
-export class PublicTypeNo {
-  private constructor(private readonly value: PublicTypeNoEnum) {}
+export type PublicTypeNo = (typeof PublicTypeNo)[keyof typeof PublicTypeNo];
 
-  public static create(value: string): PublicTypeNo {
-    if (!value) {
-      throw new Error('Public type must not be empty');
-    }
-
-    if (!this.isValid(value)) {
-      throw new Error(`Invalid public type: ${value}`);
-    }
-
-    return new PublicTypeNo(value as PublicTypeNoEnum);
+export function createPublicTypeNo(publicTypeNo: string): PublicTypeNo {
+  const publicTypeNos = Object.values(PublicTypeNo);
+  if (publicTypeNos.includes(publicTypeNo as PublicTypeNo)) {
+    return publicTypeNo as PublicTypeNo;
   }
-
-  private static isValid(value: string): boolean {
-    return Object.values(PublicTypeNoEnum).includes(value as PublicTypeNoEnum);
-  }
-
-  public getValue(): string {
-    return this.value;
-  }
+  throw new Error('Invalid publicTypeNo');
 }
