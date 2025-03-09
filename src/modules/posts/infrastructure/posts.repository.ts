@@ -7,9 +7,13 @@ import { Injectable } from '@nestjs/common';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { MainCategory } from 'modules/common/domain/value-objects/main-category';
-import { PublicTypeNo } from '../domain/value-objects/public-type-no';
+import {
+  createPublicTypeNo,
+  PublicTypeNo,
+} from '../domain/value-objects/public-type-no';
 import { PhotoUrlList } from '../domain/value-objects/photo-url-list';
 import { Expense } from 'modules/common/domain/value-objects/expense';
+import { create } from 'domain';
 
 @Injectable()
 export class PostsRepository implements IPostsRepository {
@@ -81,7 +85,7 @@ export class PostsRepository implements IPostsRepository {
       Uuid.create(raw.post_id),
       Uid.create(raw.uid),
       MainCategory.create(raw.main_category),
-      PublicTypeNo.create(raw.public_type_no),
+      createPublicTypeNo(raw.public_type_no),
       new Date(raw.created_at),
       raw.version,
       raw.sub_category1 ? [raw.sub_category1, raw.sub_category2] : [],
@@ -101,7 +105,7 @@ export class PostsRepository implements IPostsRepository {
     entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? null;
     entity.expense = post.getExpense().getValue() ?? null;
     entity.location = post.getLocation() ?? null;
-    entity.publicTypeNo = post.getPublicTypeNo().getValue();
+    entity.publicTypeNo = post.getPublicTypeNo();
     entity.version = post.getVersion();
     return entity;
   }

@@ -11,7 +11,12 @@ import { IFollowRequestsRepository } from 'follows/domain/i.follow-requests.repo
 import { IFollowsRepository } from 'follows/domain/i.follows.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { mock } from 'jest-mock-extended';
-import { genUid, genUUID } from 'testing/utils/common-test-util';
+import {
+  assertTransactionRollback,
+  assertTransactionSuccess,
+  genUid,
+  genUUID,
+} from 'testing/utils/common-test-util';
 import { FollowRequest } from 'follows/domain/models/follow-request';
 import { Follow } from 'follows/domain/models/follow';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
@@ -119,9 +124,7 @@ describe('HandleFollowRequestUsecase', () => {
         followRequest.getUid(),
         followRequest.getRequestedUid(),
       );
-      expect(queryRunner.rollbackTransaction).toHaveBeenCalled();
-      expect(queryRunner.commitTransaction).not.toHaveBeenCalled();
-      expect(queryRunner.release).toHaveBeenCalled();
+      assertTransactionRollback(queryRunner);
     });
 
     it('should throw ConflictException if follow request already exists when rejecting', async () => {
@@ -158,8 +161,6 @@ describe('HandleFollowRequestUsecase', () => {
 
       await usecase.execute(uidStr, requestIdStr, 'accept');
 
-      expect(queryRunner.connect).toHaveBeenCalled();
-      expect(queryRunner.startTransaction).toHaveBeenCalled();
       expect(followRequestsRepository.findOne).toHaveBeenCalledWith(requestId);
       expect(followRequest.isForUser).toHaveBeenCalledWith(Uid.create(uidStr));
       expect(followsService.exists).toHaveBeenCalledWith(
@@ -175,8 +176,7 @@ describe('HandleFollowRequestUsecase', () => {
         expect.any(Follow),
         queryRunner.manager,
       );
-      expect(queryRunner.commitTransaction).toHaveBeenCalled();
-      expect(queryRunner.release).toHaveBeenCalled();
+      assertTransactionSuccess(queryRunner);
     });
   });
 });

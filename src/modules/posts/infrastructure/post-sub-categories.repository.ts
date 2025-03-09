@@ -50,7 +50,7 @@ export class PostSubCategoriesRepository
     const entity = new PostSubcategoryEntity();
     entity.categoryId = subCategory.getId().getValue();
     entity.postId = postId.getValue();
-    entity.categoryNo = categoryNo.getValue();
+    entity.categoryNo = categoryNo;
     return entity;
   }
 }

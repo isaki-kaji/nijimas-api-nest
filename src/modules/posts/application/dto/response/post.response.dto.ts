@@ -1,4 +1,4 @@
-export interface PostResponseDto {
+export type PostResponseDto = {
   postId: string;
   uid: string;
   username: string;
@@ -14,4 +14,4 @@ export interface PostResponseDto {
   expense: number | null;
   location: string | null;
   version: number | null;
-}
+};

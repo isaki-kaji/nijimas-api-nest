@@ -67,5 +67,6 @@ export class PostsController {
     if (categoryName) {
       return await this.queryService.findPostsBySubCategory(uid, categoryName);
     }
+    return [];
   }
 }

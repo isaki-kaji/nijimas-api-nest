@@ -1,14 +1,14 @@
-export class CategoryNo {
-  private constructor(public readonly value: string) {}
+export const CategoryNo = {
+  ONE: '1',
+  TWO: '2',
+} as const;
 
-  public static create(value: string): CategoryNo {
-    if (!value) {
-      throw new Error('Category no must not be empty');
-    }
-    return new CategoryNo(value);
-  }
+export type CategoryNo = (typeof CategoryNo)[keyof typeof CategoryNo];
 
-  public getValue(): string {
-    return this.value;
+export function createCategoryNo(categoryNo: number): CategoryNo {
+  const categoryNos = Object.values(CategoryNo);
+  if (categoryNos.includes(categoryNo.toString() as CategoryNo)) {
+    return categoryNo.toString() as CategoryNo;
   }
+  throw new Error('Invalid categoryNo');
 }
