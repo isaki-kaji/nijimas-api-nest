@@ -9,7 +9,7 @@ import { IPostsRepository } from 'posts/domain/i.posts.repository';
 import { CreatePostDto } from './dto/request/create-post.dto';
 import { Post } from 'posts/domain/models/post';
 import {
-  assertTransactionFailure,
+  assertTransactionRollback,
   assertTransactionSuccess,
 } from 'testing/utils/common-test-util';
 
@@ -83,7 +83,7 @@ describe('CreatePostUsecase', () => {
         post,
         queryRunner.manager,
       );
-      assertTransactionFailure(queryRunner);
+      assertTransactionRollback(queryRunner);
     });
   });
 });

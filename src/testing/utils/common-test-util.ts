@@ -14,7 +14,7 @@ export function assertTransactionSuccess(queryRunner: QueryRunner) {
   expect(queryRunner.release).toHaveBeenCalled();
 }
 
-export function assertTransactionFailure(queryRunner: QueryRunner) {
+export function assertTransactionRollback(queryRunner: QueryRunner) {
   expect(queryRunner.connect).toHaveBeenCalled();
   expect(queryRunner.startTransaction).toHaveBeenCalled();
   expect(queryRunner.commitTransaction).not.toHaveBeenCalled();

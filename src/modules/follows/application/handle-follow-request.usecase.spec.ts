@@ -12,7 +12,7 @@ import { IFollowsRepository } from 'follows/domain/i.follows.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { mock } from 'jest-mock-extended';
 import {
-  assertTransactionFailure,
+  assertTransactionRollback,
   assertTransactionSuccess,
   genUid,
   genUUID,
@@ -124,7 +124,7 @@ describe('HandleFollowRequestUsecase', () => {
         followRequest.getUid(),
         followRequest.getRequestedUid(),
       );
-      assertTransactionFailure(queryRunner);
+      assertTransactionRollback(queryRunner);
     });
 
     it('should throw ConflictException if follow request already exists when rejecting', async () => {
