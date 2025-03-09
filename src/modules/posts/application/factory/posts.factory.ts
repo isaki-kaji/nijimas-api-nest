@@ -4,10 +4,7 @@ import { Post } from '../../domain/models/post';
 
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { MainCategory } from '../../../common/domain/value-objects/main-category';
-import {
-  createPublicTypeNo,
-  PublicTypeNo,
-} from '../../domain/value-objects/public-type-no';
+import { createPublicTypeNo } from '../../domain/value-objects/public-type-no';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
