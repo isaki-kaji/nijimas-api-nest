@@ -20,20 +20,20 @@ export class UsersRepository implements IUsersRepository {
     await this.userRepository.save(entity);
   }
 
-  async findByUid(uid: Uid): Promise<User | null> {
+  async findByUid(uid: Uid): Promise<User | undefined> {
     const row = await this.userRepository.findOne({
       where: { uid: uid.value },
     });
-    return row ? this.toModel(row) : null;
+    return row ? this.toModel(row) : undefined;
   }
 
   private toEntity(user: User): UserEntity {
     const entity = new UserEntity();
     entity.uid = user.getUid().getValue();
     entity.username = user.getUsername();
-    entity.selfIntro = user.getSelfIntro() ?? null;
-    entity.profileImageUrl = user.getProfileImageUrl()?.value ?? null;
-    entity.countryCode = user.getCountryCode()?.value ?? null;
+    entity.selfIntro = user.getSelfIntro() ?? undefined;
+    entity.profileImageUrl = user.getProfileImageUrl()?.value ?? undefined;
+    entity.countryCode = user.getCountryCode()?.value ?? undefined;
     return entity;
   }
 
@@ -41,10 +41,10 @@ export class UsersRepository implements IUsersRepository {
     const uid = Uid.create(entity.uid);
     const profileImageUrl = entity.profileImageUrl
       ? ImageUrl.create(entity.profileImageUrl)
-      : null;
+      : undefined;
     const countryCode = entity.countryCode
       ? CountryCode.create(entity.countryCode)
-      : null;
+      : undefined;
     return new User(
       uid,
       entity.username,

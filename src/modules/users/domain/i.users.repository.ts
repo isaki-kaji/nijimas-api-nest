@@ -3,5 +3,5 @@ import { User } from './models/user';
 
 export interface IUsersRepository {
   save(user: User): Promise<void>;
-  findByUid(uid: Uid): Promise<User | null>;
+  findByUid(uid: Uid): Promise<User | undefined>;
 }
