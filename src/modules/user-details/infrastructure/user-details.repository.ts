@@ -38,7 +38,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     const uid = Uid.create(row.uid);
     const imageUrl = row.profile_image_url
       ? ImageUrl.create(row.profile_image_url)
-      : null;
+      : undefined;
     const username = row.username;
     const selfIntro = row.self_intro;
 
