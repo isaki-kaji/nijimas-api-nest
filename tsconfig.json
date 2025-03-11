@@ -18,11 +18,11 @@
       "follows/*": ["modules/follows/*"],
       "db/*": ["db/*"]
     },
+    "strict": true,
+    "strictPropertyInitialization": false,
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
     "noImplicitAny": false,
-    "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   }

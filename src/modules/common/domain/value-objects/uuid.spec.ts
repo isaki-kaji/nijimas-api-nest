@@ -22,7 +22,7 @@ describe('Uuid', () => {
     });
 
     it('should throw an error for empty value', () => {
-      expect(() => Uuid.create('')).toThrow('Invalid UUID format: ');
+      expect(() => Uuid.create('')).toThrow('UUID is required');
     });
   });
 

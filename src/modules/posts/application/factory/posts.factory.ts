@@ -19,8 +19,10 @@ export class PostsFactory {
     const publicTypeNo = createPublicTypeNo(dto.publicTypeNo);
     const expense = dto.expense
       ? Expense.create(parseInt(dto.expense, 10))
-      : null;
-    const photoUrl = dto.photoUrl ? PhotoUrlList.create(dto.photoUrl) : null;
+      : undefined;
+    const photoUrl = dto.photoUrl
+      ? PhotoUrlList.create(dto.photoUrl)
+      : undefined;
 
     return new Post(
       postId,
@@ -44,8 +46,10 @@ export class PostsFactory {
     const publicTypeNo = createPublicTypeNo(dto.publicTypeNo);
     const expense = dto.expense
       ? Expense.create(parseInt(dto.expense, 10))
-      : null;
-    const photoUrl = dto.photoUrl ? PhotoUrlList.create(dto.photoUrl) : null;
+      : undefined;
+    const photoUrl = dto.photoUrl
+      ? PhotoUrlList.create(dto.photoUrl)
+      : undefined;
 
     return new Post(
       postId,
@@ -54,7 +58,7 @@ export class PostsFactory {
       publicTypeNo,
       new Date(),
       dto.version,
-      dto.subCategories,
+      dto.subCategories ?? [],
       dto.postText,
       photoUrl,
       expense,

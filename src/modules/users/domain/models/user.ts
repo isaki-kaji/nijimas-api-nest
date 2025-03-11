@@ -24,15 +24,15 @@ export class User {
     return this.version;
   }
 
-  getSelfIntro(): string | null {
+  getSelfIntro(): string | undefined {
     return this.selfIntro;
   }
 
-  getProfileImageUrl(): ImageUrl | null {
+  getProfileImageUrl(): ImageUrl | undefined {
     return this.profileImageUrl;
   }
 
-  getCountryCode(): CountryCode | null {
+  getCountryCode(): CountryCode | undefined {
     return this.countryCode;
   }
 }

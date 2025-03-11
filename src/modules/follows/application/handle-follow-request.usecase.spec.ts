@@ -61,7 +61,7 @@ describe('HandleFollowRequestUsecase', () => {
       const requestIdStr = genUUID();
       const requestId = Uuid.create(requestIdStr);
 
-      followRequestsRepository.findOne.mockResolvedValueOnce(undefined);
+      followRequestsRepository.findOne.mockResolvedValueOnce(null);
 
       await expect(
         usecase.execute(uidStr, requestIdStr, 'accept'),

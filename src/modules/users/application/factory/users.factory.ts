@@ -12,7 +12,7 @@ export class UsersFactory {
     const username = dto.username;
     const profileImageUrl = dto.profileImageUrl
       ? ImageUrl.create(dto.profileImageUrl)
-      : null;
+      : undefined;
     return new User(uid, username, 1, dto.selfIntro, profileImageUrl);
   }
 
@@ -21,8 +21,14 @@ export class UsersFactory {
     const username = dto.username;
     const profileImageUrl = dto.profileImageUrl
       ? ImageUrl.create(dto.profileImageUrl)
-      : null;
-    return new User(uid, username, dto.version, dto.selfIntro, profileImageUrl);
+      : undefined;
+    return new User(
+      uid,
+      username!,
+      dto.version,
+      dto.selfIntro,
+      profileImageUrl,
+    );
   }
 
   createResponse(user: User) {
@@ -31,8 +37,8 @@ export class UsersFactory {
       username: user.getUsername(),
       version: user.getVersion(),
       selfIntro: user.getSelfIntro(),
-      profileImageUrl: user.getProfileImageUrl()?.getValue() ?? null,
-      countryCode: user.getCountryCode()?.getValue() ?? null,
+      profileImageUrl: user.getProfileImageUrl()?.getValue() ?? undefined,
+      countryCode: user.getCountryCode()?.getValue() ?? undefined,
     };
   }
 }

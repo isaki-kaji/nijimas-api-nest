@@ -21,7 +21,7 @@ export const genUpdateDto = (uid: string = genUid()): UpdateUserDto => ({
 export const genCreatedUser = (dto: UpdateUserDto): User => {
   return new User(
     Uid.create(dto.uid),
-    dto.username,
+    dto.username!,
     dto.version,
     dto.selfIntro,
   );
@@ -33,7 +33,7 @@ export const genExistsUser = (hasProfileImage: boolean): User => {
     faker.person.firstName(),
     3,
     faker.lorem.sentence(),
-    hasProfileImage ? ImageUrl.create(faker.internet.url()) : null,
-    null,
+    hasProfileImage ? ImageUrl.create(faker.internet.url()) : undefined,
+    undefined,
   );
 };

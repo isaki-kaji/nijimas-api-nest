@@ -7,11 +7,11 @@ export type PostResponseDto = {
   isFavorite: boolean;
   publicTypeNo: string;
   createdAt: Date;
-  subCategory1: string | null;
-  subCategory2: string | null;
-  postText: string | null;
+  subCategory1: string | undefined;
+  subCategory2: string | undefined;
+  postText: string | undefined;
   photoUrlList: string[];
-  expense: number | null;
-  location: string | null;
-  version: number | null;
+  expense: number | undefined;
+  location: string | undefined;
+  version: number | undefined;
 };
