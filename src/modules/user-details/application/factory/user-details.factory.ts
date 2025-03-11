@@ -16,8 +16,9 @@ export class UserDetailsFactory {
     return {
       uid: userProfile.getUid().getValue(),
       username: userProfile.getUsername(),
-      selfIntro: userProfile.getSelfIntro() ?? null,
-      profileImageUrl: userProfile.getProfileImageUrl()?.getValue() ?? null,
+      selfIntro: userProfile.getSelfIntro() ?? undefined,
+      profileImageUrl:
+        userProfile.getProfileImageUrl()?.getValue() ?? undefined,
       followingCount: followInfo.getFollowingCount().getValue(),
       followersCount: followInfo.getFollowersCount().getValue(),
       followingStatus: followInfo.getFollowingStatus().getValue(),

@@ -138,7 +138,7 @@ describe('UsersUsecase', () => {
         it('should throw the exception', async () => {
           const uid = genUid();
 
-          usersRepository.findByUid.mockResolvedValueOnce(null);
+          usersRepository.findByUid.mockResolvedValueOnce(undefined);
 
           await expect(usecase.getOwnUser(uid)).rejects.toThrow(
             NotFoundException,

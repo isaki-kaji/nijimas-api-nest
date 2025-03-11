@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdatePostUsecase } from './update-post.usecase';
-import { DataSource, QueryRunner, EntityManager } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 import { PostsFactory } from './factory/posts.factory';
 import { PostSubCategoryHelper } from './helper/post-subcategory.helper';
 import { IPostsRepository } from 'posts/domain/i.posts.repository';
@@ -14,7 +14,6 @@ import {
   assertTransactionSuccess,
   genUUID,
 } from 'testing/utils/common-test-util';
-import { assert } from 'console';
 
 describe('UpdatePostUsecase', () => {
   let usecase: UpdatePostUsecase;
@@ -88,7 +87,7 @@ describe('UpdatePostUsecase', () => {
     });
 
     it('should throw NotFoundException if post does not exist', async () => {
-      postsRepository.findById.mockResolvedValueOnce(null);
+      postsRepository.findById.mockResolvedValueOnce(undefined);
 
       await expect(usecase.execute(dto, postId)).rejects.toThrow(
         NotFoundException,

@@ -1,7 +1,11 @@
 import { UsersFactory } from './users.factory';
 import { User } from 'users/domain/models/user';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { genCreateDto, genExistsUser, genUpdateDto } from 'testing/utils/users-test-utils';
+import {
+  genCreateDto,
+  genExistsUser,
+  genUpdateDto,
+} from 'testing/utils/users-test-utils';
 
 describe('UsersFactory', () => {
   let factory: UsersFactory;
@@ -27,7 +31,7 @@ describe('UsersFactory', () => {
       const dto = genCreateDto();
       const user = factory.createModelFromCreateDto(dto);
 
-      expect(user.getProfileImageUrl()).toBeNull();
+      expect(user.getProfileImageUrl()).toBeUndefined();
     });
   });
 
@@ -48,7 +52,7 @@ describe('UsersFactory', () => {
       const dto = genUpdateDto();
       const user = factory.createModelFromUpdateDto(dto);
 
-      expect(user.getProfileImageUrl()).toBeNull();
+      expect(user.getProfileImageUrl()).toBeUndefined();
     });
   });
 
@@ -64,7 +68,7 @@ describe('UsersFactory', () => {
         version: user.getVersion(),
         selfIntro: user.getSelfIntro(),
         profileImageUrl: user.getProfileImageUrl()?.getValue(),
-        countryCode: null,
+        countryCode: undefined,
       });
     });
 
@@ -78,10 +82,9 @@ describe('UsersFactory', () => {
         username: user.getUsername(),
         version: user.getVersion(),
         selfIntro: user.getSelfIntro(),
-        profileImageUrl: null,
-        countryCode: null,
+        profileImageUrl: undefined,
+        countryCode: undefined,
       });
     });
   });
 });
-

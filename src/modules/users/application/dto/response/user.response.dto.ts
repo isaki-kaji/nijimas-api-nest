@@ -1,8 +1,8 @@
-export interface UserResponseDto {
+export type UserResponseDto = {
   uid: string;
   username: string;
   profileImageUrl: string;
-  selfIntro: string | null;
-  countryCode: string | null;
-  version: number | null;
-}
+  selfIntro: string | undefined;
+  countryCode: string | undefined;
+  version: number;
+};

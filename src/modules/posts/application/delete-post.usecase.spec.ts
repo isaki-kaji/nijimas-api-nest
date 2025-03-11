@@ -74,7 +74,7 @@ describe('DeletePostUsecase', () => {
     });
 
     it('should throw NotFoundException if post does not exist', async () => {
-      postsRepository.findById.mockResolvedValueOnce(null);
+      postsRepository.findById.mockResolvedValueOnce(undefined);
 
       await expect(usecase.execute(uidStr, postIdStr)).rejects.toThrow(
         NotFoundException,

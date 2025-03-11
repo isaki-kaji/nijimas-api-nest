@@ -3,7 +3,10 @@ import uuid from 'ui7';
 export class Uuid {
   private constructor(private readonly value: string) {}
 
-  public static create(value: string): Uuid {
+  public static create(value?: string): Uuid {
+    if (!value) {
+      throw new Error('UUID is required');
+    }
     if (!this.validateUuidV7(value)) {
       throw new Error(`Invalid UUID format: ${value}`);
     }

@@ -3,7 +3,7 @@ import { RegexUtils } from 'common/util/regex-utils';
 export class Uid {
   private constructor(public readonly value: string) {}
 
-  static create(value: string): Uid {
+  static create(value?: string): Uid {
     if (!value) {
       throw new Error('UID must not be empty');
     }

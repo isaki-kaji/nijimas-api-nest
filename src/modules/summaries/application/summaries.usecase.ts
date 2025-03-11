@@ -25,7 +25,7 @@ export class SummariesUseCase {
     uidStr: string,
     yearStr: string,
     monthStr: string,
-    timezone: string,
+    timezone: string = 'Asia/Tokyo',
   ): Promise<MonthlySummaryResponseDto> {
     const uid = Uid.create(uidStr);
     const yearMonth = YearMonth.create(Number(yearStr), Number(monthStr));

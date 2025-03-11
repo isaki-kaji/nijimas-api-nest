@@ -40,7 +40,7 @@ describe('PostsService', () => {
 
     it('should return false if post does not exist', async () => {
       const postId = Uuid.create(genUUID());
-      postsRepository.findById.mockResolvedValueOnce(null);
+      postsRepository.findById.mockResolvedValueOnce(undefined);
 
       const result = await service.exists(postId);
 

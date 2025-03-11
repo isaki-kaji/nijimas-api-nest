@@ -75,7 +75,7 @@ describe('PostsFactory', () => {
         expect(post.getSubCategories()).toEqual(dto.subCategories);
         expect(post.getPostText()).toBe(dto.postText);
         expect(post.getPhotoUrlList()?.getStrValue()).toEqual(dto.photoUrl);
-        expect(post.getExpense()?.getValue()).toBe(parseInt(dto.expense, 10));
+        expect(post.getExpense()?.getValue()).toBe(parseInt(dto.expense!, 10));
         expect(post.getLocation()).toBe(dto.location);
         expect(post.getVersion()).toBe(dto.version);
       });

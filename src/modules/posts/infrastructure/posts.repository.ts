@@ -7,13 +7,9 @@ import { Injectable } from '@nestjs/common';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { MainCategory } from 'modules/common/domain/value-objects/main-category';
-import {
-  createPublicTypeNo,
-  PublicTypeNo,
-} from '../domain/value-objects/public-type-no';
+import { createPublicTypeNo } from '../domain/value-objects/public-type-no';
 import { PhotoUrlList } from '../domain/value-objects/photo-url-list';
 import { Expense } from 'modules/common/domain/value-objects/expense';
-import { create } from 'domain';
 
 @Injectable()
 export class PostsRepository implements IPostsRepository {
@@ -30,7 +26,7 @@ export class PostsRepository implements IPostsRepository {
       : await this.postRepository.save(entity);
   }
 
-  async findById(postId: Uuid): Promise<Post | null> {
+  async findById(postId: Uuid): Promise<Post | undefined> {
     const sql = `
     SELECT
       p.post_id,
@@ -63,7 +59,7 @@ export class PostsRepository implements IPostsRepository {
     const rawPosts = await this.dataSource.query(sql, [postId.getValue()]);
 
     if (rawPosts.length === 0) {
-      return null;
+      return undefined;
     }
 
     return this.toModel(rawPosts[0]);
@@ -89,10 +85,10 @@ export class PostsRepository implements IPostsRepository {
       new Date(raw.created_at),
       raw.version,
       raw.sub_category1 ? [raw.sub_category1, raw.sub_category2] : [],
-      raw.post_text || null,
-      raw.photo_url ? PhotoUrlList.create(raw.photo_url) : null,
-      raw.expense ? Expense.create(raw.expense) : null,
-      raw.location || null,
+      raw.post_text || undefined,
+      raw.photo_url ? PhotoUrlList.create(raw.photo_url) : undefined,
+      raw.expense ? Expense.create(raw.expense) : undefined,
+      raw.location || undefined,
     );
   }
 
@@ -101,10 +97,10 @@ export class PostsRepository implements IPostsRepository {
     entity.uid = post.getUid().getValue();
     entity.postId = post.getPostId().getValue();
     entity.mainCategory = post.getMainCategory().getValue();
-    entity.postText = post.getPostText() ?? null;
-    entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? null;
-    entity.expense = post.getExpense().getValue() ?? null;
-    entity.location = post.getLocation() ?? null;
+    entity.postText = post.getPostText() ?? undefined;
+    entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? undefined;
+    entity.expense = post.getExpense()?.getValue() ?? 0;
+    entity.location = post.getLocation() ?? undefined;
     entity.publicTypeNo = post.getPublicTypeNo();
     entity.version = post.getVersion();
     return entity;

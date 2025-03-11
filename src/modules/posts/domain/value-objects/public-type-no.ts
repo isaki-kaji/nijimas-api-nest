@@ -6,7 +6,10 @@ export const PublicTypeNo = {
 
 export type PublicTypeNo = (typeof PublicTypeNo)[keyof typeof PublicTypeNo];
 
-export function createPublicTypeNo(publicTypeNo: string): PublicTypeNo {
+export function createPublicTypeNo(publicTypeNo?: string): PublicTypeNo {
+  if (!publicTypeNo) {
+    throw new Error('publicTypeNo is required');
+  }
   const publicTypeNos = Object.values(PublicTypeNo);
   if (publicTypeNos.includes(publicTypeNo as PublicTypeNo)) {
     return publicTypeNo as PublicTypeNo;

@@ -42,7 +42,7 @@ export class UpdatePostUsecase {
         queryRunner.manager,
       );
       await this.helper.handleSubCategories(
-        dto.subCategories,
+        dto.subCategories!,
         post.getPostId(),
         queryRunner.manager,
       );

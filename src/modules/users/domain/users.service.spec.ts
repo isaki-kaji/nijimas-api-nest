@@ -40,7 +40,7 @@ describe('UsersService', () => {
 
     it('should return false if user does not exist', async () => {
       const uid = Uid.create(genUid());
-      usersRepository.findByUid.mockResolvedValueOnce(null);
+      usersRepository.findByUid.mockResolvedValueOnce(undefined);
 
       const result = await service.exists(uid);
 
