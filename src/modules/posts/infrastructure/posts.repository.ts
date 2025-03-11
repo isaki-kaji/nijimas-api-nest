@@ -45,8 +45,8 @@ export class PostsRepository implements IPostsRepository {
     LEFT JOIN (
       SELECT
         ps.post_id,
-        MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE undefined END) AS sub_category1,
-        MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE undefined END) AS sub_category2
+        MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1,
+        MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
       FROM post_subcategories ps
       JOIN sub_categories s ON ps.category_id = s.category_id
       WHERE ps.post_id = $1
