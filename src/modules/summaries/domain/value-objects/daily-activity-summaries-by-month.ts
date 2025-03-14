@@ -12,10 +12,6 @@ export class DailyActivitySummariesByMonth {
     summaries: DailyActivitySummary[],
     daysInMonth: number,
   ): DailyActivitySummariesByMonth {
-    if (!summaries) {
-      throw new Error('Summaries must not be empty');
-    }
-
     if (daysInMonth < 28 || daysInMonth > 31) {
       throw new Error('Invalid number of days in month');
     }
