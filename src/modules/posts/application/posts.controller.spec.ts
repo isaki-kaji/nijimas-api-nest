@@ -4,11 +4,8 @@ import { CreatePostUsecase } from './create-post.usecase';
 import { UpdatePostUsecase } from './update-post.usecase';
 import { DeletePostUsecase } from './delete-post.usecase';
 import { IPostsQueryService } from './i.posts.query.service';
-import { CreatePostDto } from './dto/request/create-post.dto';
-import { UpdatePostDto } from './dto/request/update-post.dto';
 import { mock } from 'jest-mock-extended';
 import { genUid } from 'testing/utils/common-test-util';
-import { PostResponseDto } from './dto/response/post.response.dto';
 import {
   genPostsResponseForSubCategory,
   genPostsResponseForUid,

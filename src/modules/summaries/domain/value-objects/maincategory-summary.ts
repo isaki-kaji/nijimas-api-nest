@@ -1,6 +1,5 @@
 import { Count } from 'modules/common/domain/value-objects/count';
 import { Expense } from 'modules/common/domain/value-objects/expense';
-import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 import { ExpenseSummary } from './expense-summary';
 
 export class MainCategorySummary extends ExpenseSummary<MainCategory> {

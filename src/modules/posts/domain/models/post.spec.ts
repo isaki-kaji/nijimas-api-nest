@@ -1,5 +1,4 @@
 import { create } from 'domain';
-import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { genUid, genUUID } from 'testing/utils/common-test-util';
 import { createPublicTypeNo } from '../value-objects/public-type-no';
@@ -13,7 +12,7 @@ describe('Post', () => {
       const post = new Post(
         Uuid.create(genUUID()),
         uid,
-        MainCategory.create('food'),
+        'food',
         createPublicTypeNo('1'),
         new Date(),
         1,
@@ -28,7 +27,7 @@ describe('Post', () => {
       const post = new Post(
         Uuid.create(genUUID()),
         uid,
-        MainCategory.create('food'),
+        'food',
         createPublicTypeNo('1'),
         new Date(),
         1,
