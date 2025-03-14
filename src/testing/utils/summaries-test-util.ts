@@ -1,7 +1,7 @@
 import { Count } from 'modules/common/domain/value-objects/count';
 import { Expense } from 'modules/common/domain/value-objects/expense';
 import { DailyActivitySummary } from 'modules/summaries/domain/value-objects/daily-activity-summary';
-import { SubCategorySummary } from 'modules/summaries/domain/value-objects/subcategoroy-summary';
+import { ExpenseSummary } from 'modules/summaries/domain/value-objects/expense-summary';
 
 export function genDailyActivitySummary(
   date: number,
@@ -15,12 +15,12 @@ export function genDailyActivitySummary(
   );
 }
 
-export function generateExpenseSummary(
-  category: string,
+export function generateExpenseSummary<T extends string>(
+  category: T,
   count: number,
   amount: number,
-): SubCategorySummary {
-  return SubCategorySummary.create(
+): ExpenseSummary<T> {
+  return ExpenseSummary.create(
     category,
     Count.create(count),
     Expense.create(amount),
