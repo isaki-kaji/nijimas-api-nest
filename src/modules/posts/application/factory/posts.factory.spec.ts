@@ -2,7 +2,6 @@ import { PostsFactory } from './posts.factory';
 import { Post } from 'posts/domain/models/post';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 import { CreatePostDto } from '../dto/request/create-post.dto';
 import { genUid, genUUID } from 'testing/utils/common-test-util';
 import { createPublicTypeNo } from 'posts/domain/value-objects/public-type-no';
@@ -34,9 +33,7 @@ describe('PostsFactory', () => {
       expect(post).toBeInstanceOf(Post);
       expect(post.getPostId()).toEqual(Uuid.create(dto.postId));
       expect(post.getUid()).toEqual(Uid.create(dto.uid));
-      expect(post.getMainCategory()).toEqual(
-        MainCategory.create(dto.mainCategory),
-      );
+      expect(post.getMainCategory()).toEqual(dto.mainCategory);
       expect(post.getPublicTypeNo()).toEqual(
         createPublicTypeNo(dto.publicTypeNo),
       );
@@ -66,9 +63,7 @@ describe('PostsFactory', () => {
         expect(post).toBeInstanceOf(Post);
         expect(post.getPostId()).toEqual(Uuid.create(postIdStr));
         expect(post.getUid()).toEqual(Uid.create(dto.uid));
-        expect(post.getMainCategory()).toEqual(
-          MainCategory.create(dto.mainCategory),
-        );
+        expect(post.getMainCategory()).toEqual(dto.mainCategory);
         expect(post.getPublicTypeNo()).toEqual(
           createPublicTypeNo(dto.publicTypeNo),
         );
