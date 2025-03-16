@@ -11,7 +11,7 @@ export class SummariesService {
   constructor() {}
 
   generateCalculatedSummaries(
-    summaries: ExpenseSummaryList<any>,
+    summaries: ExpenseSummaryList<string>,
   ): CalculatedSummary[] {
     if (summaries.getSummaries().length === 0) return [];
 
