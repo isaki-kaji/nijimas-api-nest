@@ -37,7 +37,7 @@ export class SummariesRepository implements ISummariesRepository {
 
     return result.map((row) =>
       ExpenseSummary.create(
-        row.main_category,
+        row.main_category as MainCategory,
         Count.create(Number(row.count)),
         Expense.create(Number(row.amount)),
       ),

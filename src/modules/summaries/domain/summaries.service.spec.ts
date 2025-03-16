@@ -1,6 +1,6 @@
 import {
   genDailyActivitySummary,
-  generateExpenseSummary,
+  genExpenseSummary,
 } from 'testing/utils/summaries-test-util';
 import { SummariesService } from './summaries.service';
 import { ExpenseSummaryList } from './value-objects/expense-summary-list';
@@ -21,15 +21,15 @@ describe('SummariesService', () => {
     });
 
     it('should return empty array if total amount is zero', () => {
-      const summary = generateExpenseSummary('Category1', 1, 0);
+      const summary = genExpenseSummary('Category1', 1, 0);
       const summaries = ExpenseSummaryList.create([summary]);
       const result = service.generateCalculatedSummaries(summaries);
       expect(result).toEqual([]);
     });
 
     it('should return calculated summaries sorted by amount in descending order', () => {
-      const summary1 = generateExpenseSummary('Category1', 2, 300);
-      const summary2 = generateExpenseSummary('Category2', 1, 700);
+      const summary1 = genExpenseSummary('Category1', 2, 300);
+      const summary2 = genExpenseSummary('Category2', 1, 700);
       const summaries = ExpenseSummaryList.create([summary1, summary2]);
 
       const result = service.generateCalculatedSummaries(summaries);
