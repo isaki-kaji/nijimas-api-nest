@@ -18,11 +18,12 @@ export class UserDetailsUsecase {
     const uid = Uid.create(uidStr);
     const targetUid = Uid.create(targetUidStr);
 
-    const userProfile = await this.repository.getUserProfile(targetUid);
-    const followInfo = await this.repository.getFollowInfo(uid, targetUid);
-    const postInfo = await this.repository.getPostInfo(targetUid);
-    const categories =
-      await this.repository.getUserFavoriteSubCategories(targetUid);
+    const [userProfile, followInfo, postInfo, categories] = await Promise.all([
+      this.repository.getUserProfile(targetUid),
+      this.repository.getFollowInfo(uid, targetUid),
+      this.repository.getPostInfo(targetUid),
+      this.repository.getUserFavoriteSubCategories(targetUid),
+    ]);
 
     return this.factory.createResponse(
       userProfile,
