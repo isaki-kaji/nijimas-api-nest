@@ -6,7 +6,6 @@ import { DataSource, EntityManager, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 import { createPublicTypeNo } from '../domain/value-objects/public-type-no';
 import { PhotoUrlList } from '../domain/value-objects/photo-url-list';
 import { Expense } from 'modules/common/domain/value-objects/expense';
@@ -80,7 +79,7 @@ export class PostsRepository implements IPostsRepository {
     return new Post(
       Uuid.create(raw.post_id),
       Uid.create(raw.uid),
-      MainCategory.create(raw.main_category),
+      raw.main_category,
       createPublicTypeNo(raw.public_type_no),
       new Date(raw.created_at),
       raw.version,
@@ -96,7 +95,7 @@ export class PostsRepository implements IPostsRepository {
     const entity = new PostEntity();
     entity.uid = post.getUid().getValue();
     entity.postId = post.getPostId().getValue();
-    entity.mainCategory = post.getMainCategory().getValue();
+    entity.mainCategory = post.getMainCategory();
     entity.postText = post.getPostText() ?? undefined;
     entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? undefined;
     entity.expense = post.getExpense()?.getValue() ?? 0;

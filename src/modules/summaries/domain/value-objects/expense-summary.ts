@@ -1,13 +1,24 @@
 import { Count } from 'modules/common/domain/value-objects/count';
 import { Expense } from 'modules/common/domain/value-objects/expense';
 
-export abstract class ExpenseSummary<T> {
+export class ExpenseSummary<T extends string> {
   constructor(
-    protected readonly count: Count,
-    protected readonly amount: Expense,
+    private readonly category: T,
+    private readonly count: Count,
+    private readonly amount: Expense,
   ) {}
 
-  abstract getCategory(): T;
+  static create<T extends string>(
+    category: T,
+    count: Count,
+    amount: Expense,
+  ): ExpenseSummary<T> {
+    return new ExpenseSummary(category, count, amount);
+  }
+
+  getCategory(): T {
+    return this.category;
+  }
 
   getCount(): Count {
     return this.count;

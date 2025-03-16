@@ -2,11 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ISummariesRepository } from '../domain/i.summaries.repository';
 import { DataSource } from 'typeorm';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategorySummary } from '../domain/value-objects/maincategory-summary';
 import { Count } from 'modules/common/domain/value-objects/count';
 import { Expense } from 'modules/common/domain/value-objects/expense';
-import { SubCategorySummary } from '../domain/value-objects/subcategoroy-summary';
 import { DailyActivitySummary } from '../domain/value-objects/daily-activity-summary';
+import { ExpenseSummary } from '../domain/value-objects/expense-summary';
 
 @Injectable()
 export class SummariesRepository implements ISummariesRepository {
@@ -16,7 +15,7 @@ export class SummariesRepository implements ISummariesRepository {
     uid: Uid,
     startDate: Date,
     endDate: Date,
-  ): Promise<MainCategorySummary[]> {
+  ): Promise<ExpenseSummary<MainCategory>[]> {
     const query = `
       SELECT
         main_category,
@@ -37,8 +36,8 @@ export class SummariesRepository implements ISummariesRepository {
     ]);
 
     return result.map((row) =>
-      MainCategorySummary.create(
-        row.main_category,
+      ExpenseSummary.create(
+        row.main_category as MainCategory,
         Count.create(Number(row.count)),
         Expense.create(Number(row.amount)),
       ),
@@ -49,7 +48,7 @@ export class SummariesRepository implements ISummariesRepository {
     uid: Uid,
     startDate: Date,
     endDate: Date,
-  ): Promise<SubCategorySummary[]> {
+  ): Promise<ExpenseSummary<string>[]> {
     const query = `
       SELECT
         s.category_name,
@@ -72,7 +71,7 @@ export class SummariesRepository implements ISummariesRepository {
     ]);
 
     return result.map((row) =>
-      SubCategorySummary.create(
+      ExpenseSummary.create(
         row.category_name,
         Count.create(Number(row.count)),
         Expense.create(Number(row.amount)),

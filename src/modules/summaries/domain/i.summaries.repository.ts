@@ -1,20 +1,19 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategorySummary } from './value-objects/maincategory-summary';
-import { SubCategorySummary } from './value-objects/subcategoroy-summary';
 import { DailyActivitySummary } from './value-objects/daily-activity-summary';
+import { ExpenseSummary } from './value-objects/expense-summary';
 
 export interface ISummariesRepository {
   getMainCategorySummaryByMonth(
     uid: Uid,
     startDate: Date,
     endDate: Date,
-  ): Promise<MainCategorySummary[]>;
+  ): Promise<ExpenseSummary<MainCategory>[]>;
 
   getSubCategorySummaryByMonth(
     uid: Uid,
     startDate: Date,
     endDate: Date,
-  ): Promise<SubCategorySummary[]>;
+  ): Promise<ExpenseSummary<string>[]>;
 
   GetDailyActivitySummaryByMonth(
     uid: Uid,

@@ -1,14 +1,14 @@
 import { Expense } from 'modules/common/domain/value-objects/expense';
 import { ExpenseSummary } from './expense-summary';
 
-export class ExpenseSummaryList<T extends ExpenseSummary<any>> {
-  private constructor(private readonly summaries: T[]) {
+export class ExpenseSummaryList<T extends string> {
+  private constructor(private readonly summaries: ExpenseSummary<T>[]) {
     this.validateUniqueCategories(summaries);
     this.summaries = summaries;
   }
 
-  static create<T extends ExpenseSummary<any>>(
-    summaries: T[],
+  static create<T extends string>(
+    summaries: ExpenseSummary<T>[],
   ): ExpenseSummaryList<T> {
     return new ExpenseSummaryList<T>(summaries);
   }

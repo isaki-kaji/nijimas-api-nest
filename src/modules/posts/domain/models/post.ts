@@ -1,5 +1,4 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategory } from '../../../common/domain/value-objects/main-category';
 import { PhotoUrlList } from '../value-objects/photo-url-list';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PublicTypeNo } from '../value-objects/public-type-no';

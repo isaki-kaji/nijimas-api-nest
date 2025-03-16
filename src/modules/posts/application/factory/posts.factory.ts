@@ -3,7 +3,6 @@ import { CreatePostDto } from 'modules/posts/application/dto/request/create-post
 import { Post } from '../../domain/models/post';
 
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { MainCategory } from '../../../common/domain/value-objects/main-category';
 import { createPublicTypeNo } from '../../domain/value-objects/public-type-no';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
@@ -15,7 +14,7 @@ export class PostsFactory {
   createModelFromCreateDto(dto: CreatePostDto): Post {
     const postId = Uuid.create(dto.postId);
     const uid = Uid.create(dto.uid);
-    const mainCategory = MainCategory.create(dto.mainCategory);
+    const mainCategory: MainCategory = dto.mainCategory as MainCategory;
     const publicTypeNo = createPublicTypeNo(dto.publicTypeNo);
     const expense = dto.expense
       ? Expense.create(parseInt(dto.expense, 10))
@@ -42,7 +41,7 @@ export class PostsFactory {
   createModelFromUpdateDto(dto: UpdatePostDto, postIdStr: string): Post {
     const postId = Uuid.create(postIdStr);
     const uid = Uid.create(dto.uid);
-    const mainCategory = MainCategory.create(dto.mainCategory);
+    const mainCategory: MainCategory = dto.mainCategory as MainCategory;
     const publicTypeNo = createPublicTypeNo(dto.publicTypeNo);
     const expense = dto.expense
       ? Expense.create(parseInt(dto.expense, 10))
