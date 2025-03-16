@@ -7,7 +7,10 @@ import { PostResponseDto } from '../application/dto/response/post.response.dto';
 export class PostsQueryService implements IPostsQueryService {
   constructor(private readonly dataSource: DataSource) {}
 
-  async findOne(uid: string, postId: string): Promise<PostResponseDto | null> {
+  async findOne(
+    uid: string,
+    postId: string,
+  ): Promise<PostResponseDto | undefined> {
     const sql = `
     SELECT
       p.post_id,
@@ -54,7 +57,7 @@ export class PostsQueryService implements IPostsQueryService {
     const rawPosts = await this.dataSource.query(sql, [uid, postId]);
 
     if (rawPosts.length === 0) {
-      return null;
+      return undefined;
     }
 
     return this.toResponseDto(rawPosts[0]);
