@@ -42,7 +42,11 @@ describe('PostsController', () => {
 
       const result = await controller.findPosts(uid, targetUid);
 
-      expect(queryService.findPostsByUid).toHaveBeenCalledWith(uid, targetUid);
+      expect(queryService.findPostsByUid).toHaveBeenCalledWith(
+        uid,
+        targetUid,
+        undefined,
+      );
       expect(result).toEqual(expectedPosts);
     });
 
@@ -56,6 +60,7 @@ describe('PostsController', () => {
       expect(queryService.findPostsBySubCategory).toHaveBeenCalledWith(
         uid,
         categoryName,
+        undefined,
       );
       expect(result).toEqual(expectedPosts);
     });
