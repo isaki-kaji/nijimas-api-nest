@@ -51,7 +51,10 @@ export class PostsController {
   }
 
   @Get('timeline')
-  async findTimelinePosts(@OwnUid() uid: string) {
+  async findTimelinePosts(
+    @OwnUid() uid: string,
+    @Query('reference') referencePostId?: string,
+  ) {
     return await this.queryService.findTimelinePosts(uid);
   }
 
