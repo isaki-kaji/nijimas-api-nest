@@ -46,8 +46,11 @@ export class PostsController {
   }
 
   @Get('me')
-  async findOwnPosts(@OwnUid() uid: string) {
-    return await this.queryService.findOwnPosts(uid);
+  async findOwnPosts(
+    @OwnUid() uid: string,
+    @Query('reference') referencePostId?: string,
+  ) {
+    return await this.queryService.findOwnPosts(uid, referencePostId);
   }
 
   @Get('timeline')
@@ -55,7 +58,7 @@ export class PostsController {
     @OwnUid() uid: string,
     @Query('reference') referencePostId?: string,
   ) {
-    return await this.queryService.findTimelinePosts(uid);
+    return await this.queryService.findTimelinePosts(uid, referencePostId);
   }
 
   @Get()
@@ -63,12 +66,21 @@ export class PostsController {
     @OwnUid() uid: string,
     @Query('uid') targetUid?: string,
     @Query('sub-category') categoryName?: string,
+    @Query('reference') referencePostId?: string,
   ) {
     if (targetUid) {
-      return await this.queryService.findPostsByUid(uid, targetUid);
+      return await this.queryService.findPostsByUid(
+        uid,
+        targetUid,
+        referencePostId,
+      );
     }
     if (categoryName) {
-      return await this.queryService.findPostsBySubCategory(uid, categoryName);
+      return await this.queryService.findPostsBySubCategory(
+        uid,
+        categoryName,
+        referencePostId,
+      );
     }
     return [];
   }

@@ -63,7 +63,10 @@ export class PostsQueryService implements IPostsQueryService {
     return this.toResponseDto(rawPosts[0]);
   }
 
-  async findOwnPosts(uid: string): Promise<PostResponseDto[]> {
+  async findOwnPosts(
+    uid: string,
+    referencePostId?: string,
+  ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT 
         p.post_id,
@@ -102,11 +105,15 @@ export class PostsQueryService implements IPostsQueryService {
       WHERE 
         p.deleted_at IS NULL
       AND p.uid = $1
+      ${referencePostId ? `AND p.post_id < $2` : ''} 
       ORDER BY 
         p.post_id DESC
       LIMIT 50;
     `;
-    const rawPosts = await this.dataSource.query(sql, [uid]);
+
+    const params = referencePostId ? [uid, referencePostId] : [uid];
+
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -177,6 +184,7 @@ export class PostsQueryService implements IPostsQueryService {
   async findPostsByUid(
     uid: string,
     targetUid: string,
+    referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
@@ -222,11 +230,15 @@ export class PostsQueryService implements IPostsQueryService {
           )
         )
       )
+      ${referencePostId ? `AND p.post_id < $3` : ''}
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [uid, targetUid]);
+    const params = referencePostId
+      ? [uid, targetUid, referencePostId]
+      : [uid, targetUid];
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -234,6 +246,7 @@ export class PostsQueryService implements IPostsQueryService {
   async findPostsBySubCategory(
     uid: string,
     categoryName: string,
+    referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
@@ -284,11 +297,16 @@ export class PostsQueryService implements IPostsQueryService {
             AND p.uid = $1
           )
         )
+      ${referencePostId ? `AND p.post_id < $3` : ''}
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [uid, categoryName]);
+    const params = referencePostId
+      ? [uid, categoryName, referencePostId]
+      : [uid, categoryName];
+
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -300,16 +318,16 @@ export class PostsQueryService implements IPostsQueryService {
       username: raw.username,
       profileImageUrl: raw.profile_image_url,
       mainCategory: raw.main_category,
-      subCategory1: raw.sub_category1 || null,
-      subCategory2: raw.sub_category2 || null,
-      postText: raw.post_text || null,
+      subCategory1: raw.sub_category1 || undefined,
+      subCategory2: raw.sub_category2 || undefined,
+      postText: raw.post_text || undefined,
       photoUrlList: raw.photo_url ? raw.photo_url.split(',') : [],
-      expense: raw.expense || null,
-      location: raw.location || null,
+      expense: raw.expense || undefined,
+      location: raw.location || undefined,
       isFavorite: raw.is_favorite,
       publicTypeNo: raw.public_type_no,
       createdAt: new Date(raw.created_at),
-      version: raw.version || null,
+      version: raw.version || undefined,
     };
   }
 }
