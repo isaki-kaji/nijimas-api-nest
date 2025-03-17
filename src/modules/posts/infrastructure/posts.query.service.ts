@@ -63,7 +63,10 @@ export class PostsQueryService implements IPostsQueryService {
     return this.toResponseDto(rawPosts[0]);
   }
 
-  async findOwnPosts(uid: string): Promise<PostResponseDto[]> {
+  async findOwnPosts(
+    uid: string,
+    referencePostId?: string,
+  ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT 
         p.post_id,
@@ -102,68 +105,78 @@ export class PostsQueryService implements IPostsQueryService {
       WHERE 
         p.deleted_at IS NULL
       AND p.uid = $1
+      ${referencePostId ? `AND p.post_id < $2` : ''} 
       ORDER BY 
         p.post_id DESC
       LIMIT 50;
     `;
-    const rawPosts = await this.dataSource.query(sql, [uid]);
+
+    const params = referencePostId ? [uid, referencePostId] : [uid];
+
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
 
-  async findTimelinePosts(uid: string): Promise<PostResponseDto[]> {
+  async findTimelinePosts(
+    uid: string,
+    referencePostId?: string,
+  ): Promise<PostResponseDto[]> {
     const sql = `
+    SELECT
+      p.post_id,
+      u.uid,
+      u.username,
+      u.profile_image_url,
+      p.main_category,
+      COALESCE(sc.sub_category1, '') AS sub_category1,
+      COALESCE(sc.sub_category2, '') AS sub_category2,
+      p.post_text,
+      p.photo_url,
+      p.expense,
+      p.location,
+      CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+      p.public_type_no,
+      p.created_at
+    FROM 
+      posts p
+    JOIN 
+      users u ON p.uid = u.uid
+    LEFT JOIN (
       SELECT
-        p.post_id,
-        u.uid,
-        u.username,
-        u.profile_image_url,
-        p.main_category,
-        COALESCE(sc.sub_category1, '') AS sub_category1,
-        COALESCE(sc.sub_category2, '') AS sub_category2,
-        p.post_text,
-        p.photo_url,
-        p.expense,
-        p.location,
-        CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
-        p.public_type_no,
-        p.created_at
+        ps.post_id,
+        MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1,
+        MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
       FROM 
-        posts p
+        post_subcategories ps
       JOIN 
-        users u ON p.uid = u.uid
-      LEFT JOIN (
-        SELECT
-          ps.post_id,
-          MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1,
-          MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
-        FROM 
-          post_subcategories ps
-        JOIN 
-          sub_categories s ON ps.category_id = s.category_id
-        GROUP BY 
-          ps.post_id
-      ) sc ON p.post_id = sc.post_id
-      LEFT JOIN 
-        favorites f ON p.post_id = f.post_id AND f.uid = $1
-      WHERE 
-        p.deleted_at IS NULL
-      AND (
-        p.uid = $1
-        OR (
-            p.public_type_no IN ('0', '1') 
-            AND EXISTS (
-                SELECT 1 
-                FROM follows f
-                WHERE f.uid = $1 AND f.following_uid = p.uid
-            )
-        )
+        sub_categories s ON ps.category_id = s.category_id
+      GROUP BY 
+        ps.post_id
+    ) sc ON p.post_id = sc.post_id
+    LEFT JOIN 
+      favorites f ON p.post_id = f.post_id AND f.uid = $1
+    WHERE 
+      p.deleted_at IS NULL
+    AND (
+      p.uid = $1
+      OR (
+          p.public_type_no IN ('0', '1') 
+          AND EXISTS (
+              SELECT 1 
+              FROM follows f
+              WHERE f.uid = $1 AND f.following_uid = p.uid
+          )
       )
-      ORDER BY 
-        p.post_id DESC
-      LIMIT 50;
-    `;
-    const rawPosts = await this.dataSource.query(sql, [uid]);
+    )
+    ${referencePostId ? `AND p.post_id < $2` : ''} 
+    ORDER BY 
+      p.post_id DESC
+    LIMIT 50;
+  `;
+
+    const params = referencePostId ? [uid, referencePostId] : [uid];
+    let rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -171,6 +184,7 @@ export class PostsQueryService implements IPostsQueryService {
   async findPostsByUid(
     uid: string,
     targetUid: string,
+    referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
@@ -216,11 +230,15 @@ export class PostsQueryService implements IPostsQueryService {
           )
         )
       )
+      ${referencePostId ? `AND p.post_id < $3` : ''}
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [uid, targetUid]);
+    const params = referencePostId
+      ? [uid, targetUid, referencePostId]
+      : [uid, targetUid];
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -228,6 +246,7 @@ export class PostsQueryService implements IPostsQueryService {
   async findPostsBySubCategory(
     uid: string,
     categoryName: string,
+    referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
       SELECT
@@ -278,11 +297,16 @@ export class PostsQueryService implements IPostsQueryService {
             AND p.uid = $1
           )
         )
+      ${referencePostId ? `AND p.post_id < $3` : ''}
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
 
-    const rawPosts = await this.dataSource.query(sql, [uid, categoryName]);
+    const params = referencePostId
+      ? [uid, categoryName, referencePostId]
+      : [uid, categoryName];
+
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw) => this.toResponseDto(raw));
   }
@@ -294,16 +318,16 @@ export class PostsQueryService implements IPostsQueryService {
       username: raw.username,
       profileImageUrl: raw.profile_image_url,
       mainCategory: raw.main_category,
-      subCategory1: raw.sub_category1 || null,
-      subCategory2: raw.sub_category2 || null,
-      postText: raw.post_text || null,
+      subCategory1: raw.sub_category1 || undefined,
+      subCategory2: raw.sub_category2 || undefined,
+      postText: raw.post_text || undefined,
       photoUrlList: raw.photo_url ? raw.photo_url.split(',') : [],
-      expense: raw.expense || null,
-      location: raw.location || null,
+      expense: raw.expense || undefined,
+      location: raw.location || undefined,
       isFavorite: raw.is_favorite,
       publicTypeNo: raw.public_type_no,
       createdAt: new Date(raw.created_at),
-      version: raw.version || null,
+      version: raw.version || undefined,
     };
   }
 }
