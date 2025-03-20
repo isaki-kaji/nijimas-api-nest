@@ -13,6 +13,7 @@ import { FavoritesModule } from 'modules/favorites/favorites.module';
 import { FollowsModule } from 'modules/follows/follows.module';
 import { UserDetailsModule } from 'modules/user-details/user-details.module';
 import { SummariesModule } from 'modules/summaries/summaries.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -24,6 +25,14 @@ import { SummariesModule } from 'modules/summaries/summaries.module';
     FollowsModule,
     UserDetailsModule,
     SummariesModule,
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 50,
+        },
+      ],
+    }),
   ],
   providers: [
     {
@@ -33,6 +42,10 @@ import { SummariesModule } from 'modules/summaries/summaries.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     {
       provide: APP_INTERCEPTOR,
