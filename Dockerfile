@@ -20,4 +20,4 @@ EXPOSE 8080
 
 
 # アプリケーションの起動
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/src/main.js"]
