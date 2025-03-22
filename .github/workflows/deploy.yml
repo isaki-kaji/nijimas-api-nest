@@ -74,13 +74,13 @@ jobs:
         run: |
           docker build -t "${IMAGE_NAME}" .
         env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
 
       - name: Push Docker image to Artifact Registry
         run: |
           docker push "${IMAGE_NAME}"
         env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
 
       - name: Deploy to Cloud Run
         run: |
@@ -97,4 +97,4 @@ jobs:
             "DATASOURCE_URL=${DATASOURCE_URL}"
             "DB_USE_SSL=true"
         env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
