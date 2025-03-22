@@ -90,13 +90,13 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --update-secrets GOOGLE_APPLICATION_CREDENTIALS=projects/${GC_PROJECT_ID}/secrets/firebase-credentials:latest \
-            --set-env-vars ${{ format('DATASOURCE_HOST={0},DATASOURCE_PORT={1},DATASOURCE_USERNAME={2},DATASOURCE_PASSWORD={3},DATASOURCE_DATABASE={4},DATASOURCE_URL={5},DB_USE_SSL=true',
+            --set-env-vars "${{ format('DATASOURCE_HOST={0},DATASOURCE_PORT={1},DATASOURCE_USERNAME={2},DATASOURCE_PASSWORD={3},DATASOURCE_DATABASE={4},DATASOURCE_URL={5},DB_USE_SSL=true',
               env.DATASOURCE_HOST,
               env.DATASOURCE_PORT,
               env.DATASOURCE_USERNAME,
               env.DATASOURCE_PASSWORD,
               env.DATASOURCE_DATABASE,
               env.DATASOURCE_URL
-            ) }}
+            ) }}"
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
