@@ -13,7 +13,7 @@ on:
         type: choice
         options:
           - pre
-          - com
+          - production
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -53,7 +53,7 @@ jobs:
         with:
           project_id: ${{ secrets.GC_PROJECT_ID }}
 
-      - name: Generate ${{ env.ENV_FILE }} for Cloud Run
+      - name: Generate "${{ env.ENV_FILE }}" for Cloud Run
         run: |
           {
             echo "DATASOURCE_HOST=${DATASOURCE_HOST}"
@@ -62,38 +62,38 @@ jobs:
             echo "DATASOURCE_USERNAME=${DATASOURCE_USERNAME}"
             echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}"
             echo "DATASOURCE_URL=${DATASOURCE_URL}"
-          } > $ENV_FILE
-          echo "Generated $ENV_FILE:"
-          cat $ENV_FILE
+          } > "${ENV_FILE}"
+          echo "Generated ${ENV_FILE}:"
+          cat "${ENV_FILE}"
 
       - name: Configure Docker for Artifact Registry
         run: |
-          gcloud auth configure-docker $GC_REGION-docker.pkg.dev
+          gcloud auth configure-docker "${GC_REGION}"-docker.pkg.dev
 
       - name: Build Docker image
         run: |
-          docker build -t $IMAGE_NAME .
+          docker build -t "${IMAGE_NAME}" .
         env:
-          IMAGE_NAME: ${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
 
       - name: Push Docker image to Artifact Registry
         run: |
-          docker push $IMAGE_NAME
+          docker push "${IMAGE_NAME}"
         env:
-          IMAGE_NAME: ${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy $CLOUD_RUN_SERVICE \
-            --image $IMAGE_NAME \
-            --region $GC_REGION \
+          gcloud run deploy "${CLOUD_RUN_SERVICE}" \
+            --image "${IMAGE_NAME}" \
+            --region "${GC_REGION}" \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars "DATASOURCE_HOST=${DATASOURCE_HOST},\
-            DATASOURCE_PORT=${DATASOURCE_PORT},\
-            DATASOURCE_USERNAME=${DATASOURCE_USERNAME},\
-            DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},\
-            DATASOURCE_DATABASE=${DATASOURCE_DATABASE},\
-            DATASOURCE_URL=${DATASOURCE_URL}"
+            --set-env-vars "DATASOURCE_HOST=${DATASOURCE_HOST},"\
+            "DATASOURCE_PORT=${DATASOURCE_PORT},"\
+            "DATASOURCE_USERNAME=${DATASOURCE_USERNAME},"\
+            "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},"\
+            "DATASOURCE_DATABASE=${DATASOURCE_DATABASE},"\
+            "DATASOURCE_URL=${DATASOURCE_URL}"
         env:
-          IMAGE_NAME: ${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest
+          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
