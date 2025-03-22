@@ -9,5 +9,5 @@ export const ENV_VALIDATION_SCHEMA = Joi.object({
 
   DATASOURCE_URL: Joi.required(),
 
-  GOOGLE_APPLICATION_CREDENTIALS: Joi.required(),
+  FIREBASE_APPLICATION_CREDENTIALS: Joi.required(),
 });
