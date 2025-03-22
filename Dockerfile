@@ -18,4 +18,4 @@ RUN npm run build
 ENV PORT=8080
 
 # アプリケーションの起動
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]
