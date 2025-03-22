@@ -16,6 +16,7 @@ RUN npm run build
 
 # ポートの指定
 ENV PORT=8080
+EXPOSE 8080
 
 # アプリケーションの起動
 CMD ["node", "dist/src/main"]
