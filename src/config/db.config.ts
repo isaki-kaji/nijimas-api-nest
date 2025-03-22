@@ -2,11 +2,8 @@ import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-console.log('Using Database Config:');
-console.log('Host:', process.env.DATASOURCE_HOST);
-console.log('Port:', process.env.DATASOURCE_PORT);
-
 export default registerAs('database', () => {
+  const useSsl = process.env.DB_USE_SSL === 'true';
   const config = {
     type: 'postgres',
     host: process.env.DATASOURCE_HOST,
@@ -16,6 +13,7 @@ export default registerAs('database', () => {
     database: process.env.DATASOURCE_DATABASE,
     autoLoadEntities: true,
     synchronize: false,
+    ssl: useSsl ? { rejectUnauthorized: false } : false,
     namingStrategy: new SnakeNamingStrategy(),
     // logging: true,
   } as const satisfies TypeOrmModuleOptions;
