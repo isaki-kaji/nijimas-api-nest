@@ -60,6 +60,7 @@ jobs:
             echo "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}"
             echo "DATASOURCE_HOST=${DATASOURCE_HOST}"
             echo "DATASOURCE_URL=${DATASOURCE_URL}"
+            echo "DB_USE_SSL=false"
           } >> .env.test
 
       - run: npm ci

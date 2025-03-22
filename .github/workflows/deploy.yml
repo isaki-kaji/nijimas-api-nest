@@ -95,5 +95,6 @@ jobs:
             "DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},"\
             "DATASOURCE_DATABASE=${DATASOURCE_DATABASE},"\
             "DATASOURCE_URL=${DATASOURCE_URL}"
+            "DB_USE_SSL=true"
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/default/${{ env.CLOUD_RUN_SERVICE }}:latest'
