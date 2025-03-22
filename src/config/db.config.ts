@@ -16,6 +16,9 @@ export default registerAs('database', () => {
     database: process.env.DATASOURCE_DATABASE,
     autoLoadEntities: true,
     synchronize: false,
+    ssl: {
+      rejectUnauthorized: false,
+    },
     namingStrategy: new SnakeNamingStrategy(),
     // logging: true,
   } as const satisfies TypeOrmModuleOptions;
