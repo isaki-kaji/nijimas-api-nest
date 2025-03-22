@@ -82,6 +82,9 @@ jobs:
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
 
+      - name: Write Firebase credentials
+        run: echo '${{ secrets.FIREBASE_CREDENTIAL_JSON }}' > firebase.json
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy "${CLOUD_RUN_SERVICE}" \
@@ -89,6 +92,6 @@ jobs:
             --region "${GC_REGION}" \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars "DATASOURCE_HOST=${DATASOURCE_HOST},DATASOURCE_PORT=${DATASOURCE_PORT},DATASOURCE_USERNAME=${DATASOURCE_USERNAME},DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},DATASOURCE_DATABASE=${DATASOURCE_DATABASE},DATASOURCE_URL=${DATASOURCE_URL},DB_USE_SSL=true"
+            --set-env-vars "DATASOURCE_HOST=${DATASOURCE_HOST},DATASOURCE_PORT=${DATASOURCE_PORT},DATASOURCE_USERNAME=${DATASOURCE_USERNAME},DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},DATASOURCE_DATABASE=${DATASOURCE_DATABASE},DATASOURCE_URL=${DATASOURCE_URL},DB_USE_SSL=true,FIREBASE_APPLICATION_CREDENTIALS=firebase.json"
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
