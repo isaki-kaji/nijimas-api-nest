@@ -4,7 +4,7 @@ import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -13,5 +13,7 @@ async function bootstrap() {
       noSniff: true,
     }),
   );
+
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
