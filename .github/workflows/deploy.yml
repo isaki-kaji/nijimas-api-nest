@@ -71,7 +71,7 @@ jobs:
             --region "$GC_REGION" \
             --platform managed \
             --allow-unauthenticated \
-            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest,DATASOURCE_USERNAME=DATASOURCE_USERNAME:latest,DATASOURCE_PASSWORD=DATASOURCE_USERNAME:latest,DATASOURCE_URL=DATASOURCE_URL:latest" \
+            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest,DATASOURCE_USERNAME=postgres-username:latest,DATASOURCE_PASSWORD=postgres-password:latest,DATASOURCE_URL=:latest" \
             --set-env-vars "FIREBASE_APPLICATION_CREDENTIALS=/etc/secrets/firebase-credentials.json,DATASOURCE_HOST=$DATASOURCE_HOST,DATASOURCE_PORT=$DATASOURCE_PORT,DATASOURCE_USERNAME=$DATASOURCE_USERNAME,DATASOURCE_PASSWORD=$DATASOURCE_PASSWORD,DATASOURCE_DATABASE=$DATASOURCE_DATABASE,DATASOURCE_URL=$DATASOURCE_URL,DB_USE_SSL=true"
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
