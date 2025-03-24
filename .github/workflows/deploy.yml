@@ -34,6 +34,9 @@ jobs:
       DATASOURCE_HOST: ${{ vars.DATASOURCE_HOST }}
       DATASOURCE_PORT: ${{ vars.DATASOURCE_PORT }}
       DATASOURCE_DATABASE: ${{ vars.DATASOURCE_DATABASE }}
+      DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
+      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
+      DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
 
     steps:
       - name: Checkout code
@@ -71,7 +74,7 @@ jobs:
             --region "$GC_REGION" \
             --platform managed \
             --allow-unauthenticated \
-            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest,DATASOURCE_USERNAME=postgres-username:latest,DATASOURCE_PASSWORD=postgres-password:latest,DATASOURCE_URL=:latest" \
+            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest" \
             --set-env-vars "FIREBASE_APPLICATION_CREDENTIALS=/etc/secrets/firebase-credentials.json,DATASOURCE_HOST=$DATASOURCE_HOST,DATASOURCE_PORT=$DATASOURCE_PORT,DATASOURCE_USERNAME=$DATASOURCE_USERNAME,DATASOURCE_PASSWORD=$DATASOURCE_PASSWORD,DATASOURCE_DATABASE=$DATASOURCE_DATABASE,DATASOURCE_URL=$DATASOURCE_URL,DB_USE_SSL=true"
         env:
           IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
