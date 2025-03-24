@@ -7,7 +7,7 @@ export interface UserDetailResponseDto {
   readonly followingCount: number;
   readonly followersCount: number;
   readonly postCount: number;
-  readonly userFavoriteSubcategories: UserFavoriteSubcategory[];
+  // readonly userFavoriteSubcategories: UserFavoriteSubcategory[];
 }
 
 export interface UserFavoriteSubcategory {

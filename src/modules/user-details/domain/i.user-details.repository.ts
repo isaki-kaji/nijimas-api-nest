@@ -8,5 +8,5 @@ export interface IUserDetailsRepository {
   getUserProfile(uid: Uid): Promise<UserProfile>;
   getFollowInfo(uid: Uid, followingUid: Uid): Promise<FollowInfo>;
   getPostInfo(uid: Uid): Promise<PostInfo>;
-  getUserFavoriteSubCategories(uid: Uid): Promise<UserFavoriteSubcategoryList>;
+  // getUserFavoriteSubCategories(uid: Uid): Promise<UserFavoriteSubcategoryList>;
 }
