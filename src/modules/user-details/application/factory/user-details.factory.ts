@@ -11,7 +11,7 @@ export class UserDetailsFactory {
     userProfile: UserProfile,
     followInfo: FollowInfo,
     postInfo: PostInfo,
-    categories: UserFavoriteSubcategoryList,
+    // categories: UserFavoriteSubcategoryList,
   ): UserDetailResponseDto {
     return {
       uid: userProfile.getUid().getValue(),
@@ -23,11 +23,11 @@ export class UserDetailsFactory {
       followersCount: followInfo.getFollowersCount().getValue(),
       followingStatus: followInfo.getFollowingStatus().getValue(),
       postCount: postInfo.getPostCount().getValue(),
-      userFavoriteSubcategories: categories.getList().map((category) => ({
-        categoryNo: category.getCategoryNo().getValue(),
-        categoryId: category.getCategoryId().getValue(),
-        categoryName: category.getCategoryName(),
-      })),
+      // userFavoriteSubcategories: categories.getList().map((category) => ({
+      //   categoryNo: category.getCategoryNo().getValue(),
+      //   categoryId: category.getCategoryId().getValue(),
+      //   categoryName: category.getCategoryName(),
+      // })),
     };
   }
 }

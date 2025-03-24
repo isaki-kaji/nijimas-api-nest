@@ -103,31 +103,31 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     return new PostInfo(postCount);
   }
 
-  async getUserFavoriteSubCategories(
-    uid: Uid,
-  ): Promise<UserFavoriteSubcategoryList> {
-    const sql = `
-    SELECT 
-      ufs.category_no, 
-      ufs.category_id, 
-      sc.category_name
-    FROM user_favorite_subcategories ufs
-    JOIN sub_categories sc 
-      ON ufs.category_id = sc.category_id
-    WHERE ufs.uid = $1;
-  `;
+  // async getUserFavoriteSubCategories(
+  //   uid: Uid,
+  // ): Promise<UserFavoriteSubcategoryList> {
+  //   const sql = `
+  //   SELECT
+  //     ufs.category_no,
+  //     ufs.category_id,
+  //     sc.category_name
+  //   FROM user_favorite_subcategories ufs
+  //   JOIN sub_categories sc
+  //     ON ufs.category_id = sc.category_id
+  //   WHERE ufs.uid = $1;
+  // `;
 
-    const result = await this.dataSource.query(sql, [uid.getValue()]);
-    const list = result.map((row: any) => this.toFavoriteCategoryModel(row));
+  //   const result = await this.dataSource.query(sql, [uid.getValue()]);
+  //   const list = result.map((row: any) => this.toFavoriteCategoryModel(row));
 
-    return new UserFavoriteSubcategoryList(list);
-  }
+  //   return new UserFavoriteSubcategoryList(list);
+  // }
 
-  private toFavoriteCategoryModel(row: any): UserFavoriteSubcategory {
-    const categoryNo = FavoriteCategoryNo.create(row.category_no);
-    const categoryId = Uuid.create(row.category_id);
-    const categoryName = row.category_name;
+  // private toFavoriteCategoryModel(row: any): UserFavoriteSubcategory {
+  //   const categoryNo = FavoriteCategoryNo.create(row.category_no);
+  //   const categoryId = Uuid.create(row.category_id);
+  //   const categoryName = row.category_name;
 
-    return new UserFavoriteSubcategory(categoryId, categoryNo, categoryName);
-  }
+  //   return new UserFavoriteSubcategory(categoryId, categoryNo, categoryName);
+  // }
 }
