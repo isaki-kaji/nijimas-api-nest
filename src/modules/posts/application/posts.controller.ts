@@ -16,6 +16,7 @@ import { IPostsQueryService } from './i.posts.query.service';
 import { UpdatePostDto } from './dto/request/update-post.dto';
 import { UpdatePostUsecase } from './update-post.usecase';
 import { DeletePostUsecase } from './delete-post.usecase';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('posts')
 export class PostsController {
@@ -28,11 +29,13 @@ export class PostsController {
   ) {}
 
   @Post()
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async create(@Body() createPostDto: CreatePostDto) {
     await this.createPostUsecase.execute(createPostDto);
   }
 
   @Put(':postId')
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async update(
     @Body() updatePostDto: UpdatePostDto,
     @Param('postId') postId: string,

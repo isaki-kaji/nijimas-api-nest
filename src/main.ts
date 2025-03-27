@@ -21,7 +21,7 @@ async function bootstrap() {
     console.log('✅ NestJS is now listening');
   } catch (error) {
     console.error('🔥 NestJS failed to start:', error);
-    process.exit(1); // Cloud Run に「異常終了」として伝える
+    process.exit(1);
   }
 }
 
