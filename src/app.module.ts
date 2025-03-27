@@ -13,7 +13,8 @@ import { FavoritesModule } from 'modules/favorites/favorites.module';
 import { FollowsModule } from 'modules/follows/follows.module';
 import { UserDetailsModule } from 'modules/user-details/user-details.module';
 import { SummariesModule } from 'modules/summaries/summaries.module';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { UidThrottlerGuard } from 'common/guard/uid-throttler.guard';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       throttlers: [
         {
           ttl: 60000,
-          limit: 50,
+          limit: 30,
         },
       ],
     }),
@@ -45,7 +46,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: UidThrottlerGuard,
     },
     {
       provide: APP_INTERCEPTOR,
