@@ -56,6 +56,14 @@ export class PostsController {
     return await this.queryService.findOwnPosts(uid, referencePostId);
   }
 
+  @Get('favorites')
+  async findFavoritePosts(
+    @OwnUid() uid: string,
+    @Query('reference') referencePostId?: string,
+  ) {
+    return await this.queryService.findFavoritePosts(uid, referencePostId);
+  }
+
   @Get('timeline')
   async findTimelinePosts(
     @OwnUid() uid: string,

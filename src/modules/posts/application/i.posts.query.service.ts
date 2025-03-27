@@ -10,6 +10,10 @@ export interface IPostsQueryService {
     uid: string,
     referencePostId?: string,
   ): Promise<PostResponseDto[]>;
+  findFavoritePosts(
+    uid: string,
+    referencePostId?: string,
+  ): Promise<PostResponseDto[]>;
   findPostsByUid(
     uid: string,
     targetUid: string,
