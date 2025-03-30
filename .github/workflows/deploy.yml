@@ -21,7 +21,6 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy to Cloud Run
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: ${{ github.event.inputs.environment || 'pre' }}
