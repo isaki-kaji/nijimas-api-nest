@@ -3,12 +3,11 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { FollowRequestStatus } from '../value-objects/follow-request-status';
 
 export class FollowRequest {
-  private status: FollowRequestStatus;
   constructor(
     private readonly requestId: Uuid,
     private readonly uid: Uid,
     private readonly requestedUid: Uid,
-    status: FollowRequestStatus,
+    private status: FollowRequestStatus,
     private readonly version: number,
   ) {
     this.status = status;
