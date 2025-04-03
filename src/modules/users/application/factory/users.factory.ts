@@ -33,11 +33,11 @@ export class UsersFactory {
 
   createResponse(user: User) {
     return {
-      uid: user.getUid().getValue(),
+      uid: user.getUid().value,
       username: user.getUsername(),
       version: user.getVersion(),
       selfIntro: user.getSelfIntro(),
-      profileImageUrl: user.getProfileImageUrl()?.getValue() ?? undefined,
+      profileImageUrl: user.getProfileImageUrl()?.value ?? undefined,
       countryCode: user.getCountryCode()?.getValue() ?? undefined,
     };
   }

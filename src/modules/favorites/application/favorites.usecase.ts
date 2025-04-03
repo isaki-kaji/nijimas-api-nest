@@ -17,13 +17,13 @@ export class FavoritesUsecase {
 
   async toggleFavorite(dto: ToggleFavoriteDto): Promise<boolean> {
     const favorite = this.factory.createModel(dto);
-    if (!(await this.postService.exists(favorite.getPostId()))) {
+    if (!(await this.postService.exists(favorite.postId))) {
       throw new NotFoundException('Post not found');
     }
 
     const favoriteCreated = await this.service.exists(
-      favorite.getUid(),
-      favorite.getPostId(),
+      favorite.uid,
+      favorite.postId,
     );
     if (favoriteCreated) {
       await this.repository.delete(favorite);

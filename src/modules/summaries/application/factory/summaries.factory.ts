@@ -13,25 +13,23 @@ export class SummariesFactory {
     dailyActivity: DailyActivitySummaryResult,
   ): MonthlySummaryResponseDto {
     return {
-      uid: uid.getValue(),
+      uid: uid.value,
       year: yearMonth.getYear(),
       month: yearMonth.getMonth(),
       mainCategorySummary: mainCategorySummary.map((summary) => ({
         categoryName: summary.getCategory(),
-        count: summary.getCount().getValue(),
-        amount: summary.getAmount().getValue(),
+        count: summary.getCount().value,
+        amount: summary.getAmount().value,
         percentage: summary.getPercentage(),
       })),
       subCategorySummary: subCategorySummary.map((summary) => ({
         categoryName: summary.getCategory(),
-        count: summary.getCount().getValue(),
-        amount: summary.getAmount().getValue(),
+        count: summary.getCount().value,
+        amount: summary.getAmount().value,
         percentage: summary.getPercentage(),
       })),
-      dailyCount: dailyActivity.getCounts().map((count) => count.getValue()),
-      dailyAmount: dailyActivity
-        .getAmounts()
-        .map((amount) => amount.getValue()),
+      dailyCount: dailyActivity.getCounts().map((count) => count.value),
+      dailyAmount: dailyActivity.getAmounts().map((amount) => amount.value),
     };
   }
 }

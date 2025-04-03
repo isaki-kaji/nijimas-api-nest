@@ -37,13 +37,18 @@ describe('FollowsUsecase', () => {
   describe('cancelFollow', () => {
     it('should cancel follow if it exists', async () => {
       const dto: FollowDto = { uid: genUid(), targetUid: genUid() };
-      const follow = mock<Follow>();
       const uid = Uid.create(dto.uid);
       const followingUid = Uid.create(dto.targetUid);
+      const follow = {
+        get uid() {
+          return uid;
+        },
+        get followingUid() {
+          return followingUid;
+        },
+      } as Follow;
 
       followsFactory.createModel.mockReturnValue(follow);
-      follow.getUid.mockReturnValue(uid);
-      follow.getFollowingUid.mockReturnValue(followingUid);
       followsService.exists.mockResolvedValue(true);
 
       await usecase.cancelFollow(dto);
@@ -55,13 +60,18 @@ describe('FollowsUsecase', () => {
 
     it('should throw NotFoundException if follow does not exist', async () => {
       const dto: FollowDto = { uid: genUid(), targetUid: genUid() };
-      const follow = mock<Follow>();
-      const uid = Uid.create(genUid());
+      const uid = Uid.create(dto.uid);
       const followingUid = Uid.create(dto.targetUid);
+      const follow = {
+        get uid() {
+          return uid;
+        },
+        get followingUid() {
+          return followingUid;
+        },
+      } as Follow;
 
       followsFactory.createModel.mockReturnValue(follow);
-      follow.getUid.mockReturnValue(uid);
-      follow.getFollowingUid.mockReturnValue(followingUid);
       followsService.exists.mockResolvedValue(false);
 
       await expect(usecase.cancelFollow(dto)).rejects.toThrow(

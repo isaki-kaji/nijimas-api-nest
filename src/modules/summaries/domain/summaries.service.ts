@@ -17,7 +17,7 @@ export class SummariesService {
 
     const totalAmount = summaries.getTotalAmount();
 
-    if (totalAmount.isZero() || totalAmount.isOverOneBillion()) return [];
+    if (totalAmount.isZero() || totalAmount.isEqualOrOverMaxValue()) return [];
 
     const calculatedSummaries = summaries.getSummaries().map((summary) => {
       const count = summary.getCount();
@@ -39,7 +39,7 @@ export class SummariesService {
     summaries: CalculatedSummary[],
   ): CalculatedSummary[] {
     return [...summaries].sort(
-      (a, b) => b.getAmount().getValue() - a.getAmount().getValue(),
+      (a, b) => b.getAmount().value - a.getAmount().value,
     );
   }
 

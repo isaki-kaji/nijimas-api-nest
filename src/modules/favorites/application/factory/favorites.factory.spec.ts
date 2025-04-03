@@ -22,8 +22,8 @@ describe('FavoritesFactory', () => {
       const result = factory.createModel(dto);
 
       expect(result).toBeInstanceOf(Favorite);
-      expect(result.getUid()).toEqual(Uid.create(dto.uid));
-      expect(result.getPostId()).toEqual(Uuid.create(dto.postId));
+      expect(result.uid).toEqual(Uid.create(dto.uid));
+      expect(result.postId).toEqual(Uuid.create(dto.postId));
     });
   });
 });

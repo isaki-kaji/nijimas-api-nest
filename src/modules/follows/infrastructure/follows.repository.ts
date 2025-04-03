@@ -26,15 +26,15 @@ export class FollowsRepository implements IFollowsRepository {
 
   async findOne(uid: Uid, followingUid: Uid): Promise<Follow | null> {
     const entity = await this.repository.findOne({
-      where: { uid: uid.getValue(), followingUid: followingUid.getValue() },
+      where: { uid: uid.value, followingUid: followingUid.value },
     });
     return entity ? this.toModel(entity) : null;
   }
 
   private toEntity(follow: Follow): FollowEntity {
     const entity = new FollowEntity();
-    entity.followingUid = follow.getFollowingUid().getValue();
-    entity.uid = follow.getUid().getValue();
+    entity.followingUid = follow.followingUid.value;
+    entity.uid = follow.uid.value;
     return entity;
   }
 

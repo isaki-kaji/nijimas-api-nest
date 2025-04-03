@@ -1,5 +1,5 @@
 export class ImageUrl {
-  private constructor(public readonly value: string) {}
+  private constructor(public readonly _value: string) {}
 
   static create(value: string): ImageUrl {
     if (!value) {
@@ -26,7 +26,7 @@ export class ImageUrl {
     return this.value === other.value;
   }
 
-  getValue(): string {
-    return this.value;
+  get value(): string {
+    return this._value;
   }
 }

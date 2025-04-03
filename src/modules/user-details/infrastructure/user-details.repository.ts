@@ -28,7 +28,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
       WHERE u.uid = $1;
     `;
 
-    const result = await this.dataSource.query(sql, [uid.getValue()]);
+    const result = await this.dataSource.query(sql, [uid.value]);
     const row = result[0];
 
     return this.toUserProfileModel(row);
@@ -68,8 +68,8 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     `;
 
     const result = await this.dataSource.query(sql, [
-      ownUid.getValue(),
-      targetUid.getValue(),
+      ownUid.value,
+      targetUid.value,
     ]);
 
     const row = result[0];
@@ -91,7 +91,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
       WHERE uid = $1;
     `;
 
-    const result = await this.dataSource.query(sql, [uid.getValue()]);
+    const result = await this.dataSource.query(sql, [uid.value]);
 
     const row = result[0];
 
@@ -117,7 +117,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
   //   WHERE ufs.uid = $1;
   // `;
 
-  //   const result = await this.dataSource.query(sql, [uid.getValue()]);
+  //   const result = await this.dataSource.query(sql, [uid.value]);
   //   const list = result.map((row: any) => this.toFavoriteCategoryModel(row));
 
   //   return new UserFavoriteSubcategoryList(list);
