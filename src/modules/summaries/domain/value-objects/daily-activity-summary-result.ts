@@ -3,8 +3,8 @@ import { Expense } from 'modules/common/domain/value-objects/expense';
 
 export class DailyActivitySummaryResult {
   private constructor(
-    private readonly counts: Count[],
-    private readonly amounts: Expense[],
+    private readonly _counts: Count[],
+    private readonly _amounts: Expense[],
   ) {}
 
   static create(
@@ -14,11 +14,11 @@ export class DailyActivitySummaryResult {
     return new DailyActivitySummaryResult(counts, amounts);
   }
 
-  getCounts(): Count[] {
-    return this.counts;
+  get counts(): Count[] {
+    return this._counts;
   }
 
-  getAmounts(): Expense[] {
-    return this.amounts;
+  get amounts(): Expense[] {
+    return this._amounts;
   }
 }

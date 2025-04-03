@@ -35,8 +35,8 @@ describe('SummariesService', () => {
       const result = service.generateCalculatedSummaries(summaries);
 
       expect(result).toHaveLength(2);
-      expect(result[0].getCategory()).toBe('Category2');
-      expect(result[1].getCategory()).toBe('Category1');
+      expect(result[0].category).toBe('Category2');
+      expect(result[1].category).toBe('Category1');
     });
   });
 
@@ -51,10 +51,10 @@ describe('SummariesService', () => {
 
       const result = service.generateDailyActivityLists(summaries);
 
-      expect(result.getCounts()[0].value).toBe(2);
-      expect(result.getCounts()[1].value).toBe(1);
-      expect(result.getAmounts()[0].value).toBe(100);
-      expect(result.getAmounts()[1].value).toBe(200);
+      expect(result.counts[0].value).toBe(2);
+      expect(result.counts[1].value).toBe(1);
+      expect(result.amounts[0].value).toBe(100);
+      expect(result.amounts[1].value).toBe(200);
     });
 
     it('should fill missing days with zero counts and amounts', () => {
@@ -63,10 +63,10 @@ describe('SummariesService', () => {
 
       const result = service.generateDailyActivityLists(summaries);
 
-      expect(result.getCounts()[0].value).toBe(2);
-      expect(result.getCounts()[1].value).toBe(0);
-      expect(result.getAmounts()[0].value).toBe(100);
-      expect(result.getAmounts()[1].value).toBe(0);
+      expect(result.counts[0].value).toBe(2);
+      expect(result.counts[1].value).toBe(0);
+      expect(result.amounts[0].value).toBe(100);
+      expect(result.amounts[1].value).toBe(0);
     });
   });
 });

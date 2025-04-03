@@ -68,19 +68,19 @@ describe('UpdatePostUsecase', () => {
         dto,
         postId,
       );
-      expect(postsRepository.findById).toHaveBeenCalledWith(post.getPostId());
-      expect(post.isOwnedBy).toHaveBeenCalledWith(foundPost.getUid());
+      expect(postsRepository.findById).toHaveBeenCalledWith(post.postId);
+      expect(post.isOwnedBy).toHaveBeenCalledWith(foundPost.uid);
       expect(postsRepository.save).toHaveBeenCalledWith(
         post,
         queryRunner.manager,
       );
       expect(postSubCategoriesRepository.deleteByPostId).toHaveBeenCalledWith(
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
       expect(helper.handleSubCategories).toHaveBeenCalledWith(
         dto.subCategories,
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
       assertTransactionSuccess(queryRunner);
@@ -93,7 +93,7 @@ describe('UpdatePostUsecase', () => {
         NotFoundException,
       );
 
-      expect(postsRepository.findById).toHaveBeenCalledWith(post.getPostId());
+      expect(postsRepository.findById).toHaveBeenCalledWith(post.postId);
       expect(queryRunner.rollbackTransaction).toHaveBeenCalled();
       expect(queryRunner.commitTransaction).not.toHaveBeenCalled();
       expect(queryRunner.release).toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe('UpdatePostUsecase', () => {
         BadRequestException,
       );
 
-      expect(post.isOwnedBy).toHaveBeenCalledWith(foundPost.getUid());
+      expect(post.isOwnedBy).toHaveBeenCalledWith(foundPost.uid);
       assertTransactionRollback(queryRunner);
     });
 

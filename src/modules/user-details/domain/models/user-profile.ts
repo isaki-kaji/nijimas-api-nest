@@ -3,25 +3,25 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 
 export class UserProfile {
   constructor(
-    private readonly uid: Uid,
-    private readonly username: string,
-    private readonly selfIntro?: string,
-    private readonly profileImageUrl?: ImageUrl,
+    private readonly _uid: Uid,
+    private readonly _username: string,
+    private readonly _selfIntro?: string,
+    private readonly _profileImageUrl?: ImageUrl,
   ) {}
 
-  getUid(): Uid {
-    return this.uid;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getUsername(): string {
-    return this.username;
+  get username(): string {
+    return this._username;
   }
 
-  getSelfIntro(): string | undefined {
-    return this.selfIntro;
+  get selfIntro(): string | undefined {
+    return this._selfIntro;
   }
 
-  getProfileImageUrl(): ImageUrl | undefined {
-    return this.profileImageUrl;
+  get profileImageUrl(): ImageUrl | undefined {
+    return this._profileImageUrl;
   }
 }

@@ -3,10 +3,10 @@ import { Expense } from 'modules/common/domain/value-objects/expense';
 
 export class CalculatedSummary {
   private constructor(
-    private readonly category: string,
-    private readonly count: Count,
-    private readonly amount: Expense,
-    private readonly percentage: number,
+    private readonly _category: string,
+    private readonly _count: Count,
+    private readonly _amount: Expense,
+    private readonly _percentage: number,
   ) {}
 
   static create(
@@ -18,19 +18,19 @@ export class CalculatedSummary {
     return new CalculatedSummary(category, count, amount, percentage);
   }
 
-  getCategory(): string {
-    return this.category;
+  get category(): string {
+    return this._category;
   }
 
-  getCount(): Count {
-    return this.count;
+  get count(): Count {
+    return this._count;
   }
 
-  getAmount(): Expense {
-    return this.amount;
+  get amount(): Expense {
+    return this._amount;
   }
 
-  getPercentage(): number {
-    return this.percentage;
+  get percentage(): number {
+    return this._percentage;
   }
 }

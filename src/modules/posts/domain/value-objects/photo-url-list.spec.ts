@@ -21,7 +21,7 @@ describe('PhotoUrlList', () => {
       const input =
         'http://example.com/image1.jpg,http://example.com/image2.jpg';
       const photoUrlList = PhotoUrlList.create(input);
-      expect(photoUrlList.getStrValue()).toBe(input);
+      expect(photoUrlList.strValue).toBe(input);
     });
   });
 
@@ -34,7 +34,7 @@ describe('PhotoUrlList', () => {
         'http://example.com/image1.jpg',
         'http://example.com/image2.jpg',
       ];
-      expect(photoUrlList.getListValue()).toEqual(expectedOutput);
+      expect(photoUrlList.listValue).toEqual(expectedOutput);
     });
   });
 });

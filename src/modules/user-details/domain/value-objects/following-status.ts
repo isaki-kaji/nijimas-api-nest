@@ -1,27 +1,16 @@
-import { FollowingStatusEnum } from '../enums/following-status.enum';
+export const FollowingStatus = {
+  NOT_FOLLOWING: '0',
+  FOLLOWING: '1',
+  REQUESTED: '2',
+} as const;
 
-export class FollowingStatus {
-  private constructor(readonly value: FollowingStatusEnum) {}
+export type FollowingStatus =
+  (typeof FollowingStatus)[keyof typeof FollowingStatus];
 
-  static create(value: string): FollowingStatus {
-    if (!value) {
-      throw new Error('Following status is required');
-    }
-
-    if (!this.isValid) {
-      throw new Error('Invalid following status');
-    }
-
-    return new FollowingStatus(value as FollowingStatusEnum);
+export function createFollowingStatus(status: string): FollowingStatus {
+  const statuses = Object.values(FollowingStatus);
+  if (statuses.includes(status as FollowingStatus)) {
+    return status as FollowingStatus;
   }
-
-  static isValid(value: string): boolean {
-    return Object.values(FollowingStatusEnum).includes(
-      value as FollowingStatusEnum,
-    );
-  }
-
-  getValue(): FollowingStatusEnum {
-    return this.value;
-  }
+  throw new Error('Invalid status');
 }

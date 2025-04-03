@@ -26,24 +26,24 @@ export class UpdatePostUsecase {
 
     try {
       const post = this.postsFactory.createModelFromUpdateDto(dto, postId);
-      const foundPost = await this.postsRepository.findById(post.getPostId());
+      const foundPost = await this.postsRepository.findById(post.postId);
       if (!foundPost) {
         throw new NotFoundException('Post not found');
       }
 
-      if (!post.isOwnedBy(foundPost.getUid())) {
+      if (!post.isOwnedBy(foundPost.uid)) {
         throw new BadRequestException('You are not the owner of this post');
       }
 
       await this.postsRepository.save(post, queryRunner.manager);
 
       await this.postSubCategoriesRepository.deleteByPostId(
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
       await this.helper.handleSubCategories(
         dto.subCategories!,
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
 

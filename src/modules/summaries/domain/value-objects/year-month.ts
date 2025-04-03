@@ -2,8 +2,8 @@ import * as moment from 'moment-timezone';
 
 export class YearMonth {
   private constructor(
-    private readonly year: number,
-    private readonly month: number,
+    private readonly _year: number,
+    private readonly _month: number,
   ) {}
 
   static create(year: number, month: number): YearMonth {
@@ -13,12 +13,12 @@ export class YearMonth {
     return new YearMonth(year, month);
   }
 
-  getYear(): number {
-    return this.year;
+  get year(): number {
+    return this._year;
   }
 
-  getMonth(): number {
-    return this.month;
+  get month(): number {
+    return this._month;
   }
 
   getStartDate(timezone: string): moment.Moment {

@@ -2,8 +2,8 @@ import { DailyActivitySummary } from './daily-activity-summary';
 
 export class DailyActivitySummariesByMonth {
   private constructor(
-    private readonly summaries: DailyActivitySummary[],
-    private readonly daysInMonth: number,
+    private readonly _summaries: DailyActivitySummary[],
+    private readonly _daysInMonth: number,
   ) {
     this.validateSummaries();
   }
@@ -18,18 +18,17 @@ export class DailyActivitySummariesByMonth {
     return new DailyActivitySummariesByMonth(summaries, daysInMonth);
   }
 
-  getSummaries(): ReadonlyArray<DailyActivitySummary> {
-    return this.summaries.slice();
+  get summaries(): ReadonlyArray<DailyActivitySummary> {
+    return this._summaries.slice();
   }
 
-  getDaysInMonth(): number {
-    return this.daysInMonth;
+  get daysInMonth(): number {
+    return this._daysInMonth;
   }
 
   private validateSummaries(): void {
     const hasValidSummary = !this.summaries.some(
-      (summary) =>
-        summary['date'] < 1 || summary['date'] > this.getDaysInMonth(),
+      (summary) => summary['date'] < 1 || summary['date'] > this.daysInMonth,
     );
 
     if (!hasValidSummary) {

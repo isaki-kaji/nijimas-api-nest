@@ -3,9 +3,9 @@ import { Expense } from 'modules/common/domain/value-objects/expense';
 
 export class DailyActivitySummary {
   private constructor(
-    private readonly date: number,
-    private readonly count: Count,
-    private readonly amount: Expense,
+    private readonly _date: number,
+    private readonly _count: Count,
+    private readonly _amount: Expense,
   ) {}
 
   static create(
@@ -16,15 +16,15 @@ export class DailyActivitySummary {
     return new DailyActivitySummary(date, count, amount);
   }
 
-  getDate(): number {
-    return this.date;
+  get date(): number {
+    return this._date;
   }
 
-  getCount(): Count {
-    return this.count;
+  get count(): Count {
+    return this._count;
   }
 
-  getAmount(): Expense {
-    return this.amount;
+  get amount(): Expense {
+    return this._amount;
   }
 }

@@ -30,23 +30,23 @@ export class SubCategoriesRepository implements ISubCategoriesRepository {
   async findByName(
     name: string,
     manager?: EntityManager,
-  ): Promise<SubCategory | null> {
+  ): Promise<SubCategory | undefined> {
     if (manager) {
       const row = await manager.getRepository(SubCategoryEntity).findOne({
         where: { categoryName: name },
       });
-      return row ? this.toModel(row) : null;
+      return row ? this.toModel(row) : undefined;
     }
     const row = await this.postRepository.findOne({
       where: { categoryName: name },
     });
-    return row ? this.toModel(row) : null;
+    return row ? this.toModel(row) : undefined;
   }
 
   private toEntity(subCategory: SubCategory): SubCategoryEntity {
     const entity = new SubCategoryEntity();
-    entity.categoryId = subCategory.getId().value;
-    entity.categoryName = subCategory.getName();
+    entity.categoryId = subCategory.id.value;
+    entity.categoryName = subCategory.name;
     return entity;
   }
 
