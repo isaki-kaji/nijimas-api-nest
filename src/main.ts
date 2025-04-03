@@ -17,7 +17,7 @@ async function bootstrap() {
       }),
     );
 
-    await app.listen(3000);
+    await app.listen(3000, '0.0.0.0');
     console.log('✅ NestJS is now listening');
   } catch (error) {
     console.error('🔥 NestJS failed to start:', error);
