@@ -6,7 +6,7 @@ describe('Uuid', () => {
     it('should create a valid UUID instance', () => {
       const validUuid = uuid();
       const uuidInstance = Uuid.create(validUuid);
-      expect(uuidInstance.getValue()).toBe(validUuid);
+      expect(uuidInstance.value).toBe(validUuid);
     });
 
     it('should throw an error for invalid UUID format', () => {
@@ -29,7 +29,7 @@ describe('Uuid', () => {
   describe('generate', () => {
     it('should generate a valid UUID v7 instance', () => {
       const uuidInstance = Uuid.generate();
-      expect(Uuid.create(uuidInstance.getValue())).toBeInstanceOf(Uuid);
+      expect(Uuid.create(uuidInstance.value)).toBeInstanceOf(Uuid);
     });
   });
 
@@ -37,7 +37,7 @@ describe('Uuid', () => {
     it('should return the correct UUID string', () => {
       const validUuid = uuid();
       const uuidInstance = Uuid.create(validUuid);
-      expect(uuidInstance.getValue()).toBe(validUuid);
+      expect(uuidInstance.value).toBe(validUuid);
     });
   });
 });

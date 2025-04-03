@@ -16,8 +16,8 @@ export class FollowsUsecase {
   async cancelFollow(dto: FollowDto): Promise<void> {
     const follow = this.followsFactory.createModel(dto);
     const followExists = await this.followsService.exists(
-      follow.getUid(),
-      follow.getFollowingUid(),
+      follow.uid,
+      follow.followingUid,
     );
     if (!followExists) {
       throw new NotFoundException('Follow not found');

@@ -14,18 +14,17 @@ export class UserDetailsFactory {
     // categories: UserFavoriteSubcategoryList,
   ): UserDetailResponseDto {
     return {
-      uid: userProfile.getUid().getValue(),
+      uid: userProfile.getUid().value,
       username: userProfile.getUsername(),
       selfIntro: userProfile.getSelfIntro() ?? undefined,
-      profileImageUrl:
-        userProfile.getProfileImageUrl()?.getValue() ?? undefined,
-      followingCount: followInfo.getFollowingCount().getValue(),
-      followersCount: followInfo.getFollowersCount().getValue(),
-      followingStatus: followInfo.getFollowingStatus().getValue(),
-      postCount: postInfo.getPostCount().getValue(),
+      profileImageUrl: userProfile.getProfileImageUrl()?.value ?? undefined,
+      followingCount: followInfo.getFollowingCount().value,
+      followersCount: followInfo.getFollowersCount().value,
+      followingStatus: followInfo.getFollowingStatus().value,
+      postCount: postInfo.getPostCount().value,
       // userFavoriteSubcategories: categories.getList().map((category) => ({
-      //   categoryNo: category.getCategoryNo().getValue(),
-      //   categoryId: category.getCategoryId().getValue(),
+      //   categoryNo: category.getCategoryNo().value,
+      //   categoryId: category.getCategoryId().value,
       //   categoryName: category.getCategoryName(),
       // })),
     };

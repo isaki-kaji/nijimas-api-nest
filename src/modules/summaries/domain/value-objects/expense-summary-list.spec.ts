@@ -60,7 +60,7 @@ describe('ExpenseSummaryList', () => {
       ]);
       const totalAmount = list.getTotalAmount();
 
-      expect(totalAmount.getValue()).toBe(600);
+      expect(totalAmount.value).toBe(600);
     });
   });
 });

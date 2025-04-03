@@ -4,41 +4,39 @@ import { FollowRequestStatus } from '../value-objects/follow-request-status';
 
 export class FollowRequest {
   constructor(
-    private readonly requestId: Uuid,
-    private readonly uid: Uid,
-    private readonly requestedUid: Uid,
-    private status: FollowRequestStatus,
-    private readonly version: number,
-  ) {
-    this.status = status;
+    private readonly _requestId: Uuid,
+    private readonly _uid: Uid,
+    private readonly _requestedUid: Uid,
+    private _status: FollowRequestStatus,
+    private readonly _version: number,
+  ) {}
+
+  get requestId(): Uuid {
+    return this._requestId;
   }
 
-  getRequestId(): Uuid {
-    return this.requestId;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getUid(): Uid {
-    return this.uid;
+  get requestedUid(): Uid {
+    return this._requestedUid;
   }
 
-  getRequestedUid(): Uid {
-    return this.requestedUid;
-  }
-
-  getStatus(): FollowRequestStatus {
-    return this.status;
+  get status(): FollowRequestStatus {
+    return this._status;
   }
 
   accept(): void {
-    this.status = FollowRequestStatus.Accepted;
+    this._status = FollowRequestStatus.Accepted;
   }
 
   reject(): void {
-    this.status = FollowRequestStatus.Rejected;
+    this._status = FollowRequestStatus.Rejected;
   }
 
   isForUser(uid: Uid): boolean {
-    return this.requestedUid.equals(uid);
+    return this._requestedUid.equals(uid);
   }
 
   isPending(): boolean {

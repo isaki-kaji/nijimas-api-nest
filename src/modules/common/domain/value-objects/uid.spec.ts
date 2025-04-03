@@ -9,7 +9,7 @@ describe('Uid', () => {
       const uid = Uid.create(validUid);
 
       expect(uid).toBeInstanceOf(Uid);
-      expect(uid.getValue()).toBe(validUid);
+      expect(uid.value).toBe(validUid);
     });
 
     it('should throw an error if UID is empty', () => {
@@ -54,7 +54,7 @@ describe('Uid', () => {
       const validUid = genUid();
       const uid = Uid.create(validUid);
 
-      expect(uid.getValue()).toBe(validUid);
+      expect(uid.value).toBe(validUid);
     });
   });
 });

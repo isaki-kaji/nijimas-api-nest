@@ -7,7 +7,7 @@ describe('ImageUrl', () => {
       const imageUrl = ImageUrl.create(url);
 
       expect(imageUrl).toBeInstanceOf(ImageUrl);
-      expect(imageUrl.getValue()).toBe(url);
+      expect(imageUrl.value).toBe(url);
     });
 
     it('should throw if the URL is empty', () => {
@@ -42,7 +42,7 @@ describe('ImageUrl', () => {
       const url = 'https://example.com/image.png';
       const imageUrl = ImageUrl.create(url);
 
-      expect(imageUrl.getValue()).toBe(url);
+      expect(imageUrl.value).toBe(url);
     });
   });
 });

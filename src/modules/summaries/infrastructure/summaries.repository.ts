@@ -30,7 +30,7 @@ export class SummariesRepository implements ISummariesRepository {
     `;
 
     const result = await this.dataSource.query(query, [
-      uid.getValue(),
+      uid.value,
       startDate,
       endDate,
     ]);
@@ -65,7 +65,7 @@ export class SummariesRepository implements ISummariesRepository {
     `;
 
     const result = await this.dataSource.query(query, [
-      uid.getValue(),
+      uid.value,
       startDate,
       endDate,
     ]);
@@ -99,7 +99,7 @@ export class SummariesRepository implements ISummariesRepository {
     `;
 
     const result = await this.dataSource.query(query, [
-      uid.getValue(),
+      uid.value,
       startDate,
       endDate,
     ]);

@@ -121,8 +121,8 @@ describe('HandleFollowRequestUsecase', () => {
       expect(followRequestsRepository.findOne).toHaveBeenCalledWith(requestId);
       expect(followRequest.isForUser).toHaveBeenCalledWith(Uid.create(uidStr));
       expect(followsService.exists).toHaveBeenCalledWith(
-        followRequest.getUid(),
-        followRequest.getRequestedUid(),
+        followRequest.uid,
+        followRequest.requestedUid,
       );
       assertTransactionRollback(queryRunner);
     });
@@ -164,8 +164,8 @@ describe('HandleFollowRequestUsecase', () => {
       expect(followRequestsRepository.findOne).toHaveBeenCalledWith(requestId);
       expect(followRequest.isForUser).toHaveBeenCalledWith(Uid.create(uidStr));
       expect(followsService.exists).toHaveBeenCalledWith(
-        followRequest.getUid(),
-        followRequest.getRequestedUid(),
+        followRequest.uid,
+        followRequest.requestedUid,
       );
       expect(followRequest.accept).toHaveBeenCalled();
       expect(followRequestsRepository.save).toHaveBeenCalledWith(
