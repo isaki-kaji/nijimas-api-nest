@@ -1,15 +1,12 @@
 import { DataSource } from 'typeorm';
 import { IUserDetailsRepository } from '../domain/i.user-details.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { FollowingStatus } from '../domain/value-objects/following-status';
+import { createFollowingStatus } from '../domain/value-objects/following-status';
 import { FollowInfo } from '../domain/models/follow-info';
 import { Count } from '../../common/domain/value-objects/count';
 import { PostInfo } from '../domain/models/post_info';
 import { UserProfile } from '../domain/models/user-profile';
-import { FavoriteCategoryNo } from '../domain/value-objects/favorite-category-no';
-import { UserFavoriteSubcategory } from '../domain/models/user-favorite-subcategory';
-import { Uuid } from 'modules/common/domain/value-objects/uuid';
-import { UserFavoriteSubcategoryList } from '../domain/models/user-favorite-subcategory-list';
+
 import { Injectable } from '@nestjs/common';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 
@@ -78,7 +75,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
   }
 
   private toFollowInfoModel(row: any): FollowInfo {
-    const followingStatus = FollowingStatus.create(row.following_status);
+    const followingStatus = createFollowingStatus(row.following_status);
     const followingCount = Count.create(row.following_count);
     const followersCount = Count.create(row.followers_count);
     return new FollowInfo(followingCount, followersCount, followingStatus);

@@ -1,6 +1,4 @@
-import { mock } from 'jest-mock-extended';
 import { DailyActivitySummariesByMonth } from './daily-activity-summaries-by-month';
-import { DailyActivitySummary } from './daily-activity-summary';
 import { genDailyActivitySummary } from 'testing/utils/summaries-test-util';
 
 describe('DailyActivitySummariesByMonth', () => {
@@ -17,8 +15,8 @@ describe('DailyActivitySummariesByMonth', () => {
         daysInMonth,
       );
       expect(instance).toBeInstanceOf(DailyActivitySummariesByMonth);
-      expect(instance.getSummaries()).toHaveLength(3);
-      expect(instance.getDaysInMonth()).toBe(daysInMonth);
+      expect(instance.summaries).toHaveLength(3);
+      expect(instance.daysInMonth).toBe(daysInMonth);
     });
 
     it('should throw an error if daysInMonth is less than 28 or greater than 31', () => {

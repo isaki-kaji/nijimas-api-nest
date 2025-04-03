@@ -4,14 +4,18 @@ import { mock } from 'jest-mock-extended';
 import { Expense } from 'modules/common/domain/value-objects/expense';
 
 describe('ExpenseSummaryList', () => {
-  const expenseSummary1 = mock<ExpenseSummary<any>>();
-  const expenseSummary2 = mock<ExpenseSummary<any>>();
-  const expenseSummary3 = mock<ExpenseSummary<any>>();
-
   describe('create', () => {
     it('should create an instance with unique categories', () => {
-      expenseSummary1.getCategory.mockReturnValue('Category1');
-      expenseSummary2.getCategory.mockReturnValue('Category2');
+      const expenseSummary1 = {
+        get category() {
+          return 'Category1';
+        },
+      } as ExpenseSummary<any>;
+      const expenseSummary2 = {
+        get category() {
+          return 'Category2';
+        },
+      } as ExpenseSummary<any>;
 
       const list = ExpenseSummaryList.create([
         expenseSummary1,
@@ -22,8 +26,16 @@ describe('ExpenseSummaryList', () => {
     });
 
     it('should throw an error if categories are not unique', () => {
-      expenseSummary1.getCategory.mockReturnValue('Category1');
-      expenseSummary2.getCategory.mockReturnValue('Category1');
+      const expenseSummary1 = {
+        get category() {
+          return 'Category1';
+        },
+      } as ExpenseSummary<any>;
+      const expenseSummary2 = {
+        get category() {
+          return 'Category1';
+        },
+      } as ExpenseSummary<any>;
 
       expect(() => {
         ExpenseSummaryList.create([expenseSummary1, expenseSummary2]);
@@ -33,32 +45,61 @@ describe('ExpenseSummaryList', () => {
 
   describe('getSummaries', () => {
     it('should return a copy of the summaries array', () => {
-      expenseSummary1.getCategory.mockReturnValue('Category1');
-      expenseSummary2.getCategory.mockReturnValue('Category2');
+      const expenseSummary1 = {
+        get category() {
+          return 'Category1';
+        },
+      } as ExpenseSummary<any>;
+      const expenseSummary2 = {
+        get category() {
+          return 'Category2';
+        },
+      } as ExpenseSummary<any>;
 
       const list = ExpenseSummaryList.create([
         expenseSummary1,
         expenseSummary2,
       ]);
-      const summaries = list.getSummaries();
+      const summaries = list.summaries;
 
       expect(summaries).toEqual([expenseSummary1, expenseSummary2]);
-      expect(summaries).not.toBe(list.getSummaries());
+      expect(summaries).not.toBe(list.summaries); // 配列のコピーであることを確認
     });
   });
 
   describe('getTotalAmount', () => {
     it('should return the total amount of all summaries', () => {
-      expenseSummary1.getAmount.mockReturnValue(Expense.create(100));
-      expenseSummary2.getAmount.mockReturnValue(Expense.create(200));
-      expenseSummary3.getAmount.mockReturnValue(Expense.create(300));
+      const expenseSummary1 = {
+        get category() {
+          return 'Category1';
+        },
+        get amount() {
+          return Expense.create(100);
+        },
+      } as ExpenseSummary<any>;
+      const expenseSummary2 = {
+        get category() {
+          return 'Category2';
+        },
+        get amount() {
+          return Expense.create(200);
+        },
+      } as ExpenseSummary<any>;
+      const expenseSummary3 = {
+        get category() {
+          return 'Category3';
+        },
+        get amount() {
+          return Expense.create(300);
+        },
+      } as ExpenseSummary<any>;
 
       const list = ExpenseSummaryList.create([
         expenseSummary1,
         expenseSummary2,
         expenseSummary3,
       ]);
-      const totalAmount = list.getTotalAmount();
+      const totalAmount = list.totalAmount;
 
       expect(totalAmount.value).toBe(600);
     });

@@ -4,35 +4,35 @@ import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 
 export class User {
   constructor(
-    private readonly uid: Uid,
-    private readonly username: string,
-    private readonly version: number,
-    private readonly selfIntro?: string,
-    private readonly profileImageUrl?: ImageUrl,
-    private readonly countryCode?: CountryCode,
+    private readonly _uid: Uid,
+    private readonly _username: string,
+    private readonly _version: number,
+    private readonly _selfIntro?: string,
+    private readonly _profileImageUrl?: ImageUrl,
+    private readonly _countryCode?: CountryCode,
   ) {}
 
-  getUid(): Uid {
-    return this.uid;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getUsername(): string {
-    return this.username;
+  get username(): string {
+    return this._username;
   }
 
-  getVersion(): number {
-    return this.version;
+  get version(): number {
+    return this._version;
   }
 
-  getSelfIntro(): string | undefined {
-    return this.selfIntro;
+  get selfIntro(): string | undefined {
+    return this._selfIntro;
   }
 
-  getProfileImageUrl(): ImageUrl | undefined {
-    return this.profileImageUrl;
+  get profileImageUrl(): ImageUrl | undefined {
+    return this._profileImageUrl;
   }
 
-  getCountryCode(): CountryCode | undefined {
-    return this.countryCode;
+  get countryCode(): CountryCode | undefined {
+    return this._countryCode;
   }
 }

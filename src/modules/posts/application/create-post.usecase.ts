@@ -28,7 +28,7 @@ export class CreatePostUsecase {
 
       await this.helper.handleSubCategories(
         dto.subCategories,
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
 

@@ -48,7 +48,7 @@ export class PostSubCategoriesRepository
     categoryNo: CategoryNo,
   ): PostSubcategoryEntity {
     const entity = new PostSubcategoryEntity();
-    entity.categoryId = subCategory.getId().value;
+    entity.categoryId = subCategory.id.value;
     entity.postId = postId.value;
     entity.categoryNo = categoryNo;
     return entity;

@@ -54,7 +54,7 @@ describe('PostSubCategoryHelper', () => {
     it('should handle new subcategories', async () => {
       const subCategoryName1 = 'newCategory1';
       const subCategoryName2 = 'newCategory2';
-      subCategoriesRepository.findByName.mockResolvedValue(null);
+      subCategoriesRepository.findByName.mockResolvedValue(undefined);
 
       const postId = Uuid.create(genUUID());
       await helper.handleSubCategories(
@@ -93,7 +93,7 @@ describe('PostSubCategoryHelper', () => {
 
         subCategoriesRepository.findByName
           .mockResolvedValueOnce(existingSubCategory)
-          .mockResolvedValueOnce(null);
+          .mockResolvedValueOnce(undefined);
 
         const postId = Uuid.create(genUUID());
 

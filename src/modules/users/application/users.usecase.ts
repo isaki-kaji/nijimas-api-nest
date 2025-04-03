@@ -22,7 +22,7 @@ export class UsersUsecase {
 
   async create(dto: CreateUserDto) {
     const user = this.factory.createModelFromCreateDto(dto);
-    if (await this.service.exists(user.getUid())) {
+    if (await this.service.exists(user.uid)) {
       throw new ConflictException('User already exists');
     }
 
@@ -31,7 +31,7 @@ export class UsersUsecase {
 
   async update(dto: UpdateUserDto) {
     const user = this.factory.createModelFromUpdateDto(dto);
-    if (!(await this.service.exists(user.getUid()))) {
+    if (!(await this.service.exists(user.uid))) {
       throw new NotFoundException('User not found');
     }
 

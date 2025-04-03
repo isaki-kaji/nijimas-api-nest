@@ -31,17 +31,15 @@ describe('PostsFactory', () => {
       const post = factory.createModelFromCreateDto(dto);
 
       expect(post).toBeInstanceOf(Post);
-      expect(post.getPostId()).toEqual(Uuid.create(dto.postId));
-      expect(post.getUid()).toEqual(Uid.create(dto.uid));
-      expect(post.getMainCategory()).toEqual(dto.mainCategory);
-      expect(post.getPublicTypeNo()).toEqual(
-        createPublicTypeNo(dto.publicTypeNo),
-      );
-      expect(post.getSubCategories()).toEqual(dto.subCategories);
-      expect(post.getPostText()).toBe(dto.postText);
-      expect(post.getPhotoUrlList()?.getStrValue()).toEqual(dto.photoUrl);
-      expect(post.getExpense()?.value).toBe(parseInt(dto.expense, 10));
-      expect(post.getLocation()).toBe(dto.location);
+      expect(post.postId).toEqual(Uuid.create(dto.postId));
+      expect(post.uid).toEqual(Uid.create(dto.uid));
+      expect(post.mainCategory).toEqual(dto.mainCategory);
+      expect(post.publicTypeNo).toEqual(createPublicTypeNo(dto.publicTypeNo));
+      expect(post.subCategories).toEqual(dto.subCategories);
+      expect(post.postText).toBe(dto.postText);
+      expect(post.photoUrlList?.strValue).toEqual(dto.photoUrl);
+      expect(post.expense?.value).toBe(parseInt(dto.expense, 10));
+      expect(post.location).toBe(dto.location);
     });
 
     describe('createModelFromUpdateDto', () => {
@@ -61,18 +59,16 @@ describe('PostsFactory', () => {
         const post = factory.createModelFromUpdateDto(dto, postIdStr);
 
         expect(post).toBeInstanceOf(Post);
-        expect(post.getPostId()).toEqual(Uuid.create(postIdStr));
-        expect(post.getUid()).toEqual(Uid.create(dto.uid));
-        expect(post.getMainCategory()).toEqual(dto.mainCategory);
-        expect(post.getPublicTypeNo()).toEqual(
-          createPublicTypeNo(dto.publicTypeNo),
-        );
-        expect(post.getSubCategories()).toEqual(dto.subCategories);
-        expect(post.getPostText()).toBe(dto.postText);
-        expect(post.getPhotoUrlList()?.getStrValue()).toEqual(dto.photoUrl);
-        expect(post.getExpense()?.value).toBe(parseInt(dto.expense!, 10));
-        expect(post.getLocation()).toBe(dto.location);
-        expect(post.getVersion()).toBe(dto.version);
+        expect(post.postId).toEqual(Uuid.create(postIdStr));
+        expect(post.uid).toEqual(Uid.create(dto.uid));
+        expect(post.mainCategory).toEqual(dto.mainCategory);
+        expect(post.publicTypeNo).toEqual(createPublicTypeNo(dto.publicTypeNo));
+        expect(post.subCategories).toEqual(dto.subCategories);
+        expect(post.postText).toBe(dto.postText);
+        expect(post.photoUrlList?.strValue).toEqual(dto.photoUrl);
+        expect(post.expense?.value).toBe(parseInt(dto.expense!, 10));
+        expect(post.location).toBe(dto.location);
+        expect(post.version).toBe(dto.version);
       });
     });
   });

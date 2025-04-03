@@ -2,15 +2,15 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class SubCategory {
   constructor(
-    private readonly id: Uuid,
-    private readonly name: string,
+    private readonly _id: Uuid,
+    private readonly _name: string,
   ) {}
 
-  getId(): Uuid {
-    return this.id;
+  get id(): Uuid {
+    return this._id;
   }
 
-  getName(): string {
-    return this.name;
+  get name(): string {
+    return this._name;
   }
 }

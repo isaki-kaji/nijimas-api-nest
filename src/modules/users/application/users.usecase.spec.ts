@@ -64,7 +64,7 @@ describe('UsersUsecase', () => {
         await usecase.create(dto);
 
         expect(usersFactory.createModelFromCreateDto).toHaveBeenCalledWith(dto);
-        expect(usersService.exists).toHaveBeenCalledWith(user.getUid());
+        expect(usersService.exists).toHaveBeenCalledWith(user.uid);
         expect(usersRepository.save).toHaveBeenCalledWith(user);
       });
     });
@@ -97,7 +97,7 @@ describe('UsersUsecase', () => {
         await usecase.update(dto);
 
         expect(usersFactory.createModelFromUpdateDto).toHaveBeenCalledWith(dto);
-        expect(usersService.exists).toHaveBeenCalledWith(user.getUid());
+        expect(usersService.exists).toHaveBeenCalledWith(user.uid);
         expect(usersRepository.save).toHaveBeenCalledWith(user);
       });
     });
