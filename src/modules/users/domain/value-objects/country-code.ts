@@ -1,5 +1,5 @@
 export class CountryCode {
-  private constructor(public readonly value: string) {}
+  private constructor(public readonly _value: string) {}
 
   static create(value: string): CountryCode {
     if (!value) {
@@ -21,7 +21,7 @@ export class CountryCode {
     return this.value === other.value;
   }
 
-  getValue(): string {
-    return this.value;
+  get value(): string {
+    return this._value;
   }
 }

@@ -61,7 +61,7 @@ describe('CreatePostUsecase', () => {
       );
       expect(helper.handleSubCategories).toHaveBeenCalledWith(
         dto.subCategories,
-        post.getPostId(),
+        post.postId,
         queryRunner.manager,
       );
       assertTransactionSuccess(queryRunner);

@@ -6,64 +6,64 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class Post {
   constructor(
-    private readonly postId: Uuid,
-    private readonly uid: Uid,
-    private readonly mainCategory: MainCategory,
-    private readonly publicTypeNo: PublicTypeNo,
-    private readonly createdAt: Date,
-    private readonly version: number,
-    private readonly subCategories: string[],
-    private readonly postText?: string,
-    private readonly photoUrlList?: PhotoUrlList,
-    private readonly expense?: Expense,
-    private readonly location?: string,
+    private readonly _postId: Uuid,
+    private readonly _uid: Uid,
+    private readonly _mainCategory: MainCategory,
+    private readonly _publicTypeNo: PublicTypeNo,
+    private readonly _createdAt: Date,
+    private readonly _version: number,
+    private readonly _subCategories: string[],
+    private readonly _postText?: string,
+    private readonly _photoUrlList?: PhotoUrlList,
+    private readonly _expense?: Expense,
+    private readonly _location?: string,
   ) {}
 
   isOwnedBy(uid: Uid): boolean {
     return this.uid.equals(uid);
   }
 
-  getPostId(): Uuid {
-    return this.postId;
+  get postId(): Uuid {
+    return this._postId;
   }
 
-  getUid(): Uid {
-    return this.uid;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getMainCategory(): MainCategory {
-    return this.mainCategory;
+  get mainCategory(): MainCategory {
+    return this._mainCategory;
   }
 
-  getPublicTypeNo(): PublicTypeNo {
-    return this.publicTypeNo;
+  get publicTypeNo(): PublicTypeNo {
+    return this._publicTypeNo;
   }
 
-  getCreatedAt(): Date {
-    return this.createdAt;
+  get createdAt(): Date {
+    return this._createdAt;
   }
 
-  getVersion(): number {
-    return this.version;
+  get version(): number {
+    return this._version;
   }
 
-  getSubCategories(): string[] {
-    return this.subCategories;
+  get subCategories(): string[] {
+    return this._subCategories;
   }
 
-  getPostText(): string | undefined {
-    return this.postText;
+  get postText(): string | undefined {
+    return this._postText;
   }
 
-  getPhotoUrlList(): PhotoUrlList | undefined {
-    return this.photoUrlList;
+  get photoUrlList(): PhotoUrlList | undefined {
+    return this._photoUrlList;
   }
 
-  getExpense(): Expense | undefined {
-    return this.expense;
+  get expense(): Expense | undefined {
+    return this._expense;
   }
 
-  getLocation(): string | undefined {
-    return this.location;
+  get location(): string | undefined {
+    return this._location;
   }
 }

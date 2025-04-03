@@ -7,5 +7,5 @@ export interface ISubCategoriesRepository {
   findByName(
     name: string,
     manager?: EntityManager,
-  ): Promise<SubCategory | null>;
+  ): Promise<SubCategory | undefined>;
 }

@@ -3,20 +3,20 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class UserFavoriteSubcategory {
   constructor(
-    private readonly categoryId: Uuid,
-    private readonly categoryNo: FavoriteCategoryNo,
-    private readonly categoryName: string,
+    private readonly _categoryId: Uuid,
+    private readonly _categoryNo: FavoriteCategoryNo,
+    private readonly _categoryName: string,
   ) {}
 
-  getCategoryId(): Uuid {
-    return this.categoryId;
+  get categoryId(): Uuid {
+    return this._categoryId;
   }
 
-  getCategoryNo(): FavoriteCategoryNo {
-    return this.categoryNo;
+  get categoryNo(): FavoriteCategoryNo {
+    return this._categoryNo;
   }
 
-  getCategoryName(): string {
-    return this.categoryName;
+  get categoryName(): string {
+    return this._categoryName;
   }
 }

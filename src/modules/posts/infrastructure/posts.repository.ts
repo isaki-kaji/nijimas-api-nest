@@ -93,15 +93,15 @@ export class PostsRepository implements IPostsRepository {
 
   private toEntity(post: Post): PostEntity {
     const entity = new PostEntity();
-    entity.uid = post.getUid().value;
-    entity.postId = post.getPostId().value;
-    entity.mainCategory = post.getMainCategory();
-    entity.postText = post.getPostText() ?? undefined;
-    entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? undefined;
-    entity.expense = post.getExpense()?.value ?? 0;
-    entity.location = post.getLocation() ?? undefined;
-    entity.publicTypeNo = post.getPublicTypeNo();
-    entity.version = post.getVersion();
+    entity.uid = post.uid.value;
+    entity.postId = post.postId.value;
+    entity.mainCategory = post.mainCategory;
+    entity.postText = post.postText ?? undefined;
+    entity.photoUrl = post.photoUrlList?.strValue ?? undefined;
+    entity.expense = post.expense?.value ?? 0;
+    entity.location = post.location ?? undefined;
+    entity.publicTypeNo = post.publicTypeNo;
+    entity.version = post.version;
     return entity;
   }
 }

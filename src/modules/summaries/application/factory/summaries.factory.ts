@@ -14,22 +14,22 @@ export class SummariesFactory {
   ): MonthlySummaryResponseDto {
     return {
       uid: uid.value,
-      year: yearMonth.getYear(),
-      month: yearMonth.getMonth(),
+      year: yearMonth.year,
+      month: yearMonth.month,
       mainCategorySummary: mainCategorySummary.map((summary) => ({
-        categoryName: summary.getCategory(),
-        count: summary.getCount().value,
-        amount: summary.getAmount().value,
-        percentage: summary.getPercentage(),
+        categoryName: summary.category,
+        count: summary.count.value,
+        amount: summary.amount.value,
+        percentage: summary.percentage,
       })),
       subCategorySummary: subCategorySummary.map((summary) => ({
-        categoryName: summary.getCategory(),
-        count: summary.getCount().value,
-        amount: summary.getAmount().value,
-        percentage: summary.getPercentage(),
+        categoryName: summary.category,
+        count: summary.count.value,
+        amount: summary.amount.value,
+        percentage: summary.percentage,
       })),
-      dailyCount: dailyActivity.getCounts().map((count) => count.value),
-      dailyAmount: dailyActivity.getAmounts().map((amount) => amount.value),
+      dailyCount: dailyActivity.counts.map((count) => count.value),
+      dailyAmount: dailyActivity.amounts.map((amount) => amount.value),
     };
   }
 }

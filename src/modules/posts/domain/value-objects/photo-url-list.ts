@@ -1,7 +1,7 @@
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
 
 export class PhotoUrlList {
-  private constructor(private readonly value: ImageUrl[]) {}
+  private constructor(private readonly _value: ImageUrl[]) {}
 
   public static create(value: string): PhotoUrlList {
     if (!value) {
@@ -13,11 +13,11 @@ export class PhotoUrlList {
     return new PhotoUrlList(photoUrlList);
   }
 
-  public getStrValue(): string {
-    return this.value.map((imageUrl) => imageUrl.value).join(',');
+  get strValue(): string {
+    return this._value.map((imageUrl) => imageUrl.value).join(',');
   }
 
-  public getListValue(): string[] {
-    return this.value.map((imageUrl) => imageUrl.value);
+  get listValue(): string[] {
+    return this._value.map((imageUrl) => imageUrl.value);
   }
 }

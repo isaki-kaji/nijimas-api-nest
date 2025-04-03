@@ -1,9 +1,9 @@
 import { Count } from '../../../common/domain/value-objects/count';
 
 export class PostInfo {
-  constructor(private readonly postCount: Count) {}
+  constructor(private readonly _postCount: Count) {}
 
-  getPostCount(): Count {
-    return this.postCount;
+  get postCount(): Count {
+    return this._postCount;
   }
 }

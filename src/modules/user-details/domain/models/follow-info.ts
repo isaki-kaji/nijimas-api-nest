@@ -3,20 +3,20 @@ import { FollowingStatus } from '../value-objects/following-status';
 
 export class FollowInfo {
   constructor(
-    private readonly followingCount: Count,
-    private readonly followersCount: Count,
-    private readonly followingStatus: FollowingStatus,
+    private readonly _followingCount: Count,
+    private readonly _followersCount: Count,
+    private readonly _followingStatus: FollowingStatus,
   ) {}
 
-  getFollowingCount(): Count {
-    return this.followingCount;
+  get followingCount(): Count {
+    return this._followingCount;
   }
 
-  getFollowersCount(): Count {
-    return this.followersCount;
+  get followersCount(): Count {
+    return this._followersCount;
   }
 
-  getFollowingStatus(): FollowingStatus {
-    return this.followingStatus;
+  get followingStatus(): FollowingStatus {
+    return this._followingStatus;
   }
 }

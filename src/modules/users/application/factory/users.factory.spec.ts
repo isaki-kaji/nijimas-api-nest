@@ -20,18 +20,18 @@ describe('UsersFactory', () => {
       const user = factory.createModelFromCreateDto(dto);
 
       expect(user).toBeInstanceOf(User);
-      expect(user.getUid()).toEqual(Uid.create(dto.uid));
-      expect(user.getUsername()).toBe(dto.username);
-      expect(user.getVersion()).toBe(1);
-      expect(user.getSelfIntro()).toBe(dto.selfIntro);
-      expect(user.getProfileImageUrl()?.value).toBe(dto.profileImageUrl);
+      expect(user.uid).toEqual(Uid.create(dto.uid));
+      expect(user.username).toBe(dto.username);
+      expect(user.version).toBe(1);
+      expect(user.selfIntro).toBe(dto.selfIntro);
+      expect(user.profileImageUrl?.value).toBe(dto.profileImageUrl);
     });
 
     it('should create a User model with null profileImageUrl if not provided', () => {
       const dto = genCreateDto();
       const user = factory.createModelFromCreateDto(dto);
 
-      expect(user.getProfileImageUrl()).toBeUndefined();
+      expect(user.profileImageUrl).toBeUndefined();
     });
   });
 
@@ -41,18 +41,18 @@ describe('UsersFactory', () => {
       const user = factory.createModelFromUpdateDto(dto);
 
       expect(user).toBeInstanceOf(User);
-      expect(user.getUid()).toEqual(Uid.create(dto.uid));
-      expect(user.getUsername()).toBe(dto.username);
-      expect(user.getVersion()).toBe(dto.version);
-      expect(user.getSelfIntro()).toBe(dto.selfIntro);
-      expect(user.getProfileImageUrl()?.value).toBe(dto.profileImageUrl);
+      expect(user.uid).toEqual(Uid.create(dto.uid));
+      expect(user.username).toBe(dto.username);
+      expect(user.version).toBe(dto.version);
+      expect(user.selfIntro).toBe(dto.selfIntro);
+      expect(user.profileImageUrl?.value).toBe(dto.profileImageUrl);
     });
 
     it('should create a User model with null profileImageUrl if not provided', () => {
       const dto = genUpdateDto();
       const user = factory.createModelFromUpdateDto(dto);
 
-      expect(user.getProfileImageUrl()).toBeUndefined();
+      expect(user.profileImageUrl).toBeUndefined();
     });
   });
 
@@ -63,11 +63,11 @@ describe('UsersFactory', () => {
       const response = factory.createResponse(user);
 
       expect(response).toEqual({
-        uid: user.getUid().value,
-        username: user.getUsername(),
-        version: user.getVersion(),
-        selfIntro: user.getSelfIntro(),
-        profileImageUrl: user.getProfileImageUrl()?.value,
+        uid: user.uid.value,
+        username: user.username,
+        version: user.version,
+        selfIntro: user.selfIntro,
+        profileImageUrl: user.profileImageUrl?.value,
         countryCode: undefined,
       });
     });
@@ -78,10 +78,10 @@ describe('UsersFactory', () => {
       const response = factory.createResponse(user);
 
       expect(response).toEqual({
-        uid: user.getUid().value,
-        username: user.getUsername(),
-        version: user.getVersion(),
-        selfIntro: user.getSelfIntro(),
+        uid: user.uid.value,
+        username: user.username,
+        version: user.version,
+        selfIntro: user.selfIntro,
         profileImageUrl: undefined,
         countryCode: undefined,
       });

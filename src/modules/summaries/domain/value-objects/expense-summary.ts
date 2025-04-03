@@ -3,9 +3,9 @@ import { Expense } from 'modules/common/domain/value-objects/expense';
 
 export class ExpenseSummary<T extends string> {
   constructor(
-    private readonly category: T,
-    private readonly count: Count,
-    private readonly amount: Expense,
+    private readonly _category: T,
+    private readonly _count: Count,
+    private readonly _amount: Expense,
   ) {}
 
   static create<T extends string>(
@@ -16,15 +16,15 @@ export class ExpenseSummary<T extends string> {
     return new ExpenseSummary(category, count, amount);
   }
 
-  getCategory(): T {
-    return this.category;
+  get category(): T {
+    return this._category;
   }
 
-  getCount(): Count {
-    return this.count;
+  get count(): Count {
+    return this._count;
   }
 
-  getAmount(): Expense {
-    return this.amount;
+  get amount(): Expense {
+    return this._amount;
   }
 }

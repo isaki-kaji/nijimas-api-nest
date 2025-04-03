@@ -14,14 +14,14 @@ export class UserDetailsFactory {
     // categories: UserFavoriteSubcategoryList,
   ): UserDetailResponseDto {
     return {
-      uid: userProfile.getUid().value,
-      username: userProfile.getUsername(),
-      selfIntro: userProfile.getSelfIntro() ?? undefined,
-      profileImageUrl: userProfile.getProfileImageUrl()?.value ?? undefined,
-      followingCount: followInfo.getFollowingCount().value,
-      followersCount: followInfo.getFollowersCount().value,
-      followingStatus: followInfo.getFollowingStatus().value,
-      postCount: postInfo.getPostCount().value,
+      uid: userProfile.uid.value,
+      username: userProfile.username,
+      selfIntro: userProfile.selfIntro ?? undefined,
+      profileImageUrl: userProfile.profileImageUrl?.value ?? undefined,
+      followingCount: followInfo.followingCount.value,
+      followersCount: followInfo.followersCount.value,
+      followingStatus: followInfo.followingStatus,
+      postCount: postInfo.postCount.value,
       // userFavoriteSubcategories: categories.getList().map((category) => ({
       //   categoryNo: category.getCategoryNo().value,
       //   categoryId: category.getCategoryId().value,

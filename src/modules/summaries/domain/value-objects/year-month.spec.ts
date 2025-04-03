@@ -6,8 +6,8 @@ describe('YearMonth', () => {
       const year = 2025;
       const month = 3;
       const yearMonth = YearMonth.create(year, month);
-      expect(yearMonth.getYear()).toBe(year);
-      expect(yearMonth.getMonth()).toBe(month);
+      expect(yearMonth.year).toBe(year);
+      expect(yearMonth.month).toBe(month);
     });
 
     it('should throw an error if the month is less than 1', () => {

@@ -5,25 +5,37 @@ describe('CountryCode', () => {
     it('should create a valid CountryCode instance', () => {
       const countryCode = CountryCode.create('JP');
       expect(countryCode).toBeInstanceOf(CountryCode);
-      expect(countryCode.getValue()).toBe('JP');
+      expect(countryCode.value).toBe('JP');
     });
 
     it('should throw an error if the value is empty', () => {
-      expect(() => CountryCode.create('')).toThrow('Country code must not be empty');
+      expect(() => CountryCode.create('')).toThrow(
+        'Country code must not be empty',
+      );
     });
 
     it('should throw an error if the value is not exactly 2 characters long', () => {
-      expect(() => CountryCode.create('J')).toThrow('Country code must be 2 characters long');
-      expect(() => CountryCode.create('JPN')).toThrow('Country code must be 2 characters long');
+      expect(() => CountryCode.create('J')).toThrow(
+        'Country code must be 2 characters long',
+      );
+      expect(() => CountryCode.create('JPN')).toThrow(
+        'Country code must be 2 characters long',
+      );
     });
 
     it('should throw an error if the value contains lowercase letters', () => {
-      expect(() => CountryCode.create('jp')).toThrow('Country code must consist of two uppercase letters');
+      expect(() => CountryCode.create('jp')).toThrow(
+        'Country code must consist of two uppercase letters',
+      );
     });
 
     it('should throw an error if the value contains non-alphabet characters', () => {
-      expect(() => CountryCode.create('J1')).toThrow('Country code must consist of two uppercase letters');
-      expect(() => CountryCode.create('J!')).toThrow('Country code must consist of two uppercase letters');
+      expect(() => CountryCode.create('J1')).toThrow(
+        'Country code must consist of two uppercase letters',
+      );
+      expect(() => CountryCode.create('J!')).toThrow(
+        'Country code must consist of two uppercase letters',
+      );
     });
   });
 
