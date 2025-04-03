@@ -1,7 +1,7 @@
 import uuid from 'ui7';
 
 export class Uuid {
-  private constructor(private readonly value: string) {}
+  private constructor(private readonly _value: string) {}
 
   public static create(value?: string): Uuid {
     if (!value) {
@@ -42,7 +42,7 @@ export class Uuid {
     return new Uuid(uuid());
   }
 
-  public getValue(): string {
-    return this.value;
+  get value(): string {
+    return this._value;
   }
 }

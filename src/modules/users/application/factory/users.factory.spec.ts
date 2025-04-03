@@ -24,7 +24,7 @@ describe('UsersFactory', () => {
       expect(user.getUsername()).toBe(dto.username);
       expect(user.getVersion()).toBe(1);
       expect(user.getSelfIntro()).toBe(dto.selfIntro);
-      expect(user.getProfileImageUrl()?.getValue()).toBe(dto.profileImageUrl);
+      expect(user.getProfileImageUrl()?.value).toBe(dto.profileImageUrl);
     });
 
     it('should create a User model with null profileImageUrl if not provided', () => {
@@ -45,7 +45,7 @@ describe('UsersFactory', () => {
       expect(user.getUsername()).toBe(dto.username);
       expect(user.getVersion()).toBe(dto.version);
       expect(user.getSelfIntro()).toBe(dto.selfIntro);
-      expect(user.getProfileImageUrl()?.getValue()).toBe(dto.profileImageUrl);
+      expect(user.getProfileImageUrl()?.value).toBe(dto.profileImageUrl);
     });
 
     it('should create a User model with null profileImageUrl if not provided', () => {
@@ -63,11 +63,11 @@ describe('UsersFactory', () => {
       const response = factory.createResponse(user);
 
       expect(response).toEqual({
-        uid: user.getUid().getValue(),
+        uid: user.getUid().value,
         username: user.getUsername(),
         version: user.getVersion(),
         selfIntro: user.getSelfIntro(),
-        profileImageUrl: user.getProfileImageUrl()?.getValue(),
+        profileImageUrl: user.getProfileImageUrl()?.value,
         countryCode: undefined,
       });
     });
@@ -78,7 +78,7 @@ describe('UsersFactory', () => {
       const response = factory.createResponse(user);
 
       expect(response).toEqual({
-        uid: user.getUid().getValue(),
+        uid: user.getUid().value,
         username: user.getUsername(),
         version: user.getVersion(),
         selfIntro: user.getSelfIntro(),

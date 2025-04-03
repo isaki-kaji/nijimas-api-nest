@@ -4,7 +4,7 @@ describe('Expense', () => {
   describe('create', () => {
     it('should create an Expense instance with a valid value', () => {
       const expense = Expense.create(5000);
-      expect(expense.getValue()).toBe(5000);
+      expect(expense.value).toBe(5000);
     });
 
     it('should throw an error if the value is negative', () => {
@@ -35,12 +35,12 @@ describe('Expense', () => {
   describe('isOverOneBillion', () => {
     it('should return true if the value is 100,000,000', () => {
       const expense = Expense.create(100000000);
-      expect(expense.isOverOneBillion()).toBe(true);
+      expect(expense.isEqualOrOverMaxValue()).toBe(true);
     });
 
     it('should return false if the value is less than 100,000,000', () => {
       const expense = Expense.create(99999999);
-      expect(expense.isOverOneBillion()).toBe(false);
+      expect(expense.isEqualOrOverMaxValue()).toBe(false);
     });
   });
 
@@ -50,7 +50,7 @@ describe('Expense', () => {
       const expense2 = Expense.create(2000);
       const result = expense1.add(expense2);
 
-      expect(result.getValue()).toBe(5000);
+      expect(result.value).toBe(5000);
     });
 
     it('should throw an error if the sum exceeds 100,000,000', () => {

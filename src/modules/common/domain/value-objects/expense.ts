@@ -1,27 +1,29 @@
 export class Expense {
-  private constructor(private readonly value: number) {}
+  private constructor(private readonly _value: number) {}
+  private static readonly maxValue = 100000000;
+  private static readonly minValue = 0;
 
   public static create(value: number): Expense {
-    if (value < 0) {
+    if (value < Expense.minValue) {
       throw new Error('Expense must be a positive number.');
     }
-    if (value > 100000000) {
+    if (value > Expense.maxValue) {
       throw new Error('Expense must be less than 100,000,000.');
     }
 
     return new Expense(value);
   }
 
-  public getValue(): number {
-    return this.value;
+  get value(): number {
+    return this._value;
   }
 
   isZero(): boolean {
-    return this.value === 0;
+    return this.value === Expense.minValue;
   }
 
-  isOverOneBillion(): boolean {
-    return this.value >= 100000000;
+  isEqualOrOverMaxValue(): boolean {
+    return this.value >= Expense.maxValue;
   }
 
   add(other: Expense): Expense {

@@ -34,10 +34,10 @@ export class PostSubCategoriesRepository
     if (manager) {
       await manager
         .getRepository(PostSubcategoryEntity)
-        .delete({ postId: postId.getValue() });
+        .delete({ postId: postId.value });
     } else {
       await this.postSubCategoryRepository.delete({
-        postId: postId.getValue(),
+        postId: postId.value,
       });
     }
   }
@@ -48,8 +48,8 @@ export class PostSubCategoriesRepository
     categoryNo: CategoryNo,
   ): PostSubcategoryEntity {
     const entity = new PostSubcategoryEntity();
-    entity.categoryId = subCategory.getId().getValue();
-    entity.postId = postId.getValue();
+    entity.categoryId = subCategory.getId().value;
+    entity.postId = postId.value;
     entity.categoryNo = categoryNo;
     return entity;
   }

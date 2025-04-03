@@ -43,13 +43,18 @@ describe('DoFollowRequestUsecase', () => {
   describe('execute', () => {
     it('should throw ConflictException if user already follows the target user', async () => {
       const dto: FollowDto = { uid: genUid(), targetUid: genUid() };
-      const followRequest = mock<FollowRequest>();
       const uid = Uid.create(dto.uid);
       const requestedUid = Uid.create(dto.targetUid);
+      const followRequest = {
+        get uid() {
+          return uid;
+        },
+        get requestedUid() {
+          return requestedUid;
+        },
+      } as FollowRequest;
 
       followRequestsFactory.createModel.mockReturnValue(followRequest);
-      followRequest.getUid.mockReturnValue(uid);
-      followRequest.getRequestedUid.mockReturnValue(requestedUid);
       followsService.exists.mockResolvedValue(true);
 
       await expect(usecase.execute(dto)).rejects.toThrow(
@@ -64,13 +69,18 @@ describe('DoFollowRequestUsecase', () => {
 
     it('should throw ConflictException if there is already a pending follow request', async () => {
       const dto: FollowDto = { uid: genUid(), targetUid: genUid() };
-      const followRequest = mock<FollowRequest>();
       const uid = Uid.create(dto.uid);
       const requestedUid = Uid.create(dto.targetUid);
+      const followRequest = {
+        get uid() {
+          return uid;
+        },
+        get requestedUid() {
+          return requestedUid;
+        },
+      } as FollowRequest;
 
       followRequestsFactory.createModel.mockReturnValue(followRequest);
-      followRequest.getUid.mockReturnValue(uid);
-      followRequest.getRequestedUid.mockReturnValue(requestedUid);
       followsService.exists.mockResolvedValue(false);
       followRequestsService.hasPendingRequest.mockResolvedValue(true);
 
@@ -89,13 +99,18 @@ describe('DoFollowRequestUsecase', () => {
 
     it('should save the follow request if no conflicts exist', async () => {
       const dto: FollowDto = { uid: genUid(), targetUid: genUid() };
-      const followRequest = mock<FollowRequest>();
       const uid = Uid.create(dto.uid);
       const requestedUid = Uid.create(dto.targetUid);
+      const followRequest = {
+        get uid() {
+          return uid;
+        },
+        get requestedUid() {
+          return requestedUid;
+        },
+      } as FollowRequest;
 
       followRequestsFactory.createModel.mockReturnValue(followRequest);
-      followRequest.getUid.mockReturnValue(uid);
-      followRequest.getRequestedUid.mockReturnValue(requestedUid);
       followsService.exists.mockResolvedValue(false);
       followRequestsService.hasPendingRequest.mockResolvedValue(false);
 

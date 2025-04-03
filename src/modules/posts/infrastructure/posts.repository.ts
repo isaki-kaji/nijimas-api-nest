@@ -55,7 +55,7 @@ export class PostsRepository implements IPostsRepository {
       p.post_id = $1;
   `;
 
-    const rawPosts = await this.dataSource.query(sql, [postId.getValue()]);
+    const rawPosts = await this.dataSource.query(sql, [postId.value]);
 
     if (rawPosts.length === 0) {
       return undefined;
@@ -71,8 +71,8 @@ export class PostsRepository implements IPostsRepository {
     WHERE post_id = $1;
   `;
     manager
-      ? await manager.query(sql, [postId.getValue()])
-      : await this.dataSource.query(sql, [postId.getValue()]);
+      ? await manager.query(sql, [postId.value])
+      : await this.dataSource.query(sql, [postId.value]);
   }
 
   private toModel(raw: any): Post {
@@ -93,12 +93,12 @@ export class PostsRepository implements IPostsRepository {
 
   private toEntity(post: Post): PostEntity {
     const entity = new PostEntity();
-    entity.uid = post.getUid().getValue();
-    entity.postId = post.getPostId().getValue();
+    entity.uid = post.getUid().value;
+    entity.postId = post.getPostId().value;
     entity.mainCategory = post.getMainCategory();
     entity.postText = post.getPostText() ?? undefined;
     entity.photoUrl = post.getPhotoUrlList()?.getStrValue() ?? undefined;
-    entity.expense = post.getExpense()?.getValue() ?? 0;
+    entity.expense = post.getExpense()?.value ?? 0;
     entity.location = post.getLocation() ?? undefined;
     entity.publicTypeNo = post.getPublicTypeNo();
     entity.version = post.getVersion();

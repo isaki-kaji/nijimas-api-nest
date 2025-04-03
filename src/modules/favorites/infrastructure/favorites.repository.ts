@@ -26,15 +26,15 @@ export class FavoritesRepository implements IFavoritesRepository {
 
   async findOne(uid: Uid, postId: Uuid): Promise<Favorite | null> {
     const row = await this.userRepository.findOne({
-      where: { uid: uid.getValue(), postId: postId.getValue() },
+      where: { uid: uid.value, postId: postId.value },
     });
     return row ? this.toModel(row) : null;
   }
 
   private toEntity(user: Favorite): FavoriteEntity {
     const entity = new FavoriteEntity();
-    entity.uid = user.getUid().getValue();
-    entity.postId = user.getPostId().getValue();
+    entity.uid = user.uid.value;
+    entity.postId = user.postId.value;
     return entity;
   }
 

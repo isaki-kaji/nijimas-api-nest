@@ -1,5 +1,5 @@
 export class Count {
-  private constructor(readonly value: number) {}
+  private constructor(private readonly _value: number) {}
 
   static create(value: number): Count {
     if (value < 0) {
@@ -8,7 +8,7 @@ export class Count {
     return new Count(value);
   }
 
-  getValue(): number {
-    return this.value;
+  get value(): number {
+    return this._value;
   }
 }

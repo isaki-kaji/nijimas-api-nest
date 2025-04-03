@@ -19,8 +19,8 @@ export class DoFollowRequestUsecase {
     const request = this.factory.createModel(dto);
 
     const existsFollow = await this.followsService.exists(
-      request.getUid(),
-      request.getRequestedUid(),
+      request.uid,
+      request.requestedUid,
     );
 
     if (existsFollow) {
@@ -28,8 +28,8 @@ export class DoFollowRequestUsecase {
     }
 
     const existsPendingRequest = await this.service.hasPendingRequest(
-      request.getUid(),
-      request.getRequestedUid(),
+      request.uid,
+      request.requestedUid,
     );
 
     if (existsPendingRequest) {

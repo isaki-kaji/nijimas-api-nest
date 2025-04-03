@@ -60,8 +60,8 @@ export class HandleFollowRequestUsecase {
 
     try {
       const existsFollow = await this.followsService.exists(
-        request.getUid(),
-        request.getRequestedUid(),
+        request.uid,
+        request.requestedUid,
       );
 
       if (existsFollow) {
@@ -71,7 +71,7 @@ export class HandleFollowRequestUsecase {
       request.accept();
       await this.repository.save(request, queryRunner.manager);
 
-      const follow = new Follow(request.getUid(), request.getRequestedUid());
+      const follow = new Follow(request.uid, request.requestedUid);
       await this.followsRepository.save(follow, queryRunner.manager);
       await queryRunner.commitTransaction();
     } catch (error) {

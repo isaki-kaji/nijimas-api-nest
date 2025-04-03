@@ -28,13 +28,13 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
 
   async delete(request: FollowRequest): Promise<void> {
     await this.repository.delete({
-      requestId: request.getRequestId().getValue(),
+      requestId: request.requestId.value,
     });
   }
 
   async findOne(requestId: Uuid): Promise<FollowRequest | null> {
     const entity = await this.repository.findOne({
-      where: { requestId: requestId.getValue() },
+      where: { requestId: requestId.value },
     });
     return entity ? this.toModel(entity) : null;
   }
@@ -45,8 +45,8 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
   ): Promise<FollowRequest | null> {
     const entity = await this.repository.findOne({
       where: {
-        uid: uid.getValue(),
-        followingUid: requestedUid.getValue(),
+        uid: uid.value,
+        followingUid: requestedUid.value,
         status: FollowRequestStatus.Pending,
       },
     });
@@ -67,7 +67,7 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
     WHERE fr.following_uid = $1 AND fr.status = '0';
   `;
 
-    const rows = await this.dataSource.query(sql, [uid.getValue()]);
+    const rows = await this.dataSource.query(sql, [uid.value]);
 
     if (!rows || rows.length === 0) {
       return [];
@@ -78,10 +78,10 @@ export class FollowRequestsRepository implements IFollowRequestsRepository {
 
   private toEntity(request: FollowRequest): FollowRequestEntity {
     const entity = new FollowRequestEntity();
-    entity.requestId = request.getRequestId().getValue();
-    entity.followingUid = request.getRequestedUid().getValue();
-    entity.uid = request.getUid().getValue();
-    entity.status = request.getStatus();
+    entity.requestId = request.requestId.value;
+    entity.followingUid = request.requestedUid.value;
+    entity.uid = request.uid.value;
+    entity.status = request.status;
     return entity;
   }
 

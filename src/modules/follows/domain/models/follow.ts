@@ -2,15 +2,15 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 
 export class Follow {
   constructor(
-    private readonly uid: Uid,
-    private readonly followingUid: Uid,
+    private readonly _uid: Uid,
+    private readonly _followingUid: Uid,
   ) {}
 
-  getUid(): Uid {
-    return this.uid;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getFollowingUid(): Uid {
-    return this.followingUid;
+  get followingUid(): Uid {
+    return this._followingUid;
   }
 }

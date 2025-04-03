@@ -1,7 +1,7 @@
 import { RegexUtils } from 'common/util/regex-utils';
 
 export class Uid {
-  private constructor(public readonly value: string) {}
+  private constructor(public readonly _value: string) {}
 
   static create(value?: string): Uid {
     if (!value) {
@@ -23,7 +23,7 @@ export class Uid {
     return this.value === other.value;
   }
 
-  getValue(): string {
-    return this.value;
+  get value(): string {
+    return this._value;
   }
 }

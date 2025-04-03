@@ -3,15 +3,15 @@ import { Uuid } from 'modules/common/domain/value-objects/uuid';
 
 export class Favorite {
   constructor(
-    private readonly uid: Uid,
-    private readonly postId: Uuid,
+    private readonly _uid: Uid,
+    private readonly _postId: Uuid,
   ) {}
 
-  getUid(): Uid {
-    return this.uid;
+  get uid(): Uid {
+    return this._uid;
   }
 
-  getPostId(): Uuid {
-    return this.postId;
+  get postId(): Uuid {
+    return this._postId;
   }
 }
