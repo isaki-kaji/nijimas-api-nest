@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     @Inject('FIREBASE_AUTH') private readonly authClient: admin.auth.Auth,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest();
     const authorizationHeader = request.headers['authorization'];
 
     if (!authorizationHeader) {

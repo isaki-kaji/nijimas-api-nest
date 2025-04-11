@@ -35,7 +35,7 @@ export class SummariesRepository implements ISummariesRepository {
       endDate,
     ]);
 
-    return result.map((row) =>
+    return result.map((row: any) =>
       ExpenseSummary.create(
         row.main_category as MainCategory,
         Count.create(Number(row.count)),
@@ -54,13 +54,16 @@ export class SummariesRepository implements ISummariesRepository {
         s.category_name,
         COUNT(*) AS count,
         SUM(p.expense) AS amount
-      FROM posts p
+      FROM (
+        SELECT post_id, expense
+          FROM posts
+         WHERE uid = $1
+           AND deleted_at IS NULL
+           AND timezone('Asia/Tokyo', created_at) >= $2
+           AND timezone('Asia/Tokyo', created_at) < $3
+           ) p
       JOIN post_subcategories ps ON p.post_id = ps.post_id
       JOIN sub_categories s ON ps.category_id = s.category_id
-      WHERE p.uid = $1
-        AND deleted_at IS NULL
-        AND timezone('Asia/Tokyo', p.created_at) >= $2
-        AND timezone('Asia/Tokyo', p.created_at) < $3
       GROUP BY s.category_name;
     `;
 
@@ -70,7 +73,7 @@ export class SummariesRepository implements ISummariesRepository {
       endDate,
     ]);
 
-    return result.map((row) =>
+    return result.map((row: any) =>
       ExpenseSummary.create(
         row.category_name,
         Count.create(Number(row.count)),
@@ -104,7 +107,7 @@ export class SummariesRepository implements ISummariesRepository {
       endDate,
     ]);
 
-    return result.map((row) =>
+    return result.map((row: any) =>
       DailyActivitySummary.create(
         Number(row.date),
         Count.create(Number(row.count)),

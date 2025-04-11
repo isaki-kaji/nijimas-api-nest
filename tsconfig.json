@@ -22,8 +22,8 @@
     "strictPropertyInitialization": false,
     "incremental": true,
     "skipLibCheck": true,
-    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   }
 }
