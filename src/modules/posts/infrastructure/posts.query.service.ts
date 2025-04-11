@@ -115,7 +115,7 @@ export class PostsQueryService implements IPostsQueryService {
 
     const rawPosts = await this.dataSource.query(sql, params);
 
-    return rawPosts.map((raw) => this.toResponseDto(raw));
+    return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
 
   async findTimelinePosts(
@@ -178,7 +178,7 @@ export class PostsQueryService implements IPostsQueryService {
     const params = referencePostId ? [uid, referencePostId] : [uid];
     let rawPosts = await this.dataSource.query(sql, params);
 
-    return rawPosts.map((raw) => this.toResponseDto(raw));
+    return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
 
   async findPostsByUid(
@@ -240,7 +240,7 @@ export class PostsQueryService implements IPostsQueryService {
       : [uid, targetUid];
     const rawPosts = await this.dataSource.query(sql, params);
 
-    return rawPosts.map((raw) => this.toResponseDto(raw));
+    return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
 
   async findFavoritePosts(
@@ -302,7 +302,7 @@ export class PostsQueryService implements IPostsQueryService {
     const params = referencePostId ? [uid, referencePostId] : [uid];
     const rawPosts = await this.dataSource.query(sql, params);
 
-    return rawPosts.map((raw) => this.toResponseDto(raw));
+    return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
 
   async findPostsBySubCategory(
@@ -370,7 +370,7 @@ export class PostsQueryService implements IPostsQueryService {
 
     const rawPosts = await this.dataSource.query(sql, params);
 
-    return rawPosts.map((raw) => this.toResponseDto(raw));
+    return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
 
   private toResponseDto(raw: any): PostResponseDto {
