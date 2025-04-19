@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class ToggleFavoriteDto {
   @IsOptional()
@@ -6,4 +6,8 @@ export class ToggleFavoriteDto {
 
   @IsNotEmpty({ message: 'Post ID is required' })
   readonly postId: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  readonly isFavorite: boolean;
 }

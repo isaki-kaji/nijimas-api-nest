@@ -5,6 +5,7 @@ export class Favorite {
   constructor(
     private readonly _uid: Uid,
     private readonly _postId: Uuid,
+    private readonly _isFavorite: boolean,
   ) {}
 
   get uid(): Uid {
@@ -13,5 +14,9 @@ export class Favorite {
 
   get postId(): Uuid {
     return this._postId;
+  }
+
+  get isFavorite(): boolean {
+    return this._isFavorite;
   }
 }

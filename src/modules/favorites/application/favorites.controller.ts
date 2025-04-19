@@ -1,5 +1,4 @@
-import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Post, Body } from '@nestjs/common';
 import { FavoritesUsecase } from './favorites.usecase';
 import { ToggleFavoriteDto } from './dto/request/toggle-favorite.dto';
 
@@ -8,14 +7,7 @@ export class FavoritesController {
   constructor(private readonly usecase: FavoritesUsecase) {}
 
   @Post()
-  async toggleFavorite(
-    @Body() dto: ToggleFavoriteDto,
-    @Res() res: Response,
-  ): Promise<void> {
-    const favoriteCreated = await this.usecase.toggleFavorite(dto);
-
-    res
-      .status(favoriteCreated ? HttpStatus.CREATED : HttpStatus.NO_CONTENT)
-      .send();
+  async toggleFavorite(@Body() dto: ToggleFavoriteDto): Promise<void> {
+    await this.usecase.toggleFavorite(dto);
   }
 }

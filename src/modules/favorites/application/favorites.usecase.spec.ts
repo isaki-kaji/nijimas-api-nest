@@ -46,46 +46,134 @@ describe('FavoritesUsecase', () => {
   });
 
   describe('toggleFavorite', () => {
-    const dto: ToggleFavoriteDto = {
-      uid: genUid(),
-      postId: genUUID(),
-    };
-    const uid = Uid.create(dto.uid);
-    const postId = Uuid.create(dto.postId);
-    const favorite = new Favorite(uid, postId);
+    it('should create a favorite if it does not exists', async () => {
+      const dto: ToggleFavoriteDto = {
+        uid: genUid(),
+        postId: genUUID(),
+        isFavorite: true,
+      };
+      const favorite = new Favorite(
+        Uid.create(dto.uid),
+        Uuid.create(dto.postId),
+        dto.isFavorite,
+      );
 
-    it('should throw NotFoundException if post does not exist', async () => {
-      postService.exists.mockResolvedValueOnce(false);
-      factory.createModel.mockReturnValueOnce(favorite);
+      factory.createModel.mockReturnValue(favorite);
+      postService.exists.mockResolvedValue(true);
+      favoritesService.exists.mockResolvedValue(false);
+      repository.create.mockResolvedValue();
+
+      await usecase.toggleFavorite(dto);
+
+      expect(postService.exists).toHaveBeenCalledWith(favorite.postId);
+      expect(favoritesService.exists).toHaveBeenCalledWith(
+        favorite.uid,
+        favorite.postId,
+      );
+      expect(repository.create).toHaveBeenCalledWith(favorite);
+    });
+
+    it('should create a favorite if it exists', async () => {
+      const dto: ToggleFavoriteDto = {
+        uid: genUid(),
+        postId: genUUID(),
+        isFavorite: true,
+      };
+      const favorite = new Favorite(
+        Uid.create(dto.uid),
+        Uuid.create(dto.postId),
+        dto.isFavorite,
+      );
+
+      factory.createModel.mockReturnValue(favorite);
+      postService.exists.mockResolvedValue(true);
+      favoritesService.exists.mockResolvedValue(true);
+      repository.create.mockResolvedValue();
+
+      await usecase.toggleFavorite(dto);
+
+      expect(postService.exists).toHaveBeenCalledWith(favorite.postId);
+      expect(favoritesService.exists).toHaveBeenCalledWith(
+        favorite.uid,
+        favorite.postId,
+      );
+      expect(repository.create).not.toHaveBeenCalledWith(favorite);
+    });
+
+    it('should delete a favorite if it exists', async () => {
+      const dto: ToggleFavoriteDto = {
+        uid: genUid(),
+        postId: genUUID(),
+        isFavorite: false,
+      };
+      const favorite = new Favorite(
+        Uid.create(dto.uid),
+        Uuid.create(dto.postId),
+        dto.isFavorite,
+      );
+
+      factory.createModel.mockReturnValue(favorite);
+      postService.exists.mockResolvedValue(true);
+      favoritesService.exists.mockResolvedValue(true);
+
+      await usecase.toggleFavorite(dto);
+
+      expect(postService.exists).toHaveBeenCalledWith(favorite.postId);
+      expect(favoritesService.exists).toHaveBeenCalledWith(
+        favorite.uid,
+        favorite.postId,
+      );
+      expect(repository.delete).toHaveBeenCalledWith(favorite);
+    });
+
+    it('should delete a favorite if it does not exists', async () => {
+      const dto: ToggleFavoriteDto = {
+        uid: genUid(),
+        postId: genUUID(),
+        isFavorite: false,
+      };
+      const favorite = new Favorite(
+        Uid.create(dto.uid),
+        Uuid.create(dto.postId),
+        dto.isFavorite,
+      );
+
+      factory.createModel.mockReturnValue(favorite);
+      postService.exists.mockResolvedValue(true);
+      favoritesService.exists.mockResolvedValue(false);
+
+      await usecase.toggleFavorite(dto);
+
+      expect(postService.exists).toHaveBeenCalledWith(favorite.postId);
+      expect(favoritesService.exists).toHaveBeenCalledWith(
+        favorite.uid,
+        favorite.postId,
+      );
+      expect(repository.delete).not.toHaveBeenCalledWith(favorite);
+    });
+
+    it('should throw NotFoundException if the post does not exist', async () => {
+      const dto: ToggleFavoriteDto = {
+        uid: genUid(),
+        postId: genUUID(),
+        isFavorite: true,
+      };
+
+      const favorite = new Favorite(
+        Uid.create(dto.uid),
+        Uuid.create(dto.postId),
+        dto.isFavorite,
+      );
+
+      factory.createModel.mockReturnValue(favorite);
+      postService.exists.mockResolvedValue(false);
+      favoritesService.exists.mockResolvedValue(false);
 
       await expect(usecase.toggleFavorite(dto)).rejects.toThrow(
         NotFoundException,
       );
-      expect(postService.exists).toHaveBeenCalledWith(postId);
-    });
 
-    it('should delete favorite if it already exists', async () => {
-      postService.exists.mockResolvedValueOnce(true);
-      favoritesService.exists.mockResolvedValueOnce(true);
-      factory.createModel.mockReturnValueOnce(favorite);
-
-      const result = await usecase.toggleFavorite(dto);
-
-      expect(favoritesService.exists).toHaveBeenCalledWith(uid, postId);
-      expect(repository.delete).toHaveBeenCalledWith(favorite);
-      expect(result).toBe(false);
-    });
-
-    it('should create favorite if it does not exist', async () => {
-      postService.exists.mockResolvedValueOnce(true);
-      favoritesService.exists.mockResolvedValueOnce(false);
-      factory.createModel.mockReturnValueOnce(favorite);
-
-      const result = await usecase.toggleFavorite(dto);
-
-      expect(favoritesService.exists).toHaveBeenCalledWith(uid, postId);
-      expect(repository.create).toHaveBeenCalledWith(favorite);
-      expect(result).toBe(true);
+      expect(postService.exists).toHaveBeenCalledWith(Uuid.create(dto.postId));
     });
   });
 });
