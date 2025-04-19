@@ -15,8 +15,10 @@ export class FavoritesUsecase {
     private readonly repository: IFavoritesRepository,
   ) {}
 
-  async toggleFavorite(dto: ToggleFavoriteDto): Promise<boolean> {
+  async toggleFavorite(dto: ToggleFavoriteDto) {
     const favorite = this.factory.createModel(dto);
+    console.log(dto);
+
     if (!(await this.postService.exists(favorite.postId))) {
       throw new NotFoundException('Post not found');
     }
@@ -25,12 +27,14 @@ export class FavoritesUsecase {
       favorite.uid,
       favorite.postId,
     );
-    if (favoriteCreated) {
-      await this.repository.delete(favorite);
-      return false;
-    } else {
-      await this.repository.create(favorite);
-      return true;
+
+    if (favorite.isFavorite && !favoriteCreated) {
+      console.log('Creating favorite');
+      return await this.repository.create(favorite);
+    }
+    if (!favorite.isFavorite && favoriteCreated) {
+      console.log('Deleting favorite');
+      return await this.repository.delete(favorite);
     }
   }
 }

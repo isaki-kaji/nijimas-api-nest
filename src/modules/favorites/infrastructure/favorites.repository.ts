@@ -41,6 +41,6 @@ export class FavoritesRepository implements IFavoritesRepository {
   private toModel(entity: FavoriteEntity): Favorite {
     const uid = Uid.create(entity.uid);
     const postID = Uuid.create(entity.postId);
-    return new Favorite(uid, postID);
+    return new Favorite(uid, postID, true);
   }
 }

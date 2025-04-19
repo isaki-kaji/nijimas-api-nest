@@ -10,6 +10,7 @@ export class FavoritesFactory {
   createModel(dto: ToggleFavoriteDto): Favorite {
     const postId = Uuid.create(dto.postId);
     const uid = Uid.create(dto.uid);
-    return new Favorite(uid, postId);
+    const isFavorite = dto.isFavorite;
+    return new Favorite(uid, postId, isFavorite);
   }
 }

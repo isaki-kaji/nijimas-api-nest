@@ -17,6 +17,7 @@ describe('FavoritesFactory', () => {
       const dto: ToggleFavoriteDto = {
         uid: genUid(),
         postId: genUUID(),
+        isFavorite: true,
       };
 
       const result = factory.createModel(dto);
@@ -24,6 +25,7 @@ describe('FavoritesFactory', () => {
       expect(result).toBeInstanceOf(Favorite);
       expect(result.uid).toEqual(Uid.create(dto.uid));
       expect(result.postId).toEqual(Uuid.create(dto.postId));
+      expect(result.isFavorite).toEqual(dto.isFavorite);
     });
   });
 });
