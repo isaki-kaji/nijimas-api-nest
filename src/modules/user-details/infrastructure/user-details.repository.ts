@@ -1,8 +1,10 @@
 import { DataSource } from 'typeorm';
 import { IUserDetailsRepository } from '../domain/i.user-details.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { createFollowingStatus } from '../domain/value-objects/following-status';
-import { FollowInfo } from '../domain/models/follow-info';
+import {
+  createFollowingStatus,
+  FollowingStatus,
+} from '../domain/value-objects/following-status';
 import { Count } from '../../common/domain/value-objects/count';
 import { PostInfo } from '../domain/models/post_info';
 import { UserProfile } from '../domain/models/user-profile';
@@ -42,7 +44,10 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     return new UserProfile(uid, username, selfIntro, imageUrl);
   }
 
-  async getFollowInfo(ownUid: Uid, targetUid: Uid): Promise<FollowInfo> {
+  async getFollowingStatus(
+    ownUid: Uid,
+    targetUid: Uid,
+  ): Promise<FollowingStatus> {
     const sql = `
       SELECT 
         CASE 
@@ -57,9 +62,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
           WHERE fr.uid = $1 AND fr.following_uid = $2 AND fr.status = '0'
           ) THEN '2'
         ELSE '0'
-        END AS following_status,
-        COUNT(CASE WHEN f.uid = $2 THEN 1 ELSE NULL END) AS following_count,
-        COUNT(CASE WHEN f.following_uid = $2 THEN 1 ELSE NULL END) AS followers_count
+        END AS following_status
       FROM follows f
       WHERE f.uid = $2 OR f.following_uid = $2;
     `;
@@ -70,15 +73,31 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     ]);
 
     const row = result[0];
-
-    return this.toFollowInfoModel(row);
+    return createFollowingStatus(row.following_status);
   }
 
-  private toFollowInfoModel(row: any): FollowInfo {
-    const followingStatus = createFollowingStatus(row.following_status);
-    const followingCount = Count.create(row.following_count);
-    const followersCount = Count.create(row.followers_count);
-    return new FollowInfo(followingCount, followersCount, followingStatus);
+  async getFollowersCount(uid: Uid): Promise<Count> {
+    const sql = `
+      SELECT COUNT(*) AS followers_count
+      FROM follows
+      WHERE following_uid = $1;
+    `;
+
+    const result = await this.dataSource.query(sql, [uid.value]);
+    const row = result[0];
+    return Count.create(row.followers_count);
+  }
+
+  async getFollowingCount(uid: Uid): Promise<Count> {
+    const sql = `
+      SELECT COUNT(*) AS following_count
+      FROM follows
+      WHERE uid = $1;
+    `;
+
+    const result = await this.dataSource.query(sql, [uid.value]);
+    const row = result[0];
+    return Count.create(row.following_count);
   }
 
   async getPostInfo(uid: Uid): Promise<PostInfo> {

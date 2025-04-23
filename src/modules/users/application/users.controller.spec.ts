@@ -5,11 +5,12 @@ import { mock } from 'jest-mock-extended';
 import { faker } from '@faker-js/faker/.';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
-import { UserResponseDto } from './dto/response/user.response.dto';
+import { CurrentUserResponseDto } from './dto/response/current-user.response.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
   const usersUsecase = mock<UsersUsecase>();
+  const usersQueryService = mock<UsersUsecase>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,6 +19,10 @@ describe('UsersController', () => {
         {
           provide: UsersUsecase,
           useValue: usersUsecase,
+        },
+        {
+          provide: 'IUsersQueryService',
+          useValue: usersQueryService,
         },
       ],
     }).compile();
@@ -58,7 +63,7 @@ describe('UsersController', () => {
     describe('when no error occurs', () => {
       it('should return the user', async () => {
         const uid = genUid();
-        const user = mock<UserResponseDto>();
+        const user = mock<CurrentUserResponseDto>();
         usersUsecase.getOwnUser.mockResolvedValue(user);
 
         const result = await controller.getOwnUser(uid);
