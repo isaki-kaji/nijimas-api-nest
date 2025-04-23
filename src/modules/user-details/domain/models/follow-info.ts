@@ -3,9 +3,9 @@ import { FollowingStatus } from '../value-objects/following-status';
 
 export class FollowInfo {
   constructor(
-    private readonly _followingCount: Count,
-    private readonly _followersCount: Count,
     private readonly _followingStatus: FollowingStatus,
+    private readonly _followersCount: Count,
+    private readonly _followingCount: Count,
   ) {}
 
   get followingCount(): Count {

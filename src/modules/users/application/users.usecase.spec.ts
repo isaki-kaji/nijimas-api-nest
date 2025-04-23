@@ -11,7 +11,7 @@ import { User } from 'users/domain/models/user';
 import { UsersFactory } from './factory/users.factory';
 import { mock } from 'jest-mock-extended';
 import { Uid } from 'modules/common/domain/value-objects/uid';
-import { UserResponseDto } from './dto/response/user.response.dto';
+import { CurrentUserResponseDto } from './dto/response/current-user.response.dto';
 import {
   genCreateDto,
   genUpdateDto,
@@ -122,7 +122,7 @@ describe('UsersUsecase', () => {
       it('should return the user', async () => {
         const uid = genUid();
         const user = mock<User>();
-        const userResponse = mock<UserResponseDto>();
+        const userResponse = mock<CurrentUserResponseDto>();
 
         usersRepository.findByUid.mockResolvedValueOnce(user);
         usersFactory.createResponse.mockReturnValueOnce(userResponse);
