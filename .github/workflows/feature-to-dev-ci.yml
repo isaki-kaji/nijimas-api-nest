@@ -21,10 +21,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
@@ -32,7 +38,7 @@ jobs:
 
   e2e-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     environment: test
 
     env:
@@ -46,11 +52,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          cache: 'npm'
-
       - run: |
           {
             echo "ENV_FILE=${ENV_FILE}"
@@ -61,16 +72,11 @@ jobs:
             echo "DATASOURCE_HOST=${DATASOURCE_HOST}"
             echo "DATASOURCE_URL=${DATASOURCE_URL}"
             echo "DB_USE_SSL=false"
-          } >> .env.test
-
+          } > .env.test
+          chmod 600 .env.test
       - run: npm ci
       - run: npm run build --if-present
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
       - run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml up -d
       - run: ENV_FILE=$ENV_FILE npm run pretest:e2e && npm run test:e2e
       - if: always()
-        run: npm run posttest:e2e
+        run: docker-compose --env-file .env.test -f ./deploy/docker-compose/docker-compose.test.yml down
