@@ -68,48 +68,52 @@ export class PostsQueryService implements IPostsQueryService {
     referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
+    SELECT 
+      p.post_id,
+      u.uid,
+      u.username,
+      u.profile_image_url,
+      p.main_category,
+      COALESCE(sc.sub_category1, '') AS sub_category1, 
+      COALESCE(sc.sub_category2, '') AS sub_category2, 
+      p.post_text, 
+      p.photo_url,
+      p.expense,
+      p.location,
+      CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+      COUNT(f2.uid) AS favorite_count,
+      p.public_type_no, 
+      p.created_at,
+      p.version
+    FROM 
+      posts p
+    INNER JOIN 
+      users u ON p.uid = u.uid
+    LEFT JOIN (
       SELECT 
-        p.post_id,
-        u.uid,
-        u.username,
-        u.profile_image_url,
-        p.main_category,
-        COALESCE(sc.sub_category1, '') AS sub_category1, 
-        COALESCE(sc.sub_category2, '') AS sub_category2, 
-        p.post_text, 
-        p.photo_url,
-        p.expense,
-        p.location,
-        CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite, 
-        p.public_type_no, 
-        p.created_at,
-        p.version
+        ps.post_id AS postId, 
+        MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1, 
+        MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
       FROM 
-        posts p
+        post_subcategories ps
       INNER JOIN 
-        users u ON p.uid = u.uid
-      LEFT JOIN (
-        SELECT 
-          ps.post_id AS postId, 
-          MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1, 
-          MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
-        FROM 
-          post_subcategories ps
-        INNER JOIN 
-          sub_categories s ON ps.category_id = s.category_id
-        GROUP BY 
-          ps.post_id
-      ) sc ON p.post_id = sc.postId
-      LEFT JOIN 
-        favorites f ON p.post_id = f.post_id AND f.uid = $1
-      WHERE 
-        p.deleted_at IS NULL
+        sub_categories s ON ps.category_id = s.category_id
+      GROUP BY 
+        ps.post_id
+    ) sc ON p.post_id = sc.postId
+    LEFT JOIN 
+      favorites f ON p.post_id = f.post_id AND f.uid = $1
+    LEFT JOIN favorites f2 ON p.post_id = f2.post_id
+    WHERE 
+      p.deleted_at IS NULL
       AND p.uid = $1
       ${referencePostId ? `AND p.post_id < $2` : ''} 
-      ORDER BY 
-        p.post_id DESC
-      LIMIT 50;
-    `;
+    GROUP BY 
+      p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid
+    ORDER BY 
+      p.post_id DESC
+    LIMIT 50;
+  `;
 
     const params = referencePostId ? [uid, referencePostId] : [uid];
 
@@ -136,6 +140,7 @@ export class PostsQueryService implements IPostsQueryService {
       p.expense,
       p.location,
       CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+      COUNT(f2.uid) AS favorite_count, -- 追加: favorite_count
       p.public_type_no,
       p.created_at
     FROM 
@@ -154,8 +159,8 @@ export class PostsQueryService implements IPostsQueryService {
       GROUP BY 
         ps.post_id
     ) sc ON p.post_id = sc.post_id
-    LEFT JOIN 
-      favorites f ON p.post_id = f.post_id AND f.uid = $1
+    LEFT JOIN favorites f ON p.post_id = f.post_id AND f.uid = $1
+    LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
     WHERE 
       p.deleted_at IS NULL
     AND (
@@ -170,13 +175,14 @@ export class PostsQueryService implements IPostsQueryService {
       )
     )
     ${referencePostId ? `AND p.post_id < $2` : ''} 
+    GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
     ORDER BY 
       p.post_id DESC
     LIMIT 50;
   `;
 
     const params = referencePostId ? [uid, referencePostId] : [uid];
-    let rawPosts = await this.dataSource.query(sql, params);
+    const rawPosts = await this.dataSource.query(sql, params);
 
     return rawPosts.map((raw: any) => this.toResponseDto(raw));
   }
@@ -187,53 +193,55 @@ export class PostsQueryService implements IPostsQueryService {
     referencePostId?: string,
   ): Promise<PostResponseDto[]> {
     const sql = `
+    SELECT
+      p.post_id,
+      u.uid,
+      u.username,
+      u.profile_image_url,
+      p.main_category,
+      COALESCE(sc.sub_category1, '')::text AS sub_category1,
+      COALESCE(sc.sub_category2, '')::text AS sub_category2,
+      p.post_text,
+      p.photo_url,
+      p.expense,
+      p.location,
+      CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+      COUNT(f2.uid) AS favorite_count, -- 追加: favorite_count
+      p.public_type_no,
+      p.created_at
+    FROM posts p
+    JOIN users u ON p.uid = u.uid
+    LEFT JOIN (
       SELECT
-        p.post_id,
-        u.uid,
-        u.username,
-        u.profile_image_url,
-        p.main_category,
-        COALESCE(sc.sub_category1, '')::text AS sub_category1,
-        COALESCE(sc.sub_category2, '')::text AS sub_category2,
-        p.post_text,
-        p.photo_url,
-        p.expense,
-        p.location,
-        CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
-        p.public_type_no,
-        p.created_at
-      FROM posts p
-      JOIN users u ON p.uid = u.uid
-      LEFT JOIN (
-        SELECT
-          ps.post_id,
-          MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1,
-          MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
-        FROM post_subcategories ps
-        JOIN sub_categories s ON ps.category_id = s.category_id
-        GROUP BY ps.post_id
-      ) sc ON p.post_id = sc.post_id
-      LEFT JOIN favorites f
-      ON p.post_id = f.post_id AND f.uid = $1
-      WHERE
-        deleted_at IS NULL
-      AND
-        p.uid = $2 
-      AND (
-        p.public_type_no = '0'
-        OR (
-          p.public_type_no = '1'
-          AND EXISTS (
-            SELECT 1
-            FROM follows
-            WHERE uid = $1 AND following_uid = $2
-          )
+        ps.post_id,
+        MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) AS sub_category1,
+        MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) AS sub_category2
+      FROM post_subcategories ps
+      JOIN sub_categories s ON ps.category_id = s.category_id
+      GROUP BY ps.post_id
+    ) sc ON p.post_id = sc.post_id
+    LEFT JOIN favorites f ON p.post_id = f.post_id AND f.uid = $1
+    LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
+    WHERE
+      p.deleted_at IS NULL
+    AND
+      p.uid = $2 
+    AND (
+      p.public_type_no = '0'
+      OR (
+        p.public_type_no = '1'
+        AND EXISTS (
+          SELECT 1
+          FROM follows
+          WHERE uid = $1 AND following_uid = $2
         )
       )
-      ${referencePostId ? `AND p.post_id < $3` : ''}
-      ORDER BY p.post_id DESC
-      LIMIT 50;
-    `;
+    )
+    ${referencePostId ? `AND p.post_id < $3` : ''}
+    GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
+    ORDER BY p.post_id DESC
+    LIMIT 50;
+  `;
 
     const params = referencePostId
       ? [uid, targetUid, referencePostId]
@@ -261,6 +269,7 @@ export class PostsQueryService implements IPostsQueryService {
         p.expense,
         p.location,
         CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
+        COUNT(f2.uid) AS favorite_count, -- 追加: favorite_count
         p.public_type_no,
         p.created_at
       FROM posts p
@@ -275,6 +284,7 @@ export class PostsQueryService implements IPostsQueryService {
         JOIN sub_categories s ON ps.category_id = s.category_id
         GROUP BY ps.post_id
       ) sc ON p.post_id = sc.post_id
+      LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
       WHERE
         p.deleted_at IS NULL
       AND
@@ -295,6 +305,7 @@ export class PostsQueryService implements IPostsQueryService {
         )
       )
       ${referencePostId ? `AND p.post_id < $2` : ''}
+      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
@@ -324,7 +335,8 @@ export class PostsQueryService implements IPostsQueryService {
         p.expense,
         p.location,
         CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
-        "p"."public_type_no",
+        COUNT(f2.uid) AS favorite_count, -- 追加: favorite_count
+        p.public_type_no,
         p.created_at
       FROM posts p
       JOIN users u ON p.uid = u.uid
@@ -340,8 +352,8 @@ export class PostsQueryService implements IPostsQueryService {
           MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) = $2 OR 
           MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) = $2
       ) sc ON p.post_id = sc.post_id
-      LEFT JOIN favorites f
-        ON p.post_id = f.post_id AND f.uid = $1
+      LEFT JOIN favorites f ON p.post_id = f.post_id AND f.uid = $1
+      LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
       WHERE
         p.deleted_at IS NULL
         AND (
@@ -360,6 +372,7 @@ export class PostsQueryService implements IPostsQueryService {
           )
         )
       ${referencePostId ? `AND p.post_id < $3` : ''}
+      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
@@ -387,6 +400,7 @@ export class PostsQueryService implements IPostsQueryService {
       expense: raw.expense || undefined,
       location: raw.location || undefined,
       isFavorite: raw.is_favorite,
+      favoriteCount: Number(raw.favorite_count) || 0, // 明示的に number に変換
       publicTypeNo: raw.public_type_no,
       createdAt: new Date(raw.created_at),
       version: raw.version || undefined,
