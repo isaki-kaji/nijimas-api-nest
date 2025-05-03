@@ -13,7 +13,7 @@ import { UpdateUserDto } from './dto/request/update-user.dto';
 import { OwnUid } from 'common/decorator/own-uid.decorator';
 import { IUsersQueryService } from './i.users.query.service';
 
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(
     private readonly usersUsecase: UsersUsecase,
@@ -21,27 +21,33 @@ export class UsersController {
     private readonly usersQueryService: IUsersQueryService,
   ) {}
 
-  @Post()
+  @Post('/users')
   async create(@Body() dto: CreateUserDto) {
     await this.usersUsecase.create(dto);
   }
 
-  @Put()
+  @Put('/users')
   async update(@Body() dto: UpdateUserDto) {
     await this.usersUsecase.update(dto);
   }
 
-  @Get('me')
+  @Get('/users/me')
   async getOwnUser(@OwnUid() uid: string) {
     return await this.usersUsecase.getOwnUser(uid);
   }
 
-  @Get(':uid/followers')
+  @Get('/users/:uid/followers')
   async getFollowers(@Param('uid') uid: string) {
     return await this.usersQueryService.getFollowers(uid);
   }
-  @Get(':uid/followings')
+
+  @Get('/users/:uid/followings')
   async getFollowings(@Param('uid') uid: string) {
     return await this.usersQueryService.getFollowings(uid);
+  }
+
+  @Get('/posts/:postId/favorites')
+  async getPostFavorites(@Param('postId') postId: string) {
+    return await this.usersQueryService.getFavorites(postId);
   }
 }

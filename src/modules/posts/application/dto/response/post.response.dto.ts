@@ -5,6 +5,7 @@ export type PostResponseDto = {
   profileImageUrl: string;
   mainCategory: string;
   isFavorite: boolean;
+  favoriteCount: number;
   publicTypeNo: string;
   createdAt: Date;
   subCategory1: string | undefined;
