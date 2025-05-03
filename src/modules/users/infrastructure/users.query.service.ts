@@ -45,7 +45,29 @@ export class UsersQueryService implements IUsersQueryService {
     if (result.length === 0) {
       return [];
     }
+    return result.map((row: any) => {
+      return {
+        uid: row.uid,
+        username: row.username,
+        profileImageUrl: row.profile_image_url,
+      };
+    });
+  }
 
+  async getFavorites(postId: string): Promise<UserResponseDto[]> {
+    const sql = `
+      SELECT
+        u.uid,
+        u.username,
+        u.profile_image_url
+      FROM users u
+      JOIN favorites f ON u.uid = f.uid
+      WHERE f.post_id = $1;
+    `;
+    const result = await this.dataSource.query(sql, [postId]);
+    if (result.length === 0) {
+      return [];
+    }
     return result.map((row: any) => {
       return {
         uid: row.uid,
