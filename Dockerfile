@@ -1,23 +1,22 @@
-# ベースイメージ
-FROM node:18-alpine
+# ビルドステージ
+FROM node:23-slim AS builder
 
-# 作業ディレクトリの設定
 WORKDIR /app
-
-# 依存関係のインストール
 COPY package*.json ./
 RUN npm install
-
-# ソースコードのコピー
 COPY . .
-
-# ビルド
 RUN npm run build
+
+# ランタイムステージ
+FROM node:23-slim
+
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+RUN npm install --production
 
 ENV PORT=8080
 ENV HOST=0.0.0.0
 EXPOSE 8080
 
-
-# アプリケーションの起動
 CMD ["node", "dist/src/main.js"]

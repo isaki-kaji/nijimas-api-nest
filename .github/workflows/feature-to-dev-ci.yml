@@ -4,11 +4,25 @@ on:
   pull_request:
     branches:
       - dev
-    paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
+    paths:
+      [
+        'src/**/*.ts',
+        'test/**/*.ts',
+        'tsconfig.json',
+        'Dockerfile',
+        'deploy/docker-compose/**',
+      ]
   push:
     branches:
       - dev
-    paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
+    paths:
+      [
+        'src/**/*.ts',
+        'test/**/*.ts',
+        'tsconfig.json',
+        'Dockerfile',
+        'deploy/docker-compose/**',
+      ]
   workflow_dispatch:
 
 concurrency:

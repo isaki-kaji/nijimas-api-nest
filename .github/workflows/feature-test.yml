@@ -2,7 +2,7 @@ name: Feature-Test
 
 on:
   push:
-    branches-ignore: ['main']
+    branches-ignore: ['main', 'dev']
     paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
 concurrency:
   group: ${{ github.workflow }}
