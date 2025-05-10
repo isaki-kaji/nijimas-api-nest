@@ -1,6 +1,5 @@
 import { FollowInfo } from 'modules/user-details/domain/models/follow-info';
 import { PostInfo } from 'modules/user-details/domain/models/post_info';
-import { UserFavoriteSubcategoryList } from 'modules/user-details/domain/models/user-favorite-subcategory-list';
 import { UserProfile } from 'modules/user-details/domain/models/user-profile';
 import { UserDetailResponseDto } from '../dto/response/user-detail.response.dto';
 import { Injectable } from '@nestjs/common';

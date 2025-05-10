@@ -31,7 +31,7 @@ export class Uuid {
       if (timestamp <= 0) {
         return false;
       }
-    } catch (e) {
+    } catch {
       return false;
     }
 

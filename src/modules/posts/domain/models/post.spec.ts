@@ -1,4 +1,3 @@
-import { create } from 'domain';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { genUid, genUUID } from 'testing/utils/common-test-util';
 import { createPublicTypeNo } from '../value-objects/public-type-no';

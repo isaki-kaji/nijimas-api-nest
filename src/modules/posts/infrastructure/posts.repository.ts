@@ -20,9 +20,11 @@ export class PostsRepository implements IPostsRepository {
 
   async save(post: Post, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(post);
-    manager
-      ? await manager.getRepository(PostEntity).save(entity)
-      : await this.postRepository.save(entity);
+    if (manager) {
+      await manager.getRepository(PostEntity).save(entity);
+    } else {
+      await this.postRepository.save(entity);
+    }
   }
 
   async findById(postId: Uuid): Promise<Post | undefined> {
@@ -70,9 +72,11 @@ export class PostsRepository implements IPostsRepository {
     SET deleted_at = NOW()
     WHERE post_id = $1;
   `;
-    manager
-      ? await manager.query(sql, [postId.value])
-      : await this.dataSource.query(sql, [postId.value]);
+    if (manager) {
+      await manager.query(sql, [postId.value]);
+    } else {
+      await this.dataSource.query(sql, [postId.value]);
+    }
   }
 
   private toModel(raw: any): Post {

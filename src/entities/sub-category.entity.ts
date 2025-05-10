@@ -1,7 +1,4 @@
-import {
-  CreatedDates,
-  RegistryDates,
-} from 'common/embedded/registry-dates.embedded';
+import { CreatedDates } from 'common/embedded/registry-dates.embedded';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('sub_categories')
