@@ -1,6 +1,7 @@
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { DailyActivitySummary } from './value-objects/daily-activity-summary';
 import { ExpenseSummary } from './value-objects/expense-summary';
+import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 
 export interface ISummariesRepository {
   getMainCategorySummaryByMonth(

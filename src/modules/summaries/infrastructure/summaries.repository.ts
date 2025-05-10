@@ -6,6 +6,7 @@ import { Count } from 'modules/common/domain/value-objects/count';
 import { Expense } from 'modules/common/domain/value-objects/expense';
 import { DailyActivitySummary } from '../domain/value-objects/daily-activity-summary';
 import { ExpenseSummary } from '../domain/value-objects/expense-summary';
+import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 
 @Injectable()
 export class SummariesRepository implements ISummariesRepository {
