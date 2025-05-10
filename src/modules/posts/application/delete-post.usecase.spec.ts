@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeletePostUsecase } from './delete-post.usecase';
-import { DataSource, QueryRunner, EntityManager } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 import { IPostsRepository } from 'posts/domain/i.posts.repository';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';

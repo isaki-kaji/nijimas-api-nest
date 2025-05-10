@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
       const decodedToken = await this.authClient.verifyIdToken(idToken);
       request['ownUid'] = decodedToken.uid;
       return true;
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Failed to verify ID token');
     }
   }

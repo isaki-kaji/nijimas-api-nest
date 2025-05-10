@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePostUsecase } from './create-post.usecase';
-import { DataSource, QueryRunner, EntityManager } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 
 import { mock } from 'jest-mock-extended';
 import { PostsFactory } from './factory/posts.factory';
@@ -20,7 +20,6 @@ describe('CreatePostUsecase', () => {
   const helper = mock<PostSubCategoryHelper>();
   const postsRepository = mock<IPostsRepository>();
   const queryRunner = mock<QueryRunner>();
-  const manager = mock<EntityManager>();
 
   beforeEach(async () => {
     dataSource.createQueryRunner.mockReturnValue(queryRunner);

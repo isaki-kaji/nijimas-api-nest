@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker/.';
 import { Uid } from './uid';
 import { genUid } from 'testing/utils/common-test-util';
 

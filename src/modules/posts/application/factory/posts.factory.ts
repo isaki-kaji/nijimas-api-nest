@@ -8,6 +8,7 @@ import { Expense } from '../../../common/domain/value-objects/expense';
 import { PhotoUrlList } from '../../domain/value-objects/photo-url-list';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { UpdatePostDto } from '../dto/request/update-post.dto';
+import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 
 @Injectable()
 export class PostsFactory {

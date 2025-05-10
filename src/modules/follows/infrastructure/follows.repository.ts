@@ -14,9 +14,12 @@ export class FollowsRepository implements IFollowsRepository {
   ) {}
   async save(follow: Follow, manager?: EntityManager): Promise<void> {
     const entity = this.toEntity(follow);
-    manager
-      ? await manager.getRepository(FollowEntity).save(entity)
-      : await this.repository.save(entity);
+
+    if (manager) {
+      await manager.getRepository(FollowEntity).save(entity);
+    } else {
+      await this.repository.save(entity);
+    }
   }
 
   async delete(follow: Follow): Promise<void> {

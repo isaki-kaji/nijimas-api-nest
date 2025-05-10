@@ -1,6 +1,5 @@
 import { ExpenseSummaryList } from './expense-summary-list';
 import { ExpenseSummary } from './expense-summary';
-import { mock } from 'jest-mock-extended';
 import { Expense } from 'modules/common/domain/value-objects/expense';
 
 describe('ExpenseSummaryList', () => {

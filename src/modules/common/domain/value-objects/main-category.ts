@@ -1,4 +1,4 @@
-type MainCategory =
+export type MainCategory =
   | 'food'
   | 'hobbies'
   | 'fashion'

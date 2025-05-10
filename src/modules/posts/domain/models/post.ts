@@ -3,6 +3,7 @@ import { PhotoUrlList } from '../value-objects/photo-url-list';
 import { Expense } from '../../../common/domain/value-objects/expense';
 import { PublicTypeNo } from '../value-objects/public-type-no';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
+import { MainCategory } from 'modules/common/domain/value-objects/main-category';
 
 export class Post {
   constructor(
