@@ -32,6 +32,7 @@ export class UsersRepository implements IUsersRepository {
     const entity = new UserEntity();
     entity.uid = user.uid.value;
     entity.username = user.username;
+    entity.userCode = user.userCode.value;
     entity.selfIntro = user.selfIntro ?? undefined;
     entity.profileImageUrl = user.profileImageUrl?.value ?? undefined;
     entity.countryCode = user.countryCode?.value ?? undefined;
