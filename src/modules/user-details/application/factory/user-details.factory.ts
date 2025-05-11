@@ -15,6 +15,7 @@ export class UserDetailsFactory {
     return {
       uid: userProfile.uid.value,
       username: userProfile.username,
+      userCode: userProfile.userCode.value,
       selfIntro: userProfile.selfIntro ?? undefined,
       profileImageUrl: userProfile.profileImageUrl?.value ?? undefined,
       followingCount: followInfo.followingCount.value,

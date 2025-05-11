@@ -84,6 +84,7 @@ const genCreateDto = (uid: string): CreateUserDto => ({
 const genUpdateDto = (uid: string = genUid()): UpdateUserDto => ({
   uid,
   username: faker.person.firstName(),
+  userCode: faker.string.alphanumeric(6),
   selfIntro: faker.lorem.sentence(),
   version: faker.number.int(),
 });

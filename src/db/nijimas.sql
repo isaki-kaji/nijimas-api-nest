@@ -1,6 +1,7 @@
 CREATE TABLE "users" (
   "uid" char(28) PRIMARY KEY,
   "username" varchar(255) NOT NULL,
+  "user_code" char(6) UNIQUE NOT NULL,
   "self_intro" text,
   "profile_image_url" text,
   "country_code" char(2),
