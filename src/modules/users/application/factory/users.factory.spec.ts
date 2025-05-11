@@ -1,6 +1,7 @@
 import { UsersFactory } from './users.factory';
 import { User } from 'users/domain/models/user';
 import { Uid } from 'modules/common/domain/value-objects/uid';
+import { UCode } from 'modules/common/domain/value-objects/u-code';
 import {
   genCreateDto,
   genExistsUser,
@@ -15,13 +16,14 @@ describe('UsersFactory', () => {
   });
 
   describe('createModelFromCreateDto', () => {
-    it('should create a User model from CreateUserDto', () => {
+    it('should create a User model from CreateUserDto and generate userCode', () => {
       const dto = genCreateDto();
       const user = factory.createModelFromCreateDto(dto);
 
       expect(user).toBeInstanceOf(User);
       expect(user.uid).toEqual(Uid.create(dto.uid));
       expect(user.username).toBe(dto.username);
+      expect(user.userCode).toBeInstanceOf(UCode);
       expect(user.version).toBe(1);
       expect(user.selfIntro).toBe(dto.selfIntro);
       expect(user.profileImageUrl?.value).toBe(dto.profileImageUrl);
@@ -29,6 +31,7 @@ describe('UsersFactory', () => {
 
     it('should create a User model with null profileImageUrl if not provided', () => {
       const dto = genCreateDto();
+      dto.profileImageUrl = undefined;
       const user = factory.createModelFromCreateDto(dto);
 
       expect(user.profileImageUrl).toBeUndefined();
@@ -58,16 +61,24 @@ describe('UsersFactory', () => {
 
   describe('createResponse', () => {
     it('should create a response object from a User model', () => {
-      const user = genExistsUser(true);
+      const user = new User(
+        Uid.create('abcdefghijklmnopqrstuvwxyz12'),
+        'test-username',
+        UCode.create('ABC123'),
+        1,
+        'test-self-intro',
+        undefined,
+      );
 
       const response = factory.createResponse(user);
 
       expect(response).toEqual({
-        uid: user.uid.value,
-        username: user.username,
-        version: user.version,
-        selfIntro: user.selfIntro,
-        profileImageUrl: user.profileImageUrl?.value,
+        uid: 'abcdefghijklmnopqrstuvwxyz12',
+        username: 'test-username',
+        userCode: 'ABC123',
+        version: 1,
+        selfIntro: 'test-self-intro',
+        profileImageUrl: undefined,
         countryCode: undefined,
       });
     });
@@ -80,6 +91,7 @@ describe('UsersFactory', () => {
       expect(response).toEqual({
         uid: user.uid.value,
         username: user.username,
+        userCode: user.userCode.value,
         version: user.version,
         selfIntro: user.selfIntro,
         profileImageUrl: undefined,

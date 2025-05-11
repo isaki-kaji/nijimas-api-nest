@@ -1,6 +1,7 @@
 export interface UserDetailResponseDto {
   readonly uid: string;
   readonly username: string;
+  readonly userCode: string;
   readonly selfIntro?: string;
   readonly profileImageUrl?: string;
   readonly followingStatus: string;

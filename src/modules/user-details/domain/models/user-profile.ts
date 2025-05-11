@@ -1,10 +1,12 @@
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
+import { UCode } from 'modules/common/domain/value-objects/u-code';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 
 export class UserProfile {
   constructor(
     private readonly _uid: Uid,
     private readonly _username: string,
+    private readonly _userCode: UCode,
     private readonly _selfIntro?: string,
     private readonly _profileImageUrl?: ImageUrl,
   ) {}
@@ -15,6 +17,10 @@ export class UserProfile {
 
   get username(): string {
     return this._username;
+  }
+
+  get userCode(): UCode {
+    return this._userCode;
   }
 
   get selfIntro(): string | undefined {

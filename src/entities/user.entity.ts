@@ -10,6 +10,9 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   username: string;
 
+  @Column({ type: 'char', length: 6, nullable: false, unique: true })
+  userCode: string;
+
   @Column({ type: 'text', nullable: true })
   selfIntro?: string;
 

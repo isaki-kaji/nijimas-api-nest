@@ -7,6 +7,7 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 import { User } from '../domain/models/user';
 import { CountryCode } from 'users/domain/value-objects/country-code';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
+import { UCode } from 'modules/common/domain/value-objects/u-code';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -31,6 +32,7 @@ export class UsersRepository implements IUsersRepository {
     const entity = new UserEntity();
     entity.uid = user.uid.value;
     entity.username = user.username;
+    entity.userCode = user.userCode.value;
     entity.selfIntro = user.selfIntro ?? undefined;
     entity.profileImageUrl = user.profileImageUrl?.value ?? undefined;
     entity.countryCode = user.countryCode?.value ?? undefined;
@@ -39,6 +41,7 @@ export class UsersRepository implements IUsersRepository {
 
   private toModel(entity: UserEntity): User {
     const uid = Uid.create(entity.uid);
+    const userCode = UCode.create(entity.userCode);
     const profileImageUrl = entity.profileImageUrl
       ? ImageUrl.create(entity.profileImageUrl)
       : undefined;
@@ -48,6 +51,7 @@ export class UsersRepository implements IUsersRepository {
     return new User(
       uid,
       entity.username,
+      userCode,
       entity.version,
       entity.selfIntro,
       profileImageUrl,

@@ -25,6 +25,7 @@ function generateCreateDto(): CreateUserDto {
 function generateUpdateDto(): UpdateUserDto {
   return {
     username: faker.person.firstName(),
+    userCode: faker.string.alphanumeric(6),
     selfIntro: faker.lorem.sentence(),
     profileImageUrl: 'https://example.com',
     version: 0,

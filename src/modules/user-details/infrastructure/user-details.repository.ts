@@ -11,6 +11,7 @@ import { UserProfile } from '../domain/models/user-profile';
 
 import { Injectable } from '@nestjs/common';
 import { ImageUrl } from 'modules/common/domain/value-objects/image-url';
+import { UCode } from 'modules/common/domain/value-objects/u-code';
 
 @Injectable()
 export class UserDetailsRepository implements IUserDetailsRepository {
@@ -21,6 +22,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
       SELECT 
         u.uid,
         u.username,
+        u.user_code,
         u.self_intro,
         u.profile_image_url
       FROM users u
@@ -35,13 +37,14 @@ export class UserDetailsRepository implements IUserDetailsRepository {
 
   private toUserProfileModel(row: any): UserProfile {
     const uid = Uid.create(row.uid);
+    const userCode = UCode.create(row.user_code);
     const imageUrl = row.profile_image_url
       ? ImageUrl.create(row.profile_image_url)
       : undefined;
     const username = row.username;
     const selfIntro = row.self_intro;
 
-    return new UserProfile(uid, username, selfIntro, imageUrl);
+    return new UserProfile(uid, username, userCode, selfIntro, imageUrl);
   }
 
   async getFollowingStatus(
