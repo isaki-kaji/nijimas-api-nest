@@ -9,7 +9,7 @@ on:
       environment:
         description: 'デプロイ対象の環境'
         required: true
-        default: 'pre'
+        default: pre
         type: choice
         options:
           - pre
@@ -23,19 +23,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    environment: ${{ github.event.inputs.environment || 'pre' }}
+    environment: ${{ inputs.environment || 'pre' }}
 
     env:
-      GC_PROJECT_ID: ${{ secrets.GC_PROJECT_ID }}
-      GC_PROJECT_NUMBER: ${{ secrets.GC_PROJECT_NUMBER }}
       GC_REGION: ${{ vars.GC_REGION }}
       CLOUD_RUN_SERVICE: ${{ vars.CLOUD_RUN_SERVICE }}
       DATASOURCE_HOST: ${{ vars.DATASOURCE_HOST }}
       DATASOURCE_PORT: ${{ vars.DATASOURCE_PORT }}
       DATASOURCE_DATABASE: ${{ vars.DATASOURCE_DATABASE }}
-      DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
-      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
-      DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+      IMAGE_NAME: '${{ vars.GC_REGION }}-docker.pkg.dev/${{ secrets.GC_PROJECT_ID }}/nijimas/${{ vars.CLOUD_RUN_SERVICE }}:latest'
 
     steps:
       - name: Checkout code
@@ -55,25 +51,17 @@ jobs:
         run: gcloud auth configure-docker "${GC_REGION}-docker.pkg.dev"
 
       - name: Build Docker image
-        run: |
-          docker build -t "$IMAGE_NAME" .
-        env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
+        run: docker build -t "${IMAGE_NAME}" .
 
       - name: Push Docker image to Artifact Registry
-        run: |
-          docker push "$IMAGE_NAME"
-        env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
+        run: docker push "${IMAGE_NAME}"
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy "$CLOUD_RUN_SERVICE" \
-            --image "$IMAGE_NAME" \
-            --region "$GC_REGION" \
+            --image "${IMAGE_NAME}" \
+            --region "${GC_REGION}" \
             --platform managed \
             --allow-unauthenticated \
             --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest" \
-            --set-env-vars "FIREBASE_APPLICATION_CREDENTIALS=/etc/secrets/firebase-credentials.json,DATASOURCE_HOST=$DATASOURCE_HOST,DATASOURCE_PORT=$DATASOURCE_PORT,DATASOURCE_USERNAME=$DATASOURCE_USERNAME,DATASOURCE_PASSWORD=$DATASOURCE_PASSWORD,DATASOURCE_DATABASE=$DATASOURCE_DATABASE,DATASOURCE_URL=$DATASOURCE_URL,DB_USE_SSL=true"
-        env:
-          IMAGE_NAME: '${{ env.GC_REGION }}-docker.pkg.dev/${{ env.GC_PROJECT_ID }}/nijimas/${{ env.CLOUD_RUN_SERVICE }}:latest'
+            --set-env-vars "FIREBASE_APPLICATION_CREDENTIALS=/etc/secrets/firebase-credentials.json,DATASOURCE_HOST=${DATASOURCE_HOST},DATASOURCE_PORT=${DATASOURCE_PORT},DATASOURCE_USERNAME=${DATASOURCE_USERNAME},DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},DATASOURCE_DATABASE=${DATASOURCE_DATABASE},DATASOURCE_URL=${DATASOURCE_URL},DB_USE_SSL=true"
