@@ -63,5 +63,5 @@ jobs:
             --region "${GC_REGION}" \
             --platform managed \
             --allow-unauthenticated \
-            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest,DATASOURCE_USERNAME=DATASOURCE_USERNAME:latest,DATASOURCE_PASSWORD=DATASOURCE_PASSWORD:latest,DATASOURCE_URL=DATASOURCE_URL:latest" \
+            --update-secrets="/etc/secrets/firebase-credentials.json=firebase-credentials:latest" \
             --set-env-vars "FIREBASE_APPLICATION_CREDENTIALS=/etc/secrets/firebase-credentials.json,DATASOURCE_HOST=${DATASOURCE_HOST},DATASOURCE_PORT=${DATASOURCE_PORT},DATASOURCE_USERNAME=${DATASOURCE_USERNAME},DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD},DATASOURCE_DATABASE=${DATASOURCE_DATABASE},DATASOURCE_URL=${DATASOURCE_URL},DB_USE_SSL=true"
