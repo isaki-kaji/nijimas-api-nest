@@ -400,7 +400,7 @@ export class PostsQueryService implements IPostsQueryService {
       expense: raw.expense || undefined,
       location: raw.location || undefined,
       isFavorite: raw.is_favorite,
-      favoriteCount: Number(raw.favorite_count) || 0, // 明示的に number に変換
+      favoriteCount: Number(raw.favorite_count) || 0,
       publicTypeNo: raw.public_type_no,
       createdAt: new Date(raw.created_at),
       version: raw.version || undefined,
