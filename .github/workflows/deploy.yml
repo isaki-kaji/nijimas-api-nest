@@ -16,7 +16,7 @@ on:
           - com
 
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ inputs.environment || 'pre' }}
   cancel-in-progress: true
 
 jobs:
