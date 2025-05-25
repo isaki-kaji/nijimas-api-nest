@@ -1,0 +1,17 @@
+name: Build-Check
+
+on:
+  workflow_call:
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
