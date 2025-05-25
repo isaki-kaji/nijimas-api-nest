@@ -30,19 +30,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .node-version
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
-      - run: npm run test:cov
+  build-check:
+    uses: ./.github/workflows/build-check.yml
+
+  unit-test:
+    uses: ./.github/workflows/unit-test.yml
 
   e2e-test:
     runs-on: ubuntu-latest

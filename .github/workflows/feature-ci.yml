@@ -1,0 +1,19 @@
+name: Feature-CI
+
+on:
+  push:
+    branches-ignore: ['main', 'dev']
+    paths: ['src/**/*.ts', 'test/**/*.ts', 'tsconfig.json']
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+
+  build-check:
+    uses: ./.github/workflows/build-check.yml
+
+  unit-test:
+    uses: ./.github/workflows/unit-test.yml
