@@ -29,7 +29,7 @@
   "dependencies": {
     "@akashrajpurohit/snowflake-id": "^2.0.0",
     "@nestjs/common": "^10.0.0",
-    "@nestjs/config": "^3.3.0",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
