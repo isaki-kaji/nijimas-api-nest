@@ -15,7 +15,7 @@ export default registerAs('database', () => {
     synchronize: false,
     ssl: useSsl ? { rejectUnauthorized: false } : false,
     namingStrategy: new SnakeNamingStrategy(),
-    // logging: true,
+    logging: true,
   } as const satisfies TypeOrmModuleOptions;
   return config;
 });
