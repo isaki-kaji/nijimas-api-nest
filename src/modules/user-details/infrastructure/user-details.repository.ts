@@ -58,16 +58,14 @@ export class UserDetailsRepository implements IUserDetailsRepository {
           SELECT 1 
           FROM follows f2
           WHERE f2.uid = $1 AND f2.following_uid = $2
-          ) THEN '1'
+          ) THEN '1' -- FOLLOWING
         WHEN EXISTS (
           SELECT 1
           FROM follow_requests fr
-          WHERE fr.uid = $1 AND fr.following_uid = $2 AND fr.status = '0'
-          ) THEN '2'
-        ELSE '0'
-        END AS following_status
-      FROM follows f
-      WHERE f.uid = $2 OR f.following_uid = $2;
+          WHERE fr.uid = $1 AND fr.following_uid = $2 AND fr.status = '0' -- Pending status for follow_requests
+          ) THEN '2' -- REQUESTED
+        ELSE '0' -- NOT_FOLLOWING
+        END AS following_status;
     `;
 
     const result = await this.dataSource.query(sql, [
