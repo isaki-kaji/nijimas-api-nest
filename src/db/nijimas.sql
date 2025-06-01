@@ -21,7 +21,7 @@ CREATE TABLE "posts" (
   "public_type_no" char(1) NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
-  "delete_at" timestamptz,
+  "deleted_at" timestamptz,
   "version" int NOT NULL DEFAULT 1
 );
 

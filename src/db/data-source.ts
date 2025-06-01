@@ -18,6 +18,7 @@ const config: DataSourceOptions = {
   database: process.env.DATASOURCE_DATABASE,
   migrations: ['src/db/migrations/*.ts'],
   entities: ['src/entities/*.entity.ts'],
+  logging: true,
 };
 
 export default new DataSource(config);
