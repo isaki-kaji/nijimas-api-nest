@@ -40,6 +40,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Display deployment environment
+        run: echo "Deploying to environment: ${{ inputs.environment || 'pre' }}"
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
