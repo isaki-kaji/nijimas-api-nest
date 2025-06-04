@@ -284,7 +284,7 @@ export class PostsQueryService implements IPostsQueryService {
         JOIN sub_categories s ON ps.category_id = s.category_id
         GROUP BY ps.post_id
       ) sc ON p.post_id = sc.post_id
-      LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
+      LEFT JOIN favorites f2 ON p.post_id = f2.post_id
       WHERE
         p.deleted_at IS NULL
       AND
@@ -305,7 +305,7 @@ export class PostsQueryService implements IPostsQueryService {
         )
       )
       ${referencePostId ? `AND p.post_id < $2` : ''}
-      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
+      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
@@ -335,7 +335,7 @@ export class PostsQueryService implements IPostsQueryService {
         p.expense,
         p.location,
         CASE WHEN f.uid IS NOT NULL THEN TRUE ELSE FALSE END AS is_favorite,
-        COUNT(f2.uid) AS favorite_count, -- 追加: favorite_count
+        COUNT(f2.uid) AS favorite_count,
         p.public_type_no,
         p.created_at
       FROM posts p
@@ -349,11 +349,11 @@ export class PostsQueryService implements IPostsQueryService {
         JOIN sub_categories s ON ps.category_id = s.category_id
         GROUP BY ps.post_id
         HAVING 
-          MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) = $2 OR 
-          MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) = $2
+          MAX(CASE WHEN ps.category_no = '1' THEN s.category_name ELSE NULL END) LIKE CONCAT('%', $2::text, '%') OR 
+          MAX(CASE WHEN ps.category_no = '2' THEN s.category_name ELSE NULL END) LIKE CONCAT('%', $2::text, '%')
       ) sc ON p.post_id = sc.post_id
       LEFT JOIN favorites f ON p.post_id = f.post_id AND f.uid = $1
-      LEFT JOIN favorites f2 ON p.post_id = f2.post_id -- 追加: favorite_count を計算するための結合
+      LEFT JOIN favorites f2 ON p.post_id = f2.post_id
       WHERE
         p.deleted_at IS NULL
         AND (
@@ -372,7 +372,7 @@ export class PostsQueryService implements IPostsQueryService {
           )
         )
       ${referencePostId ? `AND p.post_id < $3` : ''}
-      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
+      GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid
       ORDER BY p.post_id DESC
       LIMIT 50;
     `;
