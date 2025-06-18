@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  Version,
 } from '@nestjs/common';
 import { OwnUid } from 'common/decorator/own-uid.decorator';
 import { FollowDto } from './dto/request/follow-request.dto';
@@ -25,11 +26,13 @@ export class FollowRequestsController {
   ) {}
 
   @Post()
+  @Version('1')
   async doFollowRequest(@Body() dto: FollowDto) {
     await this.doFollowRequestUsecase.execute(dto);
   }
 
   @Delete('/:targetUid')
+  @Version('1')
   async cancelFollowRequest(
     @OwnUid() uid: string,
     @Param('targetUid') targetUid: string,
@@ -38,6 +41,7 @@ export class FollowRequestsController {
   }
 
   @Put('/:requestId')
+  @Version('1')
   async handleFollowRequest(
     @OwnUid() uid: string,
     @Param('requestId') requestId: string,
@@ -47,6 +51,7 @@ export class FollowRequestsController {
   }
 
   @Get()
+  @Version('1')
   async getFollowRequests(@OwnUid() uid: string) {
     return this.getFollowRequestsUsecase.execute(uid);
   }
