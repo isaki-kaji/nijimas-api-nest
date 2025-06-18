@@ -105,7 +105,7 @@ export class UserDetailsRepository implements IUserDetailsRepository {
     const sql = `
       SELECT COUNT(*) AS post_count
       FROM posts
-      WHERE uid = $1;
+      WHERE uid = $1 AND deleted_at IS NULL;
     `;
 
     const result = await this.dataSource.query(sql, [uid.value]);
