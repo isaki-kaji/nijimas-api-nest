@@ -4,6 +4,7 @@ import {
   Param,
   ValidationPipe,
   Headers,
+  Version,
 } from '@nestjs/common';
 import { SummariesUseCase } from './summaries.usecase';
 import { MonthlySummaryResponseDto } from './dto/response/monthly-summary.response.dto';
@@ -15,6 +16,7 @@ export class SummariesController {
   constructor(private readonly summariesUseCase: SummariesUseCase) {}
 
   @Get(':year/:month')
+  @Version('1')
   async getMonthlySummary(
     @OwnUid() uid: string,
     @Param(new ValidationPipe({ transform: true })) params: SummaryParamsDto,

@@ -1,12 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
+import { VersioningType } from '@nestjs/common'; // VersioningTypeをインポート
 
 async function bootstrap() {
   try {
     console.log('NestJS server starting...');
 
     const app = await NestFactory.create(AppModule);
+
+    // バージョニングを有効化
+    app.enableVersioning({
+      type: VersioningType.URI,
+      prefix: 'v',
+    });
 
     app.use(
       helmet({

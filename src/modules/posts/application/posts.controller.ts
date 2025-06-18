@@ -8,6 +8,7 @@ import {
   Put,
   Param,
   Delete,
+  Version,
 } from '@nestjs/common';
 import { CreatePostUsecase } from './create-post.usecase';
 import { CreatePostDto } from './dto/request/create-post.dto';
@@ -29,12 +30,14 @@ export class PostsController {
   ) {}
 
   @Post()
+  @Version('1')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   async create(@Body() createPostDto: CreatePostDto) {
     await this.createPostUsecase.execute(createPostDto);
   }
 
   @Put(':postId')
+  @Version('1')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   async update(
     @Body() updatePostDto: UpdatePostDto,
@@ -44,11 +47,13 @@ export class PostsController {
   }
 
   @Delete(':postId')
+  @Version('1')
   async delete(@OwnUid() uid: string, @Param('postId') postId: string) {
     await this.deletePostUsecase.execute(uid, postId);
   }
 
   @Get('me')
+  @Version('1')
   async findOwnPosts(
     @OwnUid() uid: string,
     @Query('reference') referencePostId?: string,
@@ -57,6 +62,7 @@ export class PostsController {
   }
 
   @Get('favorites')
+  @Version('1')
   async findFavoritePosts(
     @OwnUid() uid: string,
     @Query('reference') referencePostId?: string,
@@ -65,6 +71,7 @@ export class PostsController {
   }
 
   @Get('timeline')
+  @Version('1')
   async findTimelinePosts(
     @OwnUid() uid: string,
     @Query('reference') referencePostId?: string,
@@ -73,6 +80,7 @@ export class PostsController {
   }
 
   @Get()
+  @Version('1')
   async findPosts(
     @OwnUid() uid: string,
     @Query('uid') targetUid?: string,

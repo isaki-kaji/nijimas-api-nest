@@ -6,6 +6,7 @@ import {
   Get,
   Inject,
   Param,
+  Version,
 } from '@nestjs/common';
 import { UsersUsecase } from './users.usecase';
 import { CreateUserDto } from './dto/request/create-user.dto';
@@ -22,31 +23,37 @@ export class UsersController {
   ) {}
 
   @Post('/users')
+  @Version('1')
   async create(@Body() dto: CreateUserDto) {
     await this.usersUsecase.create(dto);
   }
 
   @Put('/users')
+  @Version('1')
   async update(@Body() dto: UpdateUserDto) {
     await this.usersUsecase.update(dto);
   }
 
   @Get('/users/me')
+  @Version('1')
   async getOwnUser(@OwnUid() uid: string) {
     return await this.usersUsecase.getOwnUser(uid);
   }
 
   @Get('/users/:uid/followers')
+  @Version('1')
   async getFollowers(@Param('uid') uid: string) {
     return await this.usersQueryService.getFollowers(uid);
   }
 
   @Get('/users/:uid/followings')
+  @Version('1')
   async getFollowings(@Param('uid') uid: string) {
     return await this.usersQueryService.getFollowings(uid);
   }
 
   @Get('/posts/:postId/favorites')
+  @Version('1')
   async getPostFavorites(@Param('postId') postId: string) {
     return await this.usersQueryService.getFavorites(postId);
   }
