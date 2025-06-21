@@ -6,7 +6,7 @@ export class FavoriteEntity {
   @PrimaryColumn('uuid')
   postId: string;
 
-  @Column({ type: 'char', length: 28, nullable: false })
+  @PrimaryColumn({ type: 'char', length: 28, nullable: false })
   uid: string;
 
   @Column(() => CreatedDates, { prefix: false })
