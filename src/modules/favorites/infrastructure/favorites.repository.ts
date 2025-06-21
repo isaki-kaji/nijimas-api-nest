@@ -16,7 +16,7 @@ export class FavoritesRepository implements IFavoritesRepository {
 
   async create(favorite: Favorite) {
     const entity = this.toEntity(favorite);
-    await this.userRepository.save(entity);
+    await this.userRepository.insert(entity);
   }
 
   async delete(favorite: Favorite) {
