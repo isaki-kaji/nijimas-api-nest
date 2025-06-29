@@ -42,6 +42,6 @@ import { UserBlocksModule } from '../user-blocks/user-blocks.module';
       useClass: FollowsRepository,
     },
   ],
-  exports: [FollowsUsecase, FollowsService],
+  exports: [FollowsUsecase, FollowsService, CancelFollowRequestUsecase],
 })
 export class FollowsModule {}

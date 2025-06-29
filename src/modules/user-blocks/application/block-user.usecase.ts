@@ -10,6 +10,7 @@ import { UserBlocksFactory } from './factory/user-blocks.factory';
 import { IUserBlocksRepository } from '../domain/i.user-blocks.repository';
 import { BlockUserDto } from './dto/request/block-user.dto';
 import { FollowsUsecase } from '../../follows/application/follows.usecase';
+import { CancelFollowRequestUsecase } from '../../follows/application/cancel-follow-request.usecase';
 import { FollowDto } from '../../follows/application/dto/request/follow-request.dto';
 
 @Injectable()
@@ -21,6 +22,8 @@ export class BlockUserUseCase {
     private readonly repository: IUserBlocksRepository,
     @Inject(forwardRef(() => FollowsUsecase))
     private readonly followsUsecase: FollowsUsecase,
+    @Inject(forwardRef(() => CancelFollowRequestUsecase))
+    private readonly cancelFollowRequestUsecase: CancelFollowRequestUsecase,
   ) {}
 
   async execute(blockerUid: string, dto: BlockUserDto): Promise<void> {
@@ -43,6 +46,9 @@ export class BlockUserUseCase {
 
     // ブロック時に相互のフォロー関係があれば解除する
     await this.cancelFollowRelationships(blockerUid, dto.blockedUid);
+
+    // ブロック時に相互のフォローリクエストがあれば取り消す
+    await this.cancelFollowRequestRelationships(blockerUid, dto.blockedUid);
   }
 
   /**
@@ -74,6 +80,35 @@ export class BlockUserUseCase {
       await this.followsUsecase.cancelFollow(reverseFollowDto);
     } catch (error) {
       // フォロー関係がない場合は無視
+      if (!(error instanceof NotFoundException)) {
+        throw error;
+      }
+    }
+  }
+
+  /**
+   * ブロッカーとブロック対象者の間のフォローリクエストを取り消す
+   * ブロッカーがブロック対象者にフォローリクエストしている場合とその逆のケースの両方を処理
+   */
+  private async cancelFollowRequestRelationships(
+    blockerUid: string,
+    blockedUid: string,
+  ): Promise<void> {
+    try {
+      // ブロッカーがブロック対象者にフォローリクエストしている場合、そのリクエストを取り消す
+      await this.cancelFollowRequestUsecase.execute(blockerUid, blockedUid);
+    } catch (error) {
+      // フォローリクエストがない場合は無視
+      if (!(error instanceof NotFoundException)) {
+        throw error;
+      }
+    }
+
+    try {
+      // ブロック対象者がブロッカーにフォローリクエストしている場合、そのリクエストも取り消す
+      await this.cancelFollowRequestUsecase.execute(blockedUid, blockerUid);
+    } catch (error) {
+      // フォローリクエストがない場合は無視
       if (!(error instanceof NotFoundException)) {
         throw error;
       }

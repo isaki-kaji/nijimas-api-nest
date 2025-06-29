@@ -51,6 +51,17 @@ export class PostsQueryService implements IPostsQueryService {
         )) OR
         (p.public_type_no IN ('1', '2') AND p.uid = $1)
       )
+      -- ブロック関係にあるユーザーの投稿を除外
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM user_blocks ub1
+        WHERE ub1.blocker_uid = $1 AND ub1.blocked_uid = p.uid
+      )
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM user_blocks ub2
+        WHERE ub2.blocker_uid = p.uid AND ub2.blocked_uid = $1
+      )
     LIMIT 1;
   `;
 
@@ -173,6 +184,17 @@ export class PostsQueryService implements IPostsQueryService {
               WHERE f.uid = $1 AND f.following_uid = p.uid
           )
       )
+    )
+    -- ブロック関係にあるユーザーの投稿を除外
+    AND NOT EXISTS (
+      SELECT 1 
+      FROM user_blocks ub1
+      WHERE ub1.blocker_uid = $1 AND ub1.blocked_uid = p.uid
+    )
+    AND NOT EXISTS (
+      SELECT 1 
+      FROM user_blocks ub2
+      WHERE ub2.blocker_uid = p.uid AND ub2.blocked_uid = $1
     )
     ${referencePostId ? `AND p.post_id < $2` : ''} 
     GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid -- GROUP BY を追加
@@ -304,6 +326,17 @@ export class PostsQueryService implements IPostsQueryService {
           AND p.uid = $1
         )
       )
+      -- ブロック関係にあるユーザーの投稿を除外
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM user_blocks ub1
+        WHERE ub1.blocker_uid = $1 AND ub1.blocked_uid = p.uid
+      )
+      AND NOT EXISTS (
+        SELECT 1 
+        FROM user_blocks ub2
+        WHERE ub2.blocker_uid = p.uid AND ub2.blocked_uid = $1
+      )
       ${referencePostId ? `AND p.post_id < $2` : ''}
       GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid
       ORDER BY p.post_id DESC
@@ -370,6 +403,17 @@ export class PostsQueryService implements IPostsQueryService {
             p.public_type_no IN ('1', '2')
             AND p.uid = $1
           )
+        )
+        -- ブロック関係にあるユーザーの投稿を除外
+        AND NOT EXISTS (
+          SELECT 1 
+          FROM user_blocks ub1
+          WHERE ub1.blocker_uid = $1 AND ub1.blocked_uid = p.uid
+        )
+        AND NOT EXISTS (
+          SELECT 1 
+          FROM user_blocks ub2
+          WHERE ub2.blocker_uid = p.uid AND ub2.blocked_uid = $1
         )
       ${referencePostId ? `AND p.post_id < $3` : ''}
       GROUP BY p.post_id, u.uid, sc.sub_category1, sc.sub_category2, f.uid

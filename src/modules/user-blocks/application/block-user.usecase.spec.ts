@@ -10,6 +10,7 @@ import { UserBlock } from '../domain/models/user-block';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { genUid } from 'testing/utils/common-test-util';
 import { FollowsUsecase } from '../../follows/application/follows.usecase';
+import { CancelFollowRequestUsecase } from '../../follows/application/cancel-follow-request.usecase';
 
 describe('BlockUserUseCase', () => {
   let usecase: BlockUserUseCase;
@@ -17,12 +18,14 @@ describe('BlockUserUseCase', () => {
   let userBlocksFactory: MockProxy<UserBlocksFactory>;
   let userBlocksRepository: MockProxy<IUserBlocksRepository>;
   let followsUsecase: MockProxy<FollowsUsecase>;
+  let cancelFollowRequestUsecase: MockProxy<CancelFollowRequestUsecase>;
 
   beforeEach(async () => {
     userBlocksService = mock<UserBlocksService>();
     userBlocksFactory = mock<UserBlocksFactory>();
     userBlocksRepository = mock<IUserBlocksRepository>();
     followsUsecase = mock<FollowsUsecase>();
+    cancelFollowRequestUsecase = mock<CancelFollowRequestUsecase>();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -42,6 +45,10 @@ describe('BlockUserUseCase', () => {
         {
           provide: FollowsUsecase,
           useValue: followsUsecase,
+        },
+        {
+          provide: CancelFollowRequestUsecase,
+          useValue: cancelFollowRequestUsecase,
         },
       ],
     }).compile();
@@ -143,6 +150,17 @@ describe('BlockUserUseCase', () => {
 
       // 両方向のフォロー解除が試みられたことを確認
       expect(followsUsecase.cancelFollow).toHaveBeenCalledTimes(2);
+
+      // 両方向のフォローリクエスト取り消しが試みられたことを確認
+      expect(cancelFollowRequestUsecase.execute).toHaveBeenCalledTimes(2);
+      expect(cancelFollowRequestUsecase.execute).toHaveBeenCalledWith(
+        blockerUid,
+        blockedUid,
+      );
+      expect(cancelFollowRequestUsecase.execute).toHaveBeenCalledWith(
+        blockedUid,
+        blockerUid,
+      );
     });
 
     it('should continue if follow cancellation throws NotFoundException', async () => {
@@ -162,8 +180,13 @@ describe('BlockUserUseCase', () => {
         .mockRejectedValueOnce(new NotFoundException('Follow not found'))
         .mockRejectedValueOnce(new NotFoundException('Follow not found'));
 
+      // フォローリクエストもなく、NotFoundExceptionがスローされる場合
+      cancelFollowRequestUsecase.execute
+        .mockRejectedValueOnce(new NotFoundException('Request not found'))
+        .mockRejectedValueOnce(new NotFoundException('Request not found'));
+
       // Act & Assert
-      // ブロック処理は成功するべき（フォローが存在しないエラーは無視される）
+      // ブロック処理は成功するべき（フォローやリクエストが存在しないエラーは無視される）
       await expect(usecase.execute(blockerUid, dto)).resolves.not.toThrow();
 
       // ユーザーブロックが作成されたことを確認
