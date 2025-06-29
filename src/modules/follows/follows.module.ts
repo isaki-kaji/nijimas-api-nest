@@ -15,9 +15,13 @@ import { DoFollowRequestUsecase } from './application/do-follow-request.usecase'
 import { CancelFollowRequestUsecase } from './application/cancel-follow-request.usecase';
 import { GetFollowRequestsUsecase } from './application/get-follow-requests.usecase';
 import { HandleFollowRequestUsecase } from './application/handle-follow-request.usecase';
+import { UserBlocksModule } from '../user-blocks/user-blocks.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FollowRequestEntity, FollowEntity])],
+  imports: [
+    TypeOrmModule.forFeature([FollowRequestEntity, FollowEntity]),
+    UserBlocksModule,
+  ],
   controllers: [FollowRequestsController, FollowsController],
   providers: [
     GetFollowRequestsUsecase,
