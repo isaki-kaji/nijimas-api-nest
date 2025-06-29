@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { UserBlocksService } from '../domain/user-blocks.service';
 import { UserBlocksFactory } from './factory/user-blocks.factory';
@@ -18,8 +19,10 @@ export class BlockUserUseCase {
     private readonly factory: UserBlocksFactory,
     @Inject('IUserBlocksRepository')
     private readonly repository: IUserBlocksRepository,
+    @Inject(forwardRef(() => FollowsUsecase))
     private readonly followsUsecase: FollowsUsecase,
   ) {}
+
   async execute(blockerUid: string, dto: BlockUserDto): Promise<void> {
     // 自分自身をブロックしようとした場合はエラー
     if (blockerUid === dto.blockedUid) {

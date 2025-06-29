@@ -56,6 +56,11 @@ export class UserDetailsRepository implements IUserDetailsRepository {
         CASE 
         WHEN EXISTS (
           SELECT 1 
+          FROM user_blocks ub
+          WHERE ub.blocker_uid = $1 AND ub.blocked_uid = $2
+          ) THEN '3' -- BLOCKED
+        WHEN EXISTS (
+          SELECT 1 
           FROM follows f2
           WHERE f2.uid = $1 AND f2.following_uid = $2
           ) THEN '1' -- FOLLOWING

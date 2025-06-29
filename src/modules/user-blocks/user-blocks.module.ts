@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserBlockEntity } from 'entities/user-block.entity';
 import { UserBlocksController } from './application/user-blocks.controller';
@@ -11,7 +11,10 @@ import { UserBlocksRepository } from './infrastructure/user-blocks.repository';
 import { FollowsModule } from '../follows/follows.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserBlockEntity]), FollowsModule],
+  imports: [
+    TypeOrmModule.forFeature([UserBlockEntity]),
+    forwardRef(() => FollowsModule),
+  ],
   controllers: [UserBlocksController],
   providers: [
     BlockUserUseCase,

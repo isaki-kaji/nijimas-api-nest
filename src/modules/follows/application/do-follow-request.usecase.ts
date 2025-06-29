@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
+  forwardRef,
 } from '@nestjs/common';
 import { FollowRequestsService } from 'follows/domain/follow-requests.service';
 import { FollowsService } from 'follows/domain/follows.service';
@@ -17,6 +18,7 @@ export class DoFollowRequestUsecase {
     private readonly followsService: FollowsService,
     private readonly service: FollowRequestsService,
     private readonly factory: FollowRequestsFactory,
+    @Inject(forwardRef(() => UserBlocksService))
     private readonly userBlocksService: UserBlocksService,
     @Inject('IFollowRequestsRepository')
     private readonly repository: IFollowRequestsRepository,
