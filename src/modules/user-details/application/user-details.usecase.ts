@@ -4,12 +4,14 @@ import { UserDetailResponseDto } from './dto/response/user-detail.response.dto';
 import { Uid } from 'modules/common/domain/value-objects/uid';
 import { UserDetailsFactory } from './factory/user-details.factory';
 import { FollowInfo } from '../domain/models/follow-info';
+import { UserBlocksService } from 'modules/user-blocks/domain/user-blocks.service';
 
 export class UserDetailsUsecase {
   constructor(
     private readonly factory: UserDetailsFactory,
     @Inject('IUserDetailsRepository')
     private readonly repository: IUserDetailsRepository,
+    private readonly userBlocksService: UserBlocksService,
   ) {}
 
   async getUserDetails(
@@ -25,12 +27,14 @@ export class UserDetailsUsecase {
       followersCount,
       followingCount,
       postInfo,
+      isBlocked,
     ] = await Promise.all([
       this.repository.getUserProfile(targetUid),
       this.repository.getFollowingStatus(uid, targetUid),
       this.repository.getFollowersCount(targetUid),
       this.repository.getFollowingCount(targetUid),
       this.repository.getPostInfo(targetUid),
+      this.userBlocksService.exists(uid, targetUid),
       // this.repository.getUserFavoriteSubCategories(targetUid),
     ]);
 
@@ -40,6 +44,11 @@ export class UserDetailsUsecase {
       followingCount,
     );
 
-    return this.factory.createResponse(userProfile, followInfo, postInfo);
+    return this.factory.createResponse(
+      userProfile,
+      followInfo,
+      postInfo,
+      isBlocked,
+    );
   }
 }
