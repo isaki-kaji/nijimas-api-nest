@@ -38,6 +38,6 @@ import { HandleFollowRequestUsecase } from './application/handle-follow-request.
       useClass: FollowsRepository,
     },
   ],
-  exports: [],
+  exports: [FollowsUsecase, FollowsService],
 })
 export class FollowsModule {}
