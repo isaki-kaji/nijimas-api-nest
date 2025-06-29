@@ -2,6 +2,7 @@ export const FollowingStatus = {
   NOT_FOLLOWING: '0',
   FOLLOWING: '1',
   REQUESTED: '2',
+  BLOCKED: '3',
 } as const;
 
 export type FollowingStatus =

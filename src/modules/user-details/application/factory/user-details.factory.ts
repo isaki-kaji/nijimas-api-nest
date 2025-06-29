@@ -10,6 +10,7 @@ export class UserDetailsFactory {
     userProfile: UserProfile,
     followInfo: FollowInfo,
     postInfo: PostInfo,
+    isBlocked = false,
     // categories: UserFavoriteSubcategoryList,
   ): UserDetailResponseDto {
     return {
@@ -22,6 +23,7 @@ export class UserDetailsFactory {
       followersCount: followInfo.followersCount.value,
       followingStatus: followInfo.followingStatus,
       postCount: postInfo.postCount.value,
+      isBlocked: isBlocked,
       // userFavoriteSubcategories: categories.getList().map((category) => ({
       //   categoryNo: category.getCategoryNo().value,
       //   categoryId: category.getCategoryId().value,

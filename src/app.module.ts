@@ -15,6 +15,7 @@ import { UserDetailsModule } from 'modules/user-details/user-details.module';
 import { SummariesModule } from 'modules/summaries/summaries.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { UidThrottlerGuard } from 'common/guard/uid-throttler.guard';
+import { UserBlocksModule } from 'modules/user-blocks/user-blocks.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UidThrottlerGuard } from 'common/guard/uid-throttler.guard';
     FollowsModule,
     UserDetailsModule,
     SummariesModule,
+    UserBlocksModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {

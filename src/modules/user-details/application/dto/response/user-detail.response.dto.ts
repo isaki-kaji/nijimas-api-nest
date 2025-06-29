@@ -8,6 +8,7 @@ export interface UserDetailResponseDto {
   readonly followingCount: number;
   readonly followersCount: number;
   readonly postCount: number;
+  readonly isBlocked: boolean; // ユーザーがブロックされているかどうかのフラグ
   // readonly userFavoriteSubcategories: UserFavoriteSubcategory[];
 }
 
