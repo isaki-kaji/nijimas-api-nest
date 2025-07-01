@@ -16,6 +16,7 @@ import { SummariesModule } from 'modules/summaries/summaries.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { UidThrottlerGuard } from 'common/guard/uid-throttler.guard';
 import { UserBlocksModule } from 'modules/user-blocks/user-blocks.module';
+import { PostReportsModule } from 'modules/post-reports/post-reports.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserBlocksModule } from 'modules/user-blocks/user-blocks.module';
     UserDetailsModule,
     SummariesModule,
     UserBlocksModule,
+    PostReportsModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
