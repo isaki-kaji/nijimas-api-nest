@@ -3,10 +3,7 @@ import { Uid } from 'modules/common/domain/value-objects/uid';
 import { Uuid } from 'modules/common/domain/value-objects/uuid';
 import { ReportPostDto } from '../dto/request/report-post.dto';
 import { PostReport } from '../../domain/models/post-report';
-import {
-  ReasonType,
-  createReasonType,
-} from '../../domain/value-objects/reason-type';
+import { createReasonType } from '../../domain/value-objects/reason-type';
 
 @Injectable()
 export class PostReportsFactory {
