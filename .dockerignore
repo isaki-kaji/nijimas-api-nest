@@ -1,0 +1,44 @@
+# Node.js関連
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ビルド生成物
+dist
+build
+*.tgz
+
+# 環境設定ファイル
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/エディタファイル
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db
+
+# Git関連
+.git
+.gitignore
+README.md
+
+# テスト関連
+coverage
+test
+*.spec.ts
+*.test.ts
+jest.config.js
+
+# その他
+*.log
+.coverage
+.nyc_output

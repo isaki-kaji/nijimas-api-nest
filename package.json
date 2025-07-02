@@ -24,7 +24,9 @@
     "migration:generate": "typeorm-ts-node-commonjs migration:generate src/db/migrations/ -d typeorm-cli.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d typeorm-cli.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d typeorm-cli.ts",
-    "migration:show": "typeorm-ts-node-commonjs migration:show -d typeorm-cli.ts"
+    "migration:show": "typeorm-ts-node-commonjs migration:show -d typeorm-cli.ts",
+    "security:audit": "npm audit",
+    "security:audit:fix": "npm audit fix"
   },
   "dependencies": {
     "@akashrajpurohit/snowflake-id": "^2.0.0",
