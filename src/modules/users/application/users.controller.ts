@@ -4,11 +4,15 @@ import {
   Body,
   Put,
   Get,
+  Delete,
   Inject,
   Param,
   Version,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersUsecase } from './users.usecase';
+import { DeleteUserUseCase } from './delete-user.usecase';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import { OwnUid } from 'common/decorator/own-uid.decorator';
@@ -18,6 +22,7 @@ import { IUsersQueryService } from './i.users.query.service';
 export class UsersController {
   constructor(
     private readonly usersUsecase: UsersUsecase,
+    private readonly deleteUserUseCase: DeleteUserUseCase,
     @Inject('IUsersQueryService')
     private readonly usersQueryService: IUsersQueryService,
   ) {}
@@ -56,5 +61,12 @@ export class UsersController {
   @Version('1')
   async getPostFavorites(@Param('postId') postId: string) {
     return await this.usersQueryService.getFavorites(postId);
+  }
+
+  @Delete('/users/me')
+  @Version('1')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(@OwnUid() uid: string) {
+    await this.deleteUserUseCase.execute(uid);
   }
 }

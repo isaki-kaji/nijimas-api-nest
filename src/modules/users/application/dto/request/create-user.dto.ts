@@ -21,7 +21,7 @@ export class CreateUserDto {
     message: 'Username must not contain special characters',
   })
   @MinLength(2, { message: 'Username must be at least 2 characters long' })
-  @MaxLength(10, { message: 'Username must be at most 10 characters long' })
+  @MaxLength(30, { message: 'Username must be at most 30 characters long' })
   username: string;
 
   // @ApiProperty({ description: '自己紹介', example: 'Hello, I am John!' })

@@ -38,6 +38,9 @@ export class PostEntity {
   })
   publicTypeNo: string;
 
+  @Column({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
 
