@@ -55,7 +55,7 @@ describe('DeleteUserUseCase', () => {
 
         // ユーザーの存在確認
         expect(entityManager.findOne).toHaveBeenCalledWith(UserEntity, {
-          where: { uid: userId, deletedAt: expect.anything() },
+          where: { uid: userId },
         });
 
         // 物理削除の確認
@@ -75,17 +75,17 @@ describe('DeleteUserUseCase', () => {
           uid: userId,
         });
 
-        // 論理削除の確認
+        // 投稿の論理削除の確認
         expect(entityManager.update).toHaveBeenCalledWith(
           PostEntity,
           { uid: userId, deletedAt: expect.anything() },
           { deletedAt: expect.any(Date) },
         );
-        expect(entityManager.update).toHaveBeenCalledWith(
-          UserEntity,
-          { uid: userId },
-          { deletedAt: expect.any(Date) },
-        );
+
+        // ユーザーの物理削除の確認
+        expect(entityManager.delete).toHaveBeenCalledWith(UserEntity, {
+          uid: userId,
+        });
       });
     });
 

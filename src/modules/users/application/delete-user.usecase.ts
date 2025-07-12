@@ -20,7 +20,7 @@ export class DeleteUserUseCase {
     await this.dataSource.transaction(async (manager) => {
       // ユーザーの存在確認
       const user = await manager.findOne(UserEntity, {
-        where: { uid: userId, deletedAt: IsNull() },
+        where: { uid: userId },
       });
 
       if (!user) {
@@ -59,12 +59,8 @@ export class DeleteUserUseCase {
         { deletedAt: new Date() },
       );
 
-      // ユーザーを論理削除
-      await manager.update(
-        UserEntity,
-        { uid: userId },
-        { deletedAt: new Date() },
-      );
+      // ユーザーを物理削除（データベーススキーマにdeleted_atカラムが存在しないため）
+      await manager.delete(UserEntity, { uid: userId });
     });
   }
 }
