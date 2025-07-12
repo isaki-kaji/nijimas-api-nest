@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersUsecase } from './application/users.usecase';
+import { DeleteUserUseCase } from './application/delete-user.usecase';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../../entities/user.entity';
 import { UsersRepository } from './infrastructure/users.repository';
@@ -13,6 +14,7 @@ import { UsersQueryService } from './infrastructure/users.query.service';
   controllers: [UsersController],
   providers: [
     UsersUsecase,
+    DeleteUserUseCase,
     UsersService,
     UsersFactory,
     {
