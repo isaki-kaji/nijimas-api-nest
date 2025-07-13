@@ -10,6 +10,7 @@ CREATE TABLE "users" (
   "self_intro" text,
   "profile_image_url" text,
   "country_code" char(2),
+  "deleted_at" timestamptz,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   "version" int NOT NULL DEFAULT 1
@@ -80,6 +81,13 @@ CREATE TABLE "user_top_subcategories" (
   PRIMARY KEY ("uid", "category_no")
 );
 
+CREATE TABLE "user_blocks" (
+  "blocker_uid" char(28),
+  "blocked_uid" char(28),
+  "created_at" timestamptz NOT NULL DEFAULT (now()),
+  PRIMARY KEY ("blocker_uid", "blocked_uid")
+);
+
 CREATE INDEX ON "users" ("username");
 
 CREATE INDEX ON "posts" ("uid");
@@ -127,11 +135,18 @@ ALTER TABLE "user_top_subcategories"
 
 ALTER TABLE "user_top_subcategories"
   ADD FOREIGN KEY ("category_id") REFERENCES "sub_categories" ("category_id");
+
+ALTER TABLE "user_blocks"
+  ADD FOREIGN KEY ("blocker_uid") REFERENCES "users" ("uid");
+
+ALTER TABLE "user_blocks"
+  ADD FOREIGN KEY ("blocked_uid") REFERENCES "users" ("uid");
         `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
+            DROP TABLE user_blocks;
             DROP TABLE user_top_subcategories;
             DROP TABLE follow_requests;
             DROP INDEX idx_follow_requests_uid_following_uid;
