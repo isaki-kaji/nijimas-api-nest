@@ -22,6 +22,9 @@ export class UserEntity {
   @Column({ type: 'char', length: 2, nullable: true })
   countryCode?: string;
 
+  @Column({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
   @Column(() => RegistryDates, { prefix: false })
   registerDate: RegistryDates;
 

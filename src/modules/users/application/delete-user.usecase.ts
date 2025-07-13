@@ -30,22 +30,16 @@ export class DeleteUserUseCase {
       // 1. 物理削除（関係性データ）
 
       // フォロー関係の削除（自分がフォローしている、自分がフォローされている）
-      await manager.delete(FollowEntity, [
-        { uid: userId },
-        { followingUid: userId },
-      ]);
+      await manager.delete(FollowEntity, { uid: userId });
+      await manager.delete(FollowEntity, { followingUid: userId });
 
       // フォローリクエストの削除（自分が送った、自分が受けた）
-      await manager.delete(FollowRequestEntity, [
-        { uid: userId },
-        { followingUid: userId },
-      ]);
+      await manager.delete(FollowRequestEntity, { uid: userId });
+      await manager.delete(FollowRequestEntity, { followingUid: userId });
 
       // ブロック関係の削除（自分がブロックしている、自分がブロックされている）
-      await manager.delete(UserBlockEntity, [
-        { blockerUid: userId },
-        { blockedUid: userId },
-      ]);
+      await manager.delete(UserBlockEntity, { blockerUid: userId });
+      await manager.delete(UserBlockEntity, { blockedUid: userId });
 
       // 削除ユーザーが行ったfavoriteのみ物理削除
       await manager.delete(FavoriteEntity, { uid: userId });
@@ -59,8 +53,12 @@ export class DeleteUserUseCase {
         { deletedAt: new Date() },
       );
 
-      // ユーザーを物理削除（データベーススキーマにdeleted_atカラムが存在しないため）
-      await manager.delete(UserEntity, { uid: userId });
+      // ユーザーを論理削除
+      await manager.update(
+        UserEntity,
+        { uid: userId },
+        { deletedAt: new Date() },
+      );
     });
   }
 }

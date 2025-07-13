@@ -59,18 +59,24 @@ describe('DeleteUserUseCase', () => {
         });
 
         // 物理削除の確認
-        expect(entityManager.delete).toHaveBeenCalledWith(FollowEntity, [
-          { uid: userId },
-          { followingUid: userId },
-        ]);
-        expect(entityManager.delete).toHaveBeenCalledWith(FollowRequestEntity, [
-          { uid: userId },
-          { followingUid: userId },
-        ]);
-        expect(entityManager.delete).toHaveBeenCalledWith(UserBlockEntity, [
-          { blockerUid: userId },
-          { blockedUid: userId },
-        ]);
+        expect(entityManager.delete).toHaveBeenCalledWith(FollowEntity, {
+          uid: userId,
+        });
+        expect(entityManager.delete).toHaveBeenCalledWith(FollowEntity, {
+          followingUid: userId,
+        });
+        expect(entityManager.delete).toHaveBeenCalledWith(FollowRequestEntity, {
+          uid: userId,
+        });
+        expect(entityManager.delete).toHaveBeenCalledWith(FollowRequestEntity, {
+          followingUid: userId,
+        });
+        expect(entityManager.delete).toHaveBeenCalledWith(UserBlockEntity, {
+          blockerUid: userId,
+        });
+        expect(entityManager.delete).toHaveBeenCalledWith(UserBlockEntity, {
+          blockedUid: userId,
+        });
         expect(entityManager.delete).toHaveBeenCalledWith(FavoriteEntity, {
           uid: userId,
         });
@@ -82,10 +88,12 @@ describe('DeleteUserUseCase', () => {
           { deletedAt: expect.any(Date) },
         );
 
-        // ユーザーの物理削除の確認
-        expect(entityManager.delete).toHaveBeenCalledWith(UserEntity, {
-          uid: userId,
-        });
+        // ユーザーの論理削除の確認
+        expect(entityManager.update).toHaveBeenCalledWith(
+          UserEntity,
+          { uid: userId },
+          { deletedAt: expect.any(Date) },
+        );
       });
     });
 
